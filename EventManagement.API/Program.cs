@@ -1,6 +1,7 @@
-using EventManagement.Infrustructure.Context;
-using Microsoft.EntityFrameworkCore;
 using EventManagement.Infrustructure;
+using EventManagement.Infrustructure.Context;
+using EventManagement.Service;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,7 +20,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 #region Dependency Injections
 
-builder.Services.AddInfrustructureDependencies();
+builder.Services.AddInfrustructureDependencies()
+				.AddServiceDependencies();
 
 #endregion
 
