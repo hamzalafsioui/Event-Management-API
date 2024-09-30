@@ -1,7 +1,6 @@
 ﻿namespace EventManagement.Service
 {
-	public class Class1
+	internal class ModuleServiceDependencies
 	{
-
 	}
 }

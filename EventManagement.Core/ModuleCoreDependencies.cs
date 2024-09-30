@@ -1,7 +1,6 @@
 ﻿namespace EventManagement.Core
 {
-	public class Class1
+	internal class ModuleCoreDependencies
 	{
-
 	}
 }
