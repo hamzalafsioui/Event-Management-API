@@ -12,4 +12,12 @@
     <ProjectReference Include="..\EventManagement.Service\EventManagement.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\User\Commands\Handlers\" />
+    <Folder Include="Features\User\Commands\Models\" />
+    <Folder Include="Features\User\Commands\Validatiors\" />
+    <Folder Include="Features\User\Queries\Validatiors\" />
+    <Folder Include="Mapping\" />
+  </ItemGroup>
+
 </Project>
