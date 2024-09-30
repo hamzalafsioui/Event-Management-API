@@ -13,11 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\User\Commands\Handlers\" />
-    <Folder Include="Features\User\Commands\Models\" />
-    <Folder Include="Features\User\Commands\Validatiors\" />
-    <Folder Include="Features\User\Queries\Validatiors\" />
+    <Folder Include="Features\Users\Commands\Handlers\" />
+    <Folder Include="Features\Users\Commands\Models\" />
+    <Folder Include="Features\Users\Commands\Validatiors\" />
+    <Folder Include="Features\Users\Queries\Validatiors\" />
     <Folder Include="Mapping\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
 </Project>
