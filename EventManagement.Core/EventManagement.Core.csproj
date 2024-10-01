@@ -18,6 +18,7 @@
     <Folder Include="Features\Users\Commands\Validatiors\" />
     <Folder Include="Features\Users\Queries\Validatiors\" />
     <Folder Include="Mapping\Users\CommandMapping\" />
+    <Folder Include="Middleware\" />
   </ItemGroup>
 
   <ItemGroup>
