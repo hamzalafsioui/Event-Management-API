@@ -1,6 +1,4 @@
-﻿using EventManagement.Data.Entities;
-
-namespace EventManagement.Core.Features.Users.Queries.Results
+﻿namespace EventManagement.Core.Features.Users.Queries.Results
 {
 	public class GetUserListResponse
 	{
@@ -10,7 +8,7 @@ namespace EventManagement.Core.Features.Users.Queries.Results
 		public required string FirstName { get; set; }
 		public required string LastName { get; set; }
 		public string? Image { get; set; }
-		public UserRole Role { get; set; }
+		public string Role { get; set; }
 		public DateTime CreatedAt { get; set; }
 	}
 }
