@@ -1,5 +1,6 @@
 ﻿using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Core.Features.Users.Queries.Results;
+using EventManagement.Data.AppMetaData;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
 {
-	[Route("api/[controller]")]
+	//[Route("api/[controller]")]
 	[ApiController]
 	public class UserController : ControllerBase
 	{
@@ -24,14 +25,14 @@ namespace EventManagement.API.Controllers
 		#endregion
 
 		#region  Functions
-		[HttpGet("/User/List")]
+		[HttpGet(Router.UserRouting.List)]
 		public async Task<IActionResult> GetUserList()
 		{
 			var response = await _mediator.Send(new GetUserListQuery());
 			return Ok(response);
 		}
 
-		[HttpGet("/User/{id}")]
+		[HttpGet(Router.UserRouting.GetById)]
 		public async Task<IActionResult> GetUserById([FromRoute] int id)
 		{
 			var response = await _mediator.Send(new GetUserByIdQuery(id));
