@@ -6,5 +6,6 @@ namespace EventManagement.Infrustructure.Repositories
 	public interface IUserRepository:IGenericRepositoryAsync<User>
 	{
 		public Task<List<User>> GetUsersListAsync();
+	
 	}
 }

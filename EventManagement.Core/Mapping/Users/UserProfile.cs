@@ -7,7 +7,8 @@ namespace EventManagement.Core.Mapping.Users
         public UserProfile()
         {
             GetUserListMapping();
+            GetUserByIdMapping();
 
-        }
+		}
     }
 }

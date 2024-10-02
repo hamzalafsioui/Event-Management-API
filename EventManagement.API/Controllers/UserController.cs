@@ -1,4 +1,5 @@
 ﻿using EventManagement.Core.Features.Users.Queries.Models;
+using EventManagement.Core.Features.Users.Queries.Results;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,10 +30,17 @@ namespace EventManagement.API.Controllers
 			var response = await _mediator.Send(new GetUserListQuery());
 			return Ok(response);
 		}
+
+		[HttpGet("/User/{id}")]
+		public async Task<IActionResult> GetUserById([FromRoute] int id)
+		{
+			var response = await _mediator.Send(new GetUserByIdQuery(id));
+			return Ok(response);
+		}
 		#endregion
-	
 
-		
 
-    }
+
+
+	}
 }

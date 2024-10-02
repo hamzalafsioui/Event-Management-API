@@ -17,13 +17,17 @@ namespace EventManagement.Infrustructure.Abstracts
         {
             _users = dbContext.Set<User>();
         }
-        #endregion
 
-        #region Handl Functions
-        public async Task<List<User>> GetUsersListAsync()
+	
+		#endregion
+
+		#region Handl Functions
+		public async Task<List<User>> GetUsersListAsync()
 		{
 			return await _users.ToListAsync();
 		}
+
+		
 		#endregion
 
 	}
