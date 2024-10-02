@@ -1,6 +1,4 @@
 ﻿using EventManagement.Data.Entities;
-using EventManagement.Infrustructure.Abstracts;
-using EventManagement.Infrustructure.Context;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 
@@ -18,7 +16,7 @@ namespace EventManagement.Service.Implementations
 			_userRepository = userRepository;
 		}
 
-		
+
 		#endregion
 
 		#region Handl Functions
@@ -31,9 +29,33 @@ namespace EventManagement.Service.Implementations
 		{
 			//var user = await _userRepository.GetByIdAsync(id);
 			var user = _userRepository.GetTableNoTracking()
-									   .Where(x=>x.UserId == id)
+									   .Where(x => x.UserId == id)
 									   .FirstOrDefault();  // we can use Include Here
 			return user!;
+		}
+
+		public async Task<string> AddAsync(User user)
+		{
+			await _userRepository.AddAsync(user);
+			return "Success";
+		}
+
+		public async Task<bool> IsUserNameExist(string name)
+		{
+			// check is username exist or no
+			var result = _userRepository.GetTableNoTracking().Where(x=>x.Username.Equals(name)).FirstOrDefault();
+			if (result != null)
+				return true;
+			return false;
+		}
+
+		public async Task<bool> IsUserNameNameExistExcludeSelf(string username, int id)
+		{
+			// check if the username is exist or not with other id
+			var result =  _userRepository.GetTableNoTracking().Where(x=>x.Username.Equals(username) & !(x.UserId.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
+			if (result == null)
+				return false;
+			return true;
 		}
 		#endregion
 	}
