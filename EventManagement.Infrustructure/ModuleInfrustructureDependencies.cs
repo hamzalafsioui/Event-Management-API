@@ -1,4 +1,5 @@
 ﻿using EventManagement.Infrustructure.Abstracts;
+using EventManagement.Infrustructure.InfrustructureBase;
 using EventManagement.Infrustructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,10 +7,11 @@ namespace EventManagement.Infrustructure
 {
 	public static class ModuleInfrustructureDependencies
 	{
-		public static IServiceCollection AddInfrustructureDependencies(this IServiceCollection service)
+		public static IServiceCollection AddInfrustructureDependencies(this IServiceCollection services)
 		{
-			 service.AddTransient<IUserRepository, UserRepository>();
-			return service;
+			services.AddTransient<IUserRepository, UserRepository>();
+			services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
+			return services;
 		}
 	}
 }
