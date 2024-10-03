@@ -1,4 +1,5 @@
-﻿using EventManagement.Core.Features.Users.Queries.Models;
+﻿using EventManagement.Core.Features.Users.Commands.Models;
+using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Core.Features.Users.Queries.Results;
 using EventManagement.Data.AppMetaData;
 using EventManagement.Service.Abstracts;
@@ -38,6 +39,14 @@ namespace EventManagement.API.Controllers
 			var response = await _mediator.Send(new GetUserByIdQuery(id));
 			return Ok(response);
 		}
+
+		[HttpPost(Router.UserRouting.Create)]
+		public async Task<IActionResult> Create([FromForm] AddUserCommand user)
+		{
+			var response = await _mediator.Send(user);
+			return Ok(response);
+		}
+
 		#endregion
 
 

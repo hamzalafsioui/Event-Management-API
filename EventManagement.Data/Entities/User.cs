@@ -1,4 +1,7 @@
-﻿namespace EventManagement.Data.Entities
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+
+namespace EventManagement.Data.Entities
 {
 	public class User
 	{
@@ -41,7 +44,18 @@
 
 	}
 
-	public enum UserRole { Admin, Speaker, Attendee }
+	[JsonConverter(typeof(JsonStringEnumConverter))] // to convert between string and enum
+	public enum UserRole
+	{
+		[EnumMember(Value = "Admin")]
+		Admin = 1,
+		[EnumMember(Value = "Speaker")]
+
+		Speaker = 2,
+		[EnumMember(Value = "Attendee")]
+
+		Attendee = 3
+	}
 
 
 }

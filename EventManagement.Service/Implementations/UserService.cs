@@ -36,14 +36,20 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<string> AddAsync(User user)
 		{
-			await _userRepository.AddAsync(user);
-			return "Success";
+			var result = await IsUserNameExist(user.Username);
+			if (!result)
+			{
+				await _userRepository.AddAsync(user);
+				return "Success";
+			}
+			return "Failed";
+
 		}
 
 		public async Task<bool> IsUserNameExist(string name)
 		{
 			// check is username exist or no
-			var result = _userRepository.GetTableNoTracking().Where(x=>x.Username.Equals(name)).FirstOrDefault();
+			var result = _userRepository.GetTableNoTracking().Where(x => x.Username.Equals(name)).FirstOrDefault();
 			if (result != null)
 				return true;
 			return false;
@@ -52,7 +58,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserNameNameExistExcludeSelf(string username, int id)
 		{
 			// check if the username is exist or not with other id
-			var result =  _userRepository.GetTableNoTracking().Where(x=>x.Username.Equals(username) & !(x.UserId.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
+			var result = _userRepository.GetTableNoTracking().Where(x => x.Username.Equals(username) & !(x.UserId.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
 			if (result == null)
 				return false;
 			return true;
