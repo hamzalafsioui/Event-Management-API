@@ -13,13 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Users\Commands\Validatiors\" />
     <Folder Include="Features\Users\Queries\Validatiors\" />
     <Folder Include="Middleware\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />

@@ -28,6 +28,7 @@ namespace EventManagement.API.Base
 				HttpStatusCode.NotFound => new NotFoundObjectResult(response),
 				HttpStatusCode.Accepted => new AcceptedResult(string.Empty, response),
 				HttpStatusCode.UnprocessableEntity => new UnprocessableEntityObjectResult(response),
+				HttpStatusCode.TooManyRequests => new ObjectResult(response) { StatusCode = StatusCodes.Status429TooManyRequests},
 				//HttpStatusCode.Forbidden => new ForbidResult(),
 				HttpStatusCode.Conflict => new ConflictObjectResult(response),
 				HttpStatusCode.InternalServerError => new ObjectResult(response) { StatusCode = 500 },
