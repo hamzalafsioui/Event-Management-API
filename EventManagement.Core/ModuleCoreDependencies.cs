@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EventManagement.Core.Behaviors;
+using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace EventManagement.Core
@@ -12,6 +15,10 @@ namespace EventManagement.Core
 
 			// Configuration of AutoMapper
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+			// Get Validators
+			services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 			return services;
 		}
 	}

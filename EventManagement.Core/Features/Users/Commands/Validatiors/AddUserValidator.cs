@@ -1,17 +1,21 @@
 ﻿using EventManagement.Core.Features.Users.Commands.Models;
+using EventManagement.Service.Abstracts;
 using FluentValidation;
 
 namespace EventManagement.Core.Features.Users.Commands.Validatiors
 {
 	public class AddUserValidator : AbstractValidator<AddUserCommand>
 	{
+		private readonly IUserService _userService;
 		#region Fields
 
 		#endregion
 		#region Constructors
-		public AddUserValidator()
+		public AddUserValidator(IUserService userService)
 		{
 			ApplyValidationsRules();
+			ApplyCustomValidationsRules();
+			this._userService = userService;
 		}
 		#endregion
 		#region Actions
@@ -41,6 +45,13 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null")
 				.MinimumLength(3);
 
+		}
+
+		public void ApplyCustomValidationsRules()
+		{
+			RuleFor(x => x.Username)
+				.MustAsync(async (key, CancellationToken) => !(await _userService.IsUserNameExist(key)))
+				.WithMessage("UserName Is Already Exist");
 		}
 		#endregion
 	}

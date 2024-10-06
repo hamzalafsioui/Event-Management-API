@@ -2,14 +2,13 @@
 using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Core.Features.Users.Queries.Results;
-using EventManagement.Data.Entities;
 using EventManagement.Service.Abstracts;
 using MediatR;
 
 namespace EventManagement.Core.Features.Users.Queries.Handlers
 {
 	public class UserQueryHandler : ResponseHandler, IRequestHandler<GetUserListQuery, Response<List<GetUserListResponse>>>,
-										IRequestHandler<GetUserByIdQuery,Response<GetSingleUserResponse>>
+										IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>
 	{
 		#region Fields
 		private readonly IUserService _userService;
@@ -36,12 +35,14 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 
 		public async Task<Response<GetSingleUserResponse>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
 		{
+			if (request.Id < 1)
+				return BadRequest<GetSingleUserResponse>("Invalid Id");
 			var user = await _userService.GetUserByIdAsync(request.Id);
-			if(user == null)
+			if (user == null)
 			{
 				return NotFound<GetSingleUserResponse>($"User with Id {request.Id} Not Found");
 			}
-			var result =  _mapper.Map<GetSingleUserResponse>(user);
+			var result = _mapper.Map<GetSingleUserResponse>(user);
 			return Success(result);
 		}
 		#endregion
