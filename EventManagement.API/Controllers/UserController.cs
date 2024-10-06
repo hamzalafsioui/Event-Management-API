@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using EventManagement.API.Base;
+﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Features.Users.Queries.Models;
-using EventManagement.Core.Features.Users.Queries.Results;
 using EventManagement.Data.AppMetaData;
-using EventManagement.Service.Abstracts;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
@@ -15,9 +10,9 @@ namespace EventManagement.API.Controllers
 	[ApiController]
 	public class UserController : AppControllerBase
 	{
-        
-        #region  Functions
-        [HttpGet(Router.UserRouting.List)]
+
+		#region  Functions
+		[HttpGet(Router.UserRouting.List)]
 		public async Task<IActionResult> GetUserList()
 		{
 			var response = await Mediator.Send(new GetUserListQuery());
@@ -32,9 +27,16 @@ namespace EventManagement.API.Controllers
 		}
 
 		[HttpPost(Router.UserRouting.Create)]
-		public async Task<IActionResult> Create([FromForm] AddUserCommand user)
+		public async Task<IActionResult> Create([FromForm] AddUserCommand command)
 		{
-			var response = await Mediator.Send(user);
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
+
+		[HttpPut(Router.UserRouting.Edit)]
+		public async Task<IActionResult> Edit([FromForm] EditUserCommand command)
+		{
+			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
 

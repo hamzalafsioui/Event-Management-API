@@ -14,9 +14,9 @@ namespace EventManagement.Data.Entities
 		public required string LastName { get; set; }
 		//public byte[]? Image { get; set; }
 		public string? Image { get; set; }
-		public UserRole Role { get; set; } = UserRole.Attendee;
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+		public UserRole Role { get; set; }
+		public DateTime CreatedAt { get; set; }
+		public DateTime UpdatedAt { get; set; }
 
 		public ICollection<Event> CreatedEvents { get; set; } = new List<Event>();
 		public ICollection<Attendee> AttendingEvents { get; set; } = new List<Attendee>();

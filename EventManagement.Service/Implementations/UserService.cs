@@ -63,6 +63,12 @@ namespace EventManagement.Service.Implementations
 				return false;
 			return true;
 		}
+
+		public async Task<string> EditAsync(User userMapper)
+		{
+			await _userRepository.UpdateAsync(userMapper);
+			return "Success";
+		}
 		#endregion
 	}
 }

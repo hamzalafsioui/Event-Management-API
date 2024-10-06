@@ -4,14 +4,14 @@ using FluentValidation;
 
 namespace EventManagement.Core.Features.Users.Commands.Validatiors
 {
-	public class AddUserValidator : AbstractValidator<AddUserCommand>
+	public class EditUserValidator:AbstractValidator<EditUserCommand>
 	{
 		#region Fields
 		private readonly IUserService _userService;
 
 		#endregion
 		#region Constructors
-		public AddUserValidator(IUserService userService)
+		public EditUserValidator(IUserService userService)
 		{
 			ApplyValidationsRules();
 			ApplyCustomValidationsRules();
@@ -50,7 +50,7 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 		public void ApplyCustomValidationsRules()
 		{
 			RuleFor(x => x.Username)
-				.MustAsync(async (key, CancellationToken) => !(await _userService.IsUserNameExist(key)))
+				.MustAsync(async (model,key,CancellationToken) => !(await _userService.IsUserNameNameExistExcludeSelf(key,model.UserId)))
 				.WithMessage("UserName Is Already Exist");
 		}
 		#endregion

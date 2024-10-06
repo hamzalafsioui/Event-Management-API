@@ -7,7 +7,9 @@ using MediatR;
 
 namespace EventManagement.Core.Features.Users.Commands.Handlers
 {
-	public class UserCommandHandler : ResponseHandler, IRequestHandler<AddUserCommand, Response<string>>
+	public class UserCommandHandler : ResponseHandler,
+		IRequestHandler<AddUserCommand, Response<string>>,
+		IRequestHandler<EditUserCommand, Response<string>>
 	{
 
 		#region Fields
@@ -23,7 +25,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 		#endregion
 		#region Handle Function
 
-		#endregion
+
 
 		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
 		{
@@ -36,5 +38,28 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			else
 				return BadRequest<string>();
 		}
+
+		public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+		{
+			// check is Id is exist
+			var user = _userService.GetUserByIdAsync(request.UserId);
+			// return NotFound
+			if (user == null)
+				return NotFound<string>($"user with id {request.UserId} not exist");
+
+			// mapping between user and Request
+			var userMapper = _mapper.Map<User>(request);
+			userMapper.CreatedAt = user.Result.CreatedAt;
+			// Call update service
+			var result = await _userService.EditAsync(userMapper);
+
+			// return response
+			if (result == "Success")
+				return Success($"Edit Successfully In Id {userMapper.UserId}");
+			else
+				return BadRequest<string>();
+		}
+
+		#endregion
 	}
 }

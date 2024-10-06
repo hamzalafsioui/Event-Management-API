@@ -9,6 +9,7 @@ namespace EventManagement.Core.Mapping.Users
 			GetUserListMapping();
 			GetUserByIdMapping();
 			AddUserCommandMapping();
+			EditUserCommandMapping();
 		}
 	}
 }

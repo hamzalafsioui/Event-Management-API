@@ -10,5 +10,6 @@ namespace EventManagement.Service.Abstracts
 		public Task<string> AddAsync(User user);
 		public Task<bool> IsUserNameExist(string name);
 		public Task<bool> IsUserNameNameExistExcludeSelf(string username, int id);
+		Task<string> EditAsync(User userMapper);
 	}
 }
