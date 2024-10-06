@@ -32,7 +32,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			// Adding
 			var result = await _userService.AddAsync(userMapper);
 			if (result == "Success")
-				return Success("Added Successfully");
+				return Created("Added Successfully");
 			else
 				return BadRequest<string>();
 		}
