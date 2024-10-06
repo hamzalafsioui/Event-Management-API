@@ -40,6 +40,12 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 
+		[HttpDelete(Router.UserRouting.GetById)]
+		public async Task<IActionResult> Delete([FromRoute] int id)
+		{
+			var response = await Mediator.Send(new DeleteUserCommand(id));
+			return NewResult(response);
+		}
 		#endregion
 
 

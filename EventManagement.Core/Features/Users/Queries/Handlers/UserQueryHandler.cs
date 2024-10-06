@@ -37,7 +37,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		{
 			if (request.Id < 1)
 				return BadRequest<GetSingleUserResponse>("Invalid Id");
-			var user = await _userService.GetUserByIdAsync(request.Id);
+			var user = await _userService.GetByIdWithIncludeAsync(request.Id);
 			if (user == null)
 			{
 				return NotFound<GetSingleUserResponse>($"User with Id {request.Id} Not Found");

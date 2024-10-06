@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace EventManagement.Core.Features.Users.Commands.Models
 {
-	public class EditUserCommand :IRequest<Response<string>> 
+	public class EditUserCommand : IRequest<Response<string>>
 	{
 		public int UserId { get; set; }
 		public string Username { get; set; }
@@ -14,7 +14,7 @@ namespace EventManagement.Core.Features.Users.Commands.Models
 		public string LastName { get; set; }
 		public string Email { get; set; }
 		public IFormFile? Image { get; set; }
-		public UserRole Role { get; set; } 
+		public UserRole Role { get; set; }
 
 	}
 }

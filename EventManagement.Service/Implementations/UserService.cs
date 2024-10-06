@@ -24,8 +24,8 @@ namespace EventManagement.Service.Implementations
 		{
 			return await _userRepository.GetUsersListAsync();
 		}
-
-		public async Task<User> GetUserByIdAsync(int id)
+		 
+		public async Task<User> GetByIdWithIncludeAsync(int id)
 		{
 			//var user = await _userRepository.GetByIdAsync(id);
 			var user = _userRepository.GetTableNoTracking()
@@ -68,6 +68,29 @@ namespace EventManagement.Service.Implementations
 		{
 			await _userRepository.UpdateAsync(userMapper);
 			return "Success";
+		}
+
+		public async Task<string> DeleteAsync(User user)
+		{
+			var transaction = _userRepository.BeginTransaction();
+			try
+			{
+				await _userRepository.DeleteAsync(user);
+				await transaction.CommitAsync();
+				return "Success";
+			}
+			catch (Exception ex)
+			{
+				await transaction.RollbackAsync();
+				return "Failed";
+			}
+
+		}
+
+		public async Task<User> GetByIdAsync(int id)
+		{
+			var user = await _userRepository.GetByIdAsync(id);
+			return user;
 		}
 		#endregion
 	}
