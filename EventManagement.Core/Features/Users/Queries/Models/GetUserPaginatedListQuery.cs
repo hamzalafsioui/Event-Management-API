@@ -10,5 +10,5 @@ namespace EventManagement.Core.Features.Users.Queries.Models
         public int PageSize { get; set; }
         public string []? OrderBy { get; set; }
         public string? Search { get; set; }
-    }
+    } 
 }

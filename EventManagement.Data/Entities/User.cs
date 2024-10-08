@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+﻿
+using EventManagement.Data.Helper;
 
 namespace EventManagement.Data.Entities
 {
@@ -14,7 +14,7 @@ namespace EventManagement.Data.Entities
 		public required string LastName { get; set; }
 		//public byte[]? Image { get; set; }
 		public string? Image { get; set; }
-		public UserRole Role { get; set; }
+		public UserRoleEnum Role { get; set; }
 		public DateTime CreatedAt { get; set; }
 		public DateTime UpdatedAt { get; set; }
 
@@ -22,7 +22,7 @@ namespace EventManagement.Data.Entities
 		public ICollection<Attendee> AttendingEvents { get; set; } = new List<Attendee>();
 		public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-		public User(int userId, string username, string passwordHash, string email, string firstName, string lastName, string? image, UserRole role, DateTime createdAt, DateTime updatedAt)
+		public User(int userId, string username, string passwordHash, string email, string firstName, string lastName, string? image, UserRoleEnum role, DateTime createdAt, DateTime updatedAt)
 		{
 			UserId = userId;
 			Username = username;
@@ -40,22 +40,5 @@ namespace EventManagement.Data.Entities
 		{
 
 		}
-
-
 	}
-
-	[JsonConverter(typeof(JsonStringEnumConverter))] // to convert between string and enum
-	public enum UserRole
-	{
-		[EnumMember(Value = "Admin")]
-		Admin = 1,
-		[EnumMember(Value = "Speaker")]
-
-		Speaker = 2,
-		[EnumMember(Value = "Attendee")]
-
-		Attendee = 3
-	}
-
-
 }

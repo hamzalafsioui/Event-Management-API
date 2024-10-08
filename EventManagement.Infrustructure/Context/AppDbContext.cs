@@ -1,5 +1,5 @@
 ﻿using EventManagement.Data.Entities;
-using EventManagement.Infrustructure.Data.Helper;
+using EventManagement.Data.Helper;
 using Microsoft.EntityFrameworkCore;
 
 

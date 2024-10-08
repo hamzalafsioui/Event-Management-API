@@ -1,5 +1,5 @@
 ﻿using EventManagement.Core.Bases;
-using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
@@ -13,6 +13,6 @@ namespace EventManagement.Core.Features.Users.Commands.Models
 		public string LastName { get; set; }
 		public string Email { get; set; }
 		public IFormFile? Image { get; set; }
-		public UserRole Role { get; set; } = UserRole.Attendee;
+		public UserRoleEnum Role { get; set; } = UserRoleEnum.Attendee;
 	}
 }
