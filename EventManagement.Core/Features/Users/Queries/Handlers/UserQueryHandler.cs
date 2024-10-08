@@ -56,8 +56,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		{
 			Expression<Func<User, GetUserPaginatedListResponse>> expression = e => new GetUserPaginatedListResponse(e.UserId,e.Username,e.FirstName,e.LastName,e.Email,e.Image,e.Role.ToString(),e.CreatedAt);
 
-			//var queryable = _userService.GetUsersListQueryable();
-			var FilterQuery = _userService.FilterUserPaginatedQueryable(request.Search!);
+			var FilterQuery = _userService.FilterUserPaginatedQueryable(request.OrderBy,request.Search!);
 			var PaginatedList = await FilterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 			return PaginatedList;
 		}

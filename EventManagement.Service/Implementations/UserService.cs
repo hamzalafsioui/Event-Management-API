@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 
@@ -98,13 +99,40 @@ namespace EventManagement.Service.Implementations
 			return _userRepository.GetTableNoTracking().AsQueryable();
 		}
 
-		public IQueryable<User> FilterUserPaginatedQueryable(string search)
+		public IQueryable<User> FilterUserPaginatedQueryable(UserOrderingEnum orderingEnum,string search)
 		{
 			var queryable = _userRepository.GetTableNoTracking().AsQueryable();
 			if (!string.IsNullOrEmpty(search))
 			{
 				queryable = queryable.Where(x => x.Username.Contains(search) || x.Email.Contains(search));
 
+			}
+			switch (orderingEnum)
+			{
+				case UserOrderingEnum.UserId:
+					queryable = queryable.OrderBy(x => x.UserId);
+					break;
+				case UserOrderingEnum.Username:
+					queryable = queryable.OrderBy(x => x.Username);
+					break;
+				case UserOrderingEnum.FirstName:
+					queryable = queryable.OrderBy(x => x.FirstName);
+					break;
+				case UserOrderingEnum.LastName:
+					queryable = queryable.OrderBy(x => x.LastName);
+					break;
+				case UserOrderingEnum.Email:
+					queryable = queryable.OrderBy(x => x.Email);
+					break;
+				case UserOrderingEnum.Role:
+					queryable = queryable.OrderBy(x => x.Role);
+					break;
+				case UserOrderingEnum.CreatedAt:
+					queryable = queryable.OrderBy(x => x.CreatedAt);
+					break;
+				default:
+					queryable = queryable.OrderBy(x=>x.UserId);
+					break;
 			}
 			return queryable;
 

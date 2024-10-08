@@ -1,5 +1,9 @@
-﻿namespace EventManagement.Data.Helper
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+
+namespace EventManagement.Data.Helper
 {
+	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public enum UserOrderingEnum
 	{
 		UserId = 0,
