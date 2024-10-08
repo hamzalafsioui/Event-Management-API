@@ -50,7 +50,7 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 		public void ApplyCustomValidationsRules()
 		{
 			RuleFor(x => x.Username)
-				.MustAsync(async (model,key,CancellationToken) => !(await _userService.IsUserNameNameExistExcludeSelf(key,model.UserId)))
+				.MustAsync(async (model,key,CancellationToken) => !(await _userService.IsUserNameExistExcludeSelf(key,model.UserId)))
 				.WithMessage("UserName Is Already Exist");
 		}
 		#endregion

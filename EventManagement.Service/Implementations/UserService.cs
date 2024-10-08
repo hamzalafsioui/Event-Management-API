@@ -24,7 +24,7 @@ namespace EventManagement.Service.Implementations
 		{
 			return await _userRepository.GetUsersListAsync();
 		}
-		 
+
 		public async Task<User> GetByIdWithIncludeAsync(int id)
 		{
 			//var user = await _userRepository.GetByIdAsync(id);
@@ -55,7 +55,7 @@ namespace EventManagement.Service.Implementations
 			return false;
 		}
 
-		public async Task<bool> IsUserNameNameExistExcludeSelf(string username, int id)
+		public async Task<bool> IsUserNameExistExcludeSelf(string username, int id)
 		{
 			// check if the username is exist or not with other id
 			var result = _userRepository.GetTableNoTracking().Where(x => x.Username.Equals(username) & !(x.UserId.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
@@ -91,6 +91,23 @@ namespace EventManagement.Service.Implementations
 		{
 			var user = await _userRepository.GetByIdAsync(id);
 			return user;
+		}
+
+		public IQueryable<User> GetUsersListQueryable()
+		{
+			return _userRepository.GetTableNoTracking().AsQueryable();
+		}
+
+		public IQueryable<User> FilterUserPaginatedQueryable(string search)
+		{
+			var queryable = _userRepository.GetTableNoTracking().AsQueryable();
+			if (!string.IsNullOrEmpty(search))
+			{
+				queryable = queryable.Where(x => x.Username.Contains(search) || x.Email.Contains(search));
+
+			}
+			return queryable;
+
 		}
 		#endregion
 	}

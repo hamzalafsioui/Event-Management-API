@@ -2,13 +2,19 @@
 using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Core.Features.Users.Queries.Results;
+using EventManagement.Core.Wrappers;
+using EventManagement.Data.Entities;
 using EventManagement.Service.Abstracts;
 using MediatR;
+using System.Linq.Expressions;
 
 namespace EventManagement.Core.Features.Users.Queries.Handlers
 {
-	public class UserQueryHandler : ResponseHandler, IRequestHandler<GetUserListQuery, Response<List<GetUserListResponse>>>,
-										IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>
+	public class UserQueryHandler : ResponseHandler, 
+		IRequestHandler<GetUserListQuery, Response<List<GetUserListResponse>>>,
+		IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>,
+		IRequestHandler<GetUserPaginatedListQuery,PaginatedResult<GetUserPaginatedListResponse>>
+
 	{
 		#region Fields
 		private readonly IUserService _userService;
@@ -45,6 +51,18 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 			var result = _mapper.Map<GetSingleUserResponse>(user);
 			return Success(result);
 		}
+
+		public async Task<PaginatedResult<GetUserPaginatedListResponse>> Handle(GetUserPaginatedListQuery request, CancellationToken cancellationToken)
+		{
+			Expression<Func<User, GetUserPaginatedListResponse>> expression = e => new GetUserPaginatedListResponse(e.UserId,e.Username,e.FirstName,e.LastName,e.Email,e.Image,e.Role.ToString(),e.CreatedAt);
+
+			//var queryable = _userService.GetUsersListQueryable();
+			var FilterQuery = _userService.FilterUserPaginatedQueryable(request.Search!);
+			var PaginatedList = await FilterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+			return PaginatedList;
+		}
+
+
 		#endregion
 
 	}

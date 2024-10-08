@@ -18,7 +18,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetUserListQuery());
 			return NewResult(response);
 		}
-
+		[HttpGet(Router.UserRouting.Paginated)]
+		public async Task<IActionResult> Paginated([FromQuery] GetUserPaginatedListQuery query)
+		{
+			var response = await Mediator.Send(query);
+			return Ok(response);
+		}
 		[HttpGet(Router.UserRouting.GetById)]
 		public async Task<IActionResult> GetUserById([FromRoute] int id)
 		{
