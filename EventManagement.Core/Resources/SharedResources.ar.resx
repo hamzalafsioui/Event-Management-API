@@ -120,4 +120,7 @@
   <data name="Required" xml:space="preserve">
     <value>هذا الحقل مطلوب</value>
   </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>غير متوفر</value>
+  </data>
 </root>
