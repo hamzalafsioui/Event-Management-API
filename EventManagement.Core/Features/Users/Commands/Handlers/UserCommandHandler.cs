@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Users.Commands.Models;
+using EventManagement.Core.Resources;
 using EventManagement.Data.Entities;
 using EventManagement.Service.Abstracts;
 using MediatR;
+using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Users.Commands.Handlers
 {
@@ -16,12 +18,14 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 		#region Fields
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
+		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		#endregion
 		#region Constructors
-		public UserCommandHandler(IUserService userService, IMapper mapper)
+		public UserCommandHandler(IUserService userService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
 		{
 			this._userService = userService;
 			this._mapper = mapper;
+			this._stringLocalizer = stringLocalizer;
 		}
 		#endregion
 		#region Handle Function
@@ -62,7 +66,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 		public async Task<Response<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
 		{
 			// check is Id is exist
-			var user = await _userService.GetByIdAsync (request.userId);
+			var user = await _userService.GetByIdAsync(request.userId);
 			// return NotFound
 			if (user == null)
 				return NotFound<string>($"UserId {request.userId} Does not Found");

@@ -1,10 +1,15 @@
-﻿namespace EventManagement.Core.Bases
+﻿using EventManagement.Core.Resources;
+using Microsoft.Extensions.Localization;
+
+namespace EventManagement.Core.Bases
 {
 	public class ResponseHandler
 	{
-		public ResponseHandler()
-		{
+		private readonly IStringLocalizer _stringLocalizer;
 
+		public ResponseHandler(IStringLocalizer stringLocalizer)
+		{
+			this._stringLocalizer = stringLocalizer;
 		}
 		public Response<T> Deleted<T>(string message = null)
 		{
@@ -12,7 +17,7 @@
 			{
 				StatusCode = System.Net.HttpStatusCode.OK,
 				Succeded = true,
-				Message = message ?? "Deleted Successfully"
+				Message = message ?? _stringLocalizer[SharedResourcesKeys.Deleted]
 			};
 		}
 
@@ -23,7 +28,7 @@
 				Data = entity,
 				StatusCode = System.Net.HttpStatusCode.OK,
 				Succeded = true,
-				Message = "Operation Successfully",
+				Message = _stringLocalizer[SharedResourcesKeys.Operation],
 				Meta = meta
 			};
 		}
@@ -44,7 +49,7 @@
 			{
 				StatusCode = System.Net.HttpStatusCode.BadRequest,
 				Succeded = false,
-				Message = message == null ? "Bad Request" : message
+				Message = message == null ? _stringLocalizer[SharedResourcesKeys.BadRequest] : message
 			};
 		}
 		public Response<T> NotFound<T>(string message = null!)
@@ -53,7 +58,7 @@
 			{
 				StatusCode = System.Net.HttpStatusCode.NotFound,
 				Succeded = false,
-				Message = message == null ? "Not Found" : message
+				Message = message == null ? _stringLocalizer[SharedResourcesKeys.NotFound] : message
 			};
 		}
 
@@ -63,7 +68,7 @@
 			{
 				StatusCode = System.Net.HttpStatusCode.UnprocessableEntity,
 				Succeded = false,
-				Message = message == null ? "Unprocessable Entity" : message
+				Message = message == null ? _stringLocalizer[SharedResourcesKeys.UnprocessableEntity] : message
 
 			};
 		}
@@ -77,7 +82,7 @@
 				StatusCode = System.Net.HttpStatusCode.Created,
 				Succeded = true,
 				Meta = meta,
-				Message = "Created"
+				Message = _stringLocalizer[SharedResourcesKeys.Craeted]
 			};
 		}
 		public Response<T> TooManyRequests<T>(string message = null!)
@@ -86,7 +91,7 @@
 			{
 				StatusCode = System.Net.HttpStatusCode.TooManyRequests,
 				Succeded = false,
-				Message = message == null ? "Too Many Requests" : message
+				Message = message == null ? _stringLocalizer[SharedResourcesKeys.TooManyRequest] : message
 
 			};
 		}

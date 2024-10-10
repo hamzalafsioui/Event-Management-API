@@ -123,4 +123,25 @@
   <data name="NotFound" xml:space="preserve">
     <value>Not Found</value>
   </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted Successfully</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created Successfully</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated Successfully</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation Successfully</value>
+  </data>
+  <data name="TooManyRequest" xml:space="preserve">
+    <value>Too Many Requests</value>
+  </data>
+  <data name="Unprocessable" xml:space="preserve">
+    <value>Unprocessable Entity</value>
+  </data>
+  <data name="BadRequest" xml:space="preserve">
+    <value>Bad Request</value>
+  </data>
 </root>

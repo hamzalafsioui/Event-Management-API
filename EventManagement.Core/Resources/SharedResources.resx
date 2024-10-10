@@ -118,30 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Required" xml:space="preserve">
-    <value>هذا الحقل مطلوب</value>
+    <value />
   </data>
   <data name="NotFound" xml:space="preserve">
-    <value>غير متوفر</value>
+    <value />
   </data>
-  <data name="Deleted" xml:space="preserve">
-    <value>تم الحذف بنجاح</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Deleted" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
-  <data name="Created" xml:space="preserve">
-    <value>تمت الإضافة بنجاح</value>
+  <data name="Created" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
-  <data name="Updated" xml:space="preserve">
-    <value>تم التحديث بنجاح</value>
+  <data name="Updated" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
-  <data name="Operation" xml:space="preserve">
-    <value>العملية نجحت</value>
+  <data name="Operation" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="TooManyRequest" xml:space="preserve">
-    <value>طلبات كثيرة جدا</value>
+    <value />
   </data>
   <data name="Unprocessable" xml:space="preserve">
-    <value>عنصر غير قابل للمعالجة</value>
+    <value />
   </data>
   <data name="BadRequest" xml:space="preserve">
-    <value>طلب سيئ</value>
+    <value />
   </data>
 </root>

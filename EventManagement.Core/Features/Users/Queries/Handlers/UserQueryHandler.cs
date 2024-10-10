@@ -26,7 +26,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		#endregion
 
 		#region Constructors
-		public UserQueryHandler(IUserService userService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer)
+		public UserQueryHandler(IUserService userService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
 		{
 			this._userService = userService;
 			this._mapper = mapper;
