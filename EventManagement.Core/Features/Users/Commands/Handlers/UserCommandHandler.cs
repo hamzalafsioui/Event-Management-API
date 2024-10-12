@@ -48,7 +48,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			var user = _userService.GetByIdAsync(request.UserId);
 			// return NotFound
 			if (user == null)
-				return NotFound<string>($"user with id {request.UserId} does not exist");
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.UserId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
 			// mapping between user and Request
 			var userMapper = _mapper.Map<User>(request);
@@ -69,7 +69,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			var user = await _userService.GetByIdAsync(request.userId);
 			// return NotFound
 			if (user == null)
-				return NotFound<string>($"UserId {request.userId} Does not Found");
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.userId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
 
 			// Call Delete service
@@ -77,7 +77,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 			// return response
 			if (result == "Success")
-				return Deleted<string>($"userId {user.UserId} Deleted  Successfully");
+				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {user.UserId} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
 			else
 				return BadRequest<string>();
 		}

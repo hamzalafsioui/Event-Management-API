@@ -144,4 +144,25 @@
   <data name="BadRequest" xml:space="preserve">
     <value>Bad Request</value>
   </data>
+  <data name="NotEmpty" xml:space="preserve">
+    <value>The Field Must Not Be Empty</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="InvalidID" xml:space="preserve">
+    <value>Invalid Id</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>User Id</value>
+  </data>
+  <data name="AlreadyExist" xml:space="preserve">
+    <value>Already Exists</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
 </root>

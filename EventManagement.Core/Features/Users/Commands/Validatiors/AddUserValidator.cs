@@ -1,6 +1,8 @@
 ﻿using EventManagement.Core.Features.Users.Commands.Models;
+using EventManagement.Core.Resources;
 using EventManagement.Service.Abstracts;
 using FluentValidation;
+using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Users.Commands.Validatiors
 {
@@ -8,21 +10,23 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 	{
 		#region Fields
 		private readonly IUserService _userService;
+		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
 		#endregion
 		#region Constructors
-		public AddUserValidator(IUserService userService)
+		public AddUserValidator(IUserService userService, IStringLocalizer<SharedResources> stringLocalizer)
 		{
+			this._userService = userService;
+			this._stringLocalizer = stringLocalizer;
 			ApplyValidationsRules();
 			ApplyCustomValidationsRules();
-			this._userService = userService;
 		}
 		#endregion
 		#region Actions
 		public void ApplyValidationsRules()
 		{
 			RuleFor(x => x.Username)
-				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
+				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null")
 				.MaximumLength(15).WithMessage("{PropertyName} Max length is 15")
 				.MinimumLength(4);
@@ -51,7 +55,7 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 		{
 			RuleFor(x => x.Username)
 				.MustAsync(async (key, CancellationToken) => !(await _userService.IsUserNameExist(key)))
-				.WithMessage("UserName Is Already Exist");
+				.WithMessage($"{_stringLocalizer[SharedResourcesKeys.Username]} " + _stringLocalizer[SharedResourcesKeys.AlreadyExist]);
 		}
 		#endregion
 	}

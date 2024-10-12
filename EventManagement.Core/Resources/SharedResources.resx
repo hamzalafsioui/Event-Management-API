@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Required" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NotFound" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Required" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="NotFound" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="Deleted" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
@@ -136,13 +136,34 @@
   <data name="Operation" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="TooManyRequest" xml:space="preserve">
+  <data name="TooManyRequest" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="Unprocessable" xml:space="preserve">
+  <data name="Unprocessable" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="BadRequest" xml:space="preserve">
+  <data name="BadRequest" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="NotEmpty" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Email" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Password" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="InvalidID" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="UserId" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="AlreadyExist" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Username" xml:space="preserve">
     <value />
   </data>
 </root>

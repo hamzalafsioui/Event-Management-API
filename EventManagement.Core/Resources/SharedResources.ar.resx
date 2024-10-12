@@ -144,4 +144,25 @@
   <data name="BadRequest" xml:space="preserve">
     <value>طلب سيئ</value>
   </data>
+  <data name="NotEmpty" xml:space="preserve">
+    <value>لايجب أن يكون هذا العنصر فارغ</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="InvalidID" xml:space="preserve">
+    <value>معرف غير صالح</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>معرف المستخدم</value>
+  </data>
+  <data name="AlreadyExist" xml:space="preserve">
+    <value>موجود بالفعل</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
 </root>

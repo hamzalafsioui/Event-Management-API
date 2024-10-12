@@ -46,7 +46,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		public async Task<Response<GetSingleUserResponse>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
 		{
 			if (request.Id < 1)
-				return BadRequest<GetSingleUserResponse>("Invalid Id");
+				return BadRequest<GetSingleUserResponse>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
 			var user = await _userService.GetByIdWithIncludeAsync(request.Id);
 			if (user == null)
 			{

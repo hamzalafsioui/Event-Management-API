@@ -11,7 +11,7 @@ namespace EventManagement.Core.Bases
 		{
 			this._stringLocalizer = stringLocalizer;
 		}
-		public Response<T> Deleted<T>(string message = null)
+		public Response<T> Deleted<T>(string message = null!)
 		{
 			return new Response<T>()
 			{
@@ -82,7 +82,7 @@ namespace EventManagement.Core.Bases
 				StatusCode = System.Net.HttpStatusCode.Created,
 				Succeded = true,
 				Meta = meta,
-				Message = _stringLocalizer[SharedResourcesKeys.Craeted]
+				Message = _stringLocalizer[SharedResourcesKeys.Created]
 			};
 		}
 		public Response<T> TooManyRequests<T>(string message = null!)

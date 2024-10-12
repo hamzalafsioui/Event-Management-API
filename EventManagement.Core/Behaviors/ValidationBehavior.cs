@@ -1,5 +1,7 @@
-﻿using FluentValidation;
+﻿using EventManagement.Core.Resources;
+using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Behaviors
 {
@@ -8,13 +10,15 @@ namespace EventManagement.Core.Behaviors
 	{
 		#region Fields
 		private readonly IEnumerable<IValidator<TRequest>> _validators;
+		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
 		#endregion
 
 		#region Constructors
-		public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+		public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators, IStringLocalizer<SharedResources> stringLocalizer)
 		{
 			this._validators = validators;
+			this._stringLocalizer = stringLocalizer;
 		}
 		#endregion
 
@@ -25,14 +29,14 @@ namespace EventManagement.Core.Behaviors
 			{
 				var context = new ValidationContext<TRequest>(request);
 				var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-				var failures = validationResults.SelectMany(r=>r.Errors).Where(f=>f!=null).ToList();
+				var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
-                if (failures.Count != 0)
+				if (failures.Count != 0)
 				{
-					var message = failures.Select(x=> x.ErrorMessage).FirstOrDefault(); // propertyName = Key (Ex: Email)
+					var message = failures.Select(x => _stringLocalizer[x.PropertyName] + " : " + _stringLocalizer[x.ErrorMessage]).FirstOrDefault(); // propertyName = Key (Ex: Email)
 					throw new ValidationException(message);
 				}
-            }
+			}
 			return await next();
 
 		}
