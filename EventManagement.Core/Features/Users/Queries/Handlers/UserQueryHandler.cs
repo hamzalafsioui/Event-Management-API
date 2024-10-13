@@ -40,7 +40,12 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 			var studentList = await _userService.GetUsersListAsync();
 			var studentListMapping = _mapper.Map<List<GetUserListResponse>>(studentList);
 
-			return Success(studentListMapping);
+			var result = Success(studentListMapping);
+			result.Meta = new
+			{
+				count = studentListMapping.Count,
+			};
+			return result;
 		}
 
 		public async Task<Response<GetSingleUserResponse>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
@@ -62,6 +67,10 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 
 			var FilterQuery = _userService.FilterUserPaginatedQueryable(request.OrderBy, request.Search!);
 			var PaginatedList = await FilterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+			PaginatedList.Meta = new
+			{
+				count = PaginatedList.Data.Count(),
+			};
 			return PaginatedList;
 		}
 

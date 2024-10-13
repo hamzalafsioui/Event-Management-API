@@ -165,4 +165,10 @@
   <data name="Username" xml:space="preserve">
     <value>اسم المستخدم</value>
   </data>
+  <data name="MaxLengthIs100" xml:space="preserve">
+    <value>الحد الأقصى هو 100</value>
+  </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>تنسيق غير صالح</value>
+  </data>
 </root>

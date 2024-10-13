@@ -165,4 +165,10 @@
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="MaxLengthIs100" xml:space="preserve">
+    <value>Max Length Is 100</value>
+  </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>Invalid Format</value>
+  </data>
 </root>

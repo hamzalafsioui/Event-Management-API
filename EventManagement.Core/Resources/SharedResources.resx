@@ -160,10 +160,16 @@
   <data name="UserId" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="AlreadyExist" xml:space="preserve">
+  <data name="AlreadyExist" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="Username" xml:space="preserve">
+  <data name="Username" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="MaxLengthIs100" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="InvalidFormat" xml:space="preserve">
     <value />
   </data>
 </root>

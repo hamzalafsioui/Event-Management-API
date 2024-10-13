@@ -27,26 +27,26 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 		{
 			RuleFor(x => x.Username)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
-				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null")
-				.MaximumLength(15).WithMessage("{PropertyName} Max length is 15")
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required])
+				.MaximumLength(15).WithMessage(_stringLocalizer[SharedResourcesKeys.MaxLengthIs100])
 				.MinimumLength(4);
 
 			RuleFor(x => x.Email)
-				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
-				.NotNull().WithMessage("{PropertyName} Must not be Null")
-				.Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$").WithMessage("{PropertyName} is not in a valid format");
+				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required])
+				.Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$").WithMessage(_stringLocalizer[SharedResourcesKeys.InvalidFormat]);
 
 			RuleFor(x => x.FirstName)
-				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
-				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null");
+				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
 
 			RuleFor(x => x.LastName)
-				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
-				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null");
+				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
 
 			RuleFor(x => x.PasswordHash)
-				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
-				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null")
+				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required  ])
 				.MinimumLength(3);
 
 		}

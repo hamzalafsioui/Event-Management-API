@@ -17,5 +17,7 @@
 		public const string UserId = "UserId";
 		public const string Username = "Username";
 		public const string AlreadyExist = "AlreadyExist";
+		public const string MaxLengthIs100 = "MaxLengthIs100";
+		public const string InvalidFormat = "InvalidFormat";
 	}
 }
