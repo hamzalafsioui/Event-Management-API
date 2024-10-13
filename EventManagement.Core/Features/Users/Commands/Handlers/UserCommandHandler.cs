@@ -45,20 +45,19 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 		public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
 		{
 			// check is Id is exist
-			var user = _userService.GetByIdAsync(request.UserId);
+			var user = await _userService.GetByIdAsync(request.UserId);
 			// return NotFound
 			if (user == null)
 				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.UserId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
 			// mapping between user and Request
-			var userMapper = _mapper.Map<User>(request);
-			userMapper.CreatedAt = user.Result.CreatedAt;
+			 _mapper.Map(request,user);
 			// Call update service
-			var result = await _userService.EditAsync(userMapper);
+			var result = await _userService.EditAsync(user);
 
 			// return response
 			if (result == "Success")
-				return Success($"Edit Successfully In Id {userMapper.UserId}");
+				return Success($"Edit Successfully In Id {user.UserId}");
 			else
 				return BadRequest<string>();
 		}

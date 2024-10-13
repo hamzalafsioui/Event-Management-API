@@ -9,6 +9,7 @@ namespace EventManagement.Core.Mapping.Users
 		{
 			CreateMap<EditUserCommand, User>()
 				.ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+				.ForMember(dest => dest.UserId, opt => opt.Ignore())
 				.ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
 
