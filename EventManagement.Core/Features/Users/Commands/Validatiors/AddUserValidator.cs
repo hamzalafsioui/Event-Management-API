@@ -44,7 +44,7 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
 
-			RuleFor(x => x.PasswordHash)
+			RuleFor(x => x.Password)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required  ])
 				.MinimumLength(3);

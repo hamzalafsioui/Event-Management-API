@@ -8,25 +8,25 @@ namespace EventManagement.Data.Entities
 
 		public int UserId { get; set; }
 		public required string Username { get; set; }
-		public required string PasswordHash { get; set; }
-		public required string Email { get; set; }
+		public required string Password { get; set; }
 		public required string FirstName { get; set; }
 		public required string LastName { get; set; }
+		public required string Email { get; set; }
 		//public byte[]? Image { get; set; }
 		public string? Image { get; set; }
 		public UserRoleEnum Role { get; set; }
 		public DateTime CreatedAt { get; set; }
 		public DateTime UpdatedAt { get; set; }
 
-		public ICollection<Event> CreatedEvents { get; set; } = new List<Event>();
-		public ICollection<Attendee> AttendingEvents { get; set; } = new List<Attendee>();
-		public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+		public virtual ICollection<Event> CreatedEvents { get; set; }
+		public virtual ICollection<Attendee> AttendingEvents { get; set; }
+		public virtual ICollection<Comment> Comments { get; set; }
 
-		public User(int userId, string username, string passwordHash, string email, string firstName, string lastName, string? image, UserRoleEnum role, DateTime createdAt, DateTime updatedAt)
+		public User(int userId, string username, string password, string email, string firstName, string lastName, string? image, UserRoleEnum role, DateTime createdAt, DateTime updatedAt)
 		{
 			UserId = userId;
 			Username = username;
-			PasswordHash = passwordHash;
+			Password = password;
 			Email = email;
 			FirstName = firstName;
 			LastName = lastName;
@@ -34,11 +34,16 @@ namespace EventManagement.Data.Entities
 			Role = role;
 			CreatedAt = createdAt;
 			UpdatedAt = updatedAt;
+			CreatedEvents = new HashSet<Event>();
+			AttendingEvents = new HashSet<Attendee>();
+			Comments = new HashSet<Comment>();
 		}
 
 		public User()
 		{
-
+			CreatedEvents = new HashSet<Event>();
+			AttendingEvents = new HashSet<Attendee>();
+			Comments = new HashSet<Comment>();
 		}
 	}
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EventManagement.Core.Features.Users.Queries.Results
+﻿namespace EventManagement.Core.Features.Users.Queries.Results
 {
 	public class GetUserPaginatedListResponse
 	{
@@ -17,7 +11,7 @@ namespace EventManagement.Core.Features.Users.Queries.Results
 		public string Role { get; set; }
 		public DateTime CreatedAt { get; set; }
 
-      
+
 		public GetUserPaginatedListResponse(int userId, string username, string firstName, string lastName, string email, string? image, string role, DateTime createdAt)
 		{
 			UserId = userId;

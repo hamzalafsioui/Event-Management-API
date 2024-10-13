@@ -10,6 +10,9 @@
 
 		public Event Event { get; set; }
 		public User User { get; set; }
+
+		public DateTime? RSVPDate { get; set; }
+		public bool HasAttended { get; set; } = false;
 	}
 
 

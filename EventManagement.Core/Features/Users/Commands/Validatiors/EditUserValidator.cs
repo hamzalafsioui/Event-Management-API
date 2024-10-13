@@ -40,7 +40,7 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
 				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null");
 
-			RuleFor(x => x.PasswordHash)
+			RuleFor(x => x.Password)
 				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
 				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null")
 				.MinimumLength(3);
