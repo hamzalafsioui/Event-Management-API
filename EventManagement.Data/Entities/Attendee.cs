@@ -1,12 +1,15 @@
-﻿namespace EventManagement.Data.Entities
+﻿using EventManagement.Data.Abstracts;
+
+namespace EventManagement.Data.Entities
 {
-	public class Attendee
+	public class Attendee:IHasCreatedAt,IHasUpdatedAt
 	{
 		public int AttendeeId { get; set; }
 		public int EventId { get; set; }
 		public int UserId { get; set; }
 		public RSVPStatus Status { get; set; }
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+		public DateTime CreatedAt { get; set; }
+		public DateTime UpdatedAt { get; set; }
 
 		public Event Event { get; set; }
 		public User User { get; set; }
@@ -22,6 +25,7 @@
 		Going,
 		NotGoing,
 		Interested,
+		Cancelled,
 		Maybe
 	}
 }
