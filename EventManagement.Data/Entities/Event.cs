@@ -1,27 +1,32 @@
-﻿ namespace EventManagement.Data.Entities
+﻿using EventManagement.Data.Abstracts;
+
+namespace EventManagement.Data.Entities
 {
-	public class Event
+	public class Event : IHasCreatedAt, IHasUpdatedAt
 	{
 		public int EventId { get; set; }
-		public string Title { get; set; }
-		public string? Description { get; set; }
-		public string Location { get; set; }
-		public DateTime StartTime { get; set; }
-		public DateTime EndTime { get; set; }
-		public int CategoryId { get; set; }
-		public int CreatedBy { get; set; }
-		public int Capacity { get; set; }
+		public required string Title { get; set; }
+		public string? Description { get; set; } = string.Empty;
+		public required string Location { get; set; }
+		public required DateTime StartTime { get; set; } // validate always StartTime before EndTime
+		public required DateTime EndTime { get; set; }
+		public required int CategoryId { get; set; }
+		public required int CreatedBy { get; set; }
+		public required int Capacity { get; set; }
 
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+		public DateTime CreatedAt { get; set; } 
+		public DateTime UpdatedAt { get; set; } 
 
 		public Category Category { get; set; }
 		public User Creator { get; set; }
-		public virtual ICollection<Attendee> Attendees { get; set; }
-		public virtual ICollection<Comment> Comments { get; set; }
+		public virtual ICollection<Attendee> Attendees { get; set; } = new HashSet<Attendee>();
+		public virtual ICollection<Comment> Comments { get; set; } =new HashSet<Comment>();
 
-		public Event(int eventId, string title, string? description, string location, DateTime startTime, DateTime endTime, int categoryId, int createdBy, DateTime createdAt, DateTime updatedAt)
+		public Event(int eventId, string title, string? description , string location, DateTime startTime, DateTime endTime, int categoryId, int createdBy,int capacity)
 		{
+			if (endTime <= startTime)
+				throw new ArgumentException("End time must be after start time.");
+
 			EventId = eventId;
 			Title = title;
 			Description = description;
@@ -30,10 +35,8 @@
 			EndTime = endTime;
 			CategoryId = categoryId;
 			CreatedBy = createdBy;
-			CreatedAt = createdAt;
-			UpdatedAt = updatedAt;
-			Attendees = new HashSet<Attendee>();
-			Comments = new HashSet<Comment>();
+			Capacity = capacity;
+			
 		}
 		public Event()
 		{

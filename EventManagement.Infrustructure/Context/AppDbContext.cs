@@ -60,19 +60,7 @@ namespace EventManagement.Infrustructure.Context
 
 			
 
-			modelBuilder.Entity<Event>(entity =>
-			{
-				entity.HasKey(e => e.EventId);
-				entity.HasOne(e => e.Category)
-					.WithMany(c => c.Events)
-					.HasForeignKey(e => e.CategoryId)
-					.OnDelete(DeleteBehavior.Restrict);
-				entity.HasOne(e => e.Creator)
-					.WithMany(u => u.CreatedEvents)
-					.HasForeignKey(e => e.CreatedBy)
-					.OnDelete(DeleteBehavior.Restrict);
-				// Add other Event configurations here
-			});
+			
 
 			modelBuilder.Entity<Attendee>(entity =>
 			{
