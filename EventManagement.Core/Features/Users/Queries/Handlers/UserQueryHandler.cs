@@ -63,7 +63,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 
 		public async Task<PaginatedResult<GetUserPaginatedListResponse>> Handle(GetUserPaginatedListQuery request, CancellationToken cancellationToken)
 		{
-			Expression<Func<User, GetUserPaginatedListResponse>> expression = e => new GetUserPaginatedListResponse(e.UserId, e.Username, e.FirstName, e.LastName, e.Email, e.Image, e.Role.ToString(), e.CreatedAt);
+			Expression<Func<User, GetUserPaginatedListResponse>> expression = e => new GetUserPaginatedListResponse(e.UserId, e.Username, e.FirstName, e.LastName, e.DateOfBirth, e.Email, e.Image, e.Role.ToString(), e.CreatedAt);
 
 			var FilterQuery = _userService.FilterUserPaginatedQueryable(request.OrderBy, request.Search!);
 			var PaginatedList = await FilterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);

@@ -8,7 +8,10 @@ namespace EventManagement.Core.Mapping.Users
 		public void GetUserByIdMapping()
 		{
 			CreateMap<User, GetSingleUserResponse>()
-				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()));
+				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
+				.ForMember(dest => dest.Age,
+				opt => opt.MapFrom(src => CalculateAge(src.DateOfBirth)));
+
 		}
 	}
 }
