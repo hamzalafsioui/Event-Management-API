@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,14 @@ namespace EventManagement.Infrustructure.Configurations
 	{
 		public void Configure(EntityTypeBuilder<Category> builder)
 		{
-			throw new NotImplementedException();
+			builder.HasKey(c => c.CategoryId);
+			builder.Property(c => c.CategoryId)
+				.ValueGeneratedOnAdd();
+
+
+			builder.HasData(DataBaseHelper.loadCategories());
+
+			builder.ToTable("Categories");
 		}
 	}
 

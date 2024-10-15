@@ -58,34 +58,6 @@ namespace EventManagement.Infrustructure.Context
 				.HasQueryFilter(u => !u.IsDeleted);
 
 
-			
-
-			
-
-			modelBuilder.Entity<Attendee>(entity =>
-			{
-				entity.HasKey(e => e.AttendeeId);
-				entity.HasOne(a => a.Event)
-					.WithMany(e => e.Attendees)
-					.HasForeignKey(a => a.EventId)
-					.OnDelete(DeleteBehavior.Restrict);
-				entity.HasOne(a => a.User)
-					.WithMany(u => u.AttendingEvents)
-					.HasForeignKey(a => a.UserId)
-					.OnDelete(DeleteBehavior.Restrict);
-				// Add other Attendee configurations here
-			});
-
-			modelBuilder.Entity<Category>(entity =>
-			{
-				entity.HasKey(e => e.CategoryId);
-				entity.HasData(DataBaseHelper.loadCategories());
-				// Add other Category configurations here
-			});
-
-
-			//modelBuilder.Entity<Category>().HasData(DataBaseHelper.loadCategories());
-
 		}
 
 
