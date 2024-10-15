@@ -3,9 +3,10 @@ using EventManagement.Infrustructure.InfrustructureBase;
 
 namespace EventManagement.Infrustructure.Repositories
 {
-	public interface IUserRepository : IGenericRepositoryAsync<User>
+	public interface ICategoryRepository : IGenericRepositoryAsync<Category>
 	{
-		public Task<List<User>> GetUsersListAsync();
+		public Task<List<Category>> GetCategoriesListAsync();
 
 	}
+
 }
