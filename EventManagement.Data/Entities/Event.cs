@@ -32,6 +32,8 @@
 			CreatedBy = createdBy;
 			CreatedAt = createdAt;
 			UpdatedAt = updatedAt;
+			Attendees = new HashSet<Attendee>();
+			Comments = new HashSet<Comment>();
 		}
 		public Event()
 		{

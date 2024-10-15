@@ -1,22 +1,27 @@
 ﻿
+using EventManagement.Data.Abstracts;
 using EventManagement.Data.Helper;
 
 namespace EventManagement.Data.Entities
 {
-	public class User
+	public class User:IHasCreatedAt,IHasUpdatedAt
 	{
 
 		public int UserId { get; set; }
 		public required string Username { get; set; }
-		public required string Password { get; set; }
+		public required string PasswordHash { get; set; }
 		public required string FirstName { get; set; }
 		public required string LastName { get; set; }
 		public required string Email { get; set; }
 		//public byte[]? Image { get; set; }
+
+		public DateTime DateOfBirth { get; set; }
 		public string? Image { get; set; }
 		public UserRoleEnum Role { get; set; }
 		public DateTime CreatedAt { get; set; }
 		public DateTime UpdatedAt { get; set; }
+		public DateTime LastLoginDate { get; set; }
+		public bool IsDeleted { get; set; }
 
 		public virtual ICollection<Event> CreatedEvents { get; set; }
 		public virtual ICollection<Attendee> AttendingEvents { get; set; }
@@ -26,7 +31,7 @@ namespace EventManagement.Data.Entities
 		{
 			UserId = userId;
 			Username = username;
-			Password = password;
+			PasswordHash = password;
 			Email = email;
 			FirstName = firstName;
 			LastName = lastName;
