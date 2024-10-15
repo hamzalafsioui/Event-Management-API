@@ -1,7 +1,6 @@
 ﻿using EventManagement.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace EventManagement.Infrustructure.Configurations
 {
@@ -14,10 +13,12 @@ namespace EventManagement.Infrustructure.Configurations
 				.ValueGeneratedOnAdd();
 
 			builder.Property(e => e.Location)
-				.HasMaxLength(100);
+				.HasMaxLength(100)
+				.IsRequired();
 
 			builder.Property(e => e.Title)
-				.HasMaxLength(80);
+				.HasMaxLength(80)
+				.IsRequired();
 
 			builder
 				.Property(u => u.CreatedAt)
@@ -30,10 +31,10 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasDefaultValueSql("GETUTCDATE()");
 
 			builder.HasIndex(e => e.StartTime)
-				.HasDatabaseName("IX_Events_StartTime"); 
-			
-			builder.HasIndex(e => e.StartTime)
-				.HasDatabaseName("IX_Events_EndTime"); 
+				.HasDatabaseName("IX_Events_StartTime");
+
+			builder.HasIndex(e => e.EndTime)
+				.HasDatabaseName("IX_Events_EndTime");
 
 			builder.HasIndex(e => e.CategoryId)
 				.HasDatabaseName("IX_Events_CategoryId");

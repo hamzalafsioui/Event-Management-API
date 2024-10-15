@@ -16,7 +16,7 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasOne(a => a.Event)
 				.WithMany(a => a.Attendees)
 				.HasForeignKey(a => a.EventId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.OnDelete(DeleteBehavior.Restrict);
 
 			builder
 				.HasOne(a => a.User)
