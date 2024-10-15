@@ -23,9 +23,9 @@ namespace EventManagement.Data.Entities
 		public DateTime LastLoginDate { get; set; }
 		public bool IsDeleted { get; set; }
 
-		public virtual ICollection<Event> CreatedEvents { get; set; }
-		public virtual ICollection<Attendee> AttendingEvents { get; set; }
-		public virtual ICollection<Comment> Comments { get; set; }
+		public virtual ICollection<Event> CreatedEvents { get; set; } = new HashSet<Event>();
+		public virtual ICollection<Attendee> AttendingEvents { get; set; } = new HashSet<Attendee>();
+		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
 		public User(int userId, string username, string password, string email, string firstName, string lastName, string? image, UserRoleEnum role, DateTime createdAt, DateTime updatedAt)
 		{
@@ -39,9 +39,6 @@ namespace EventManagement.Data.Entities
 			Role = role;
 			CreatedAt = createdAt;
 			UpdatedAt = updatedAt;
-			CreatedEvents = new HashSet<Event>();
-			AttendingEvents = new HashSet<Attendee>();
-			Comments = new HashSet<Comment>();
 		}
 
 		public User()
