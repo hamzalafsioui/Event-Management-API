@@ -2,6 +2,7 @@
 using EventManagement.Data.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace EventManagement.Infrustructure.Configurations
 {
@@ -51,7 +52,8 @@ namespace EventManagement.Infrustructure.Configurations
 				.IsUnique()
 				.HasDatabaseName("IX_Users_Email");
 
-			
+			builder
+			.HasQueryFilter(u => !u.IsDeleted);
 
 
 			builder.ToTable("Users");

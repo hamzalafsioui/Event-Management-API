@@ -54,10 +54,6 @@ namespace EventManagement.Infrustructure.Context
 
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Attendee).Assembly);
 
-			modelBuilder.Entity<User>()
-				.HasQueryFilter(u => !u.IsDeleted);
-
-
 		}
 
 
