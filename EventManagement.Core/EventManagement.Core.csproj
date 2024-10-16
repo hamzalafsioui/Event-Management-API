@@ -15,6 +15,7 @@
   <ItemGroup>
     <Folder Include="Features\Events\Commands\" />
     <Folder Include="Features\Users\Queries\Validatiors\" />
+    <Folder Include="Mapping\Events\CommandMapping\" />
   </ItemGroup>
 
   <ItemGroup>

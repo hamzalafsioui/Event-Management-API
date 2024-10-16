@@ -1,4 +1,4 @@
-﻿using Azure;
+﻿using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Events.Queries.Response;
 using MediatR;
 

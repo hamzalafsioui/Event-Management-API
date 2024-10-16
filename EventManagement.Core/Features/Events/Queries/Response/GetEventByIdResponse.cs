@@ -11,7 +11,7 @@ namespace EventManagement.Core.Features.Events.Queries.Response
 		public required DateTime StartTime { get; set; } 
 		public required DateTime EndTime { get; set; }
 		public required string CategoryName { get; set; }
-		public required User CreatedBy { get; set; }
+		public required string CreatedBy { get; set; }
 		public required int Capacity { get; set; }
 
 		public DateTime CreatedAt { get; set; }
