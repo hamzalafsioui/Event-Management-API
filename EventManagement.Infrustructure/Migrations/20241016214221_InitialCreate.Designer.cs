@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Infrustructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241013151512_change Password")]
-    partial class changePassword
+    [Migration("20241016214221_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,8 +39,17 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("HasAttended")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("RSVPDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -73,128 +82,6 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            Description = "Professional gatherings for networking, learning, and discussing industry topics.",
-                            Name = "Conferences"
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            Description = "Interactive sessions focused on skill development and hands-on learning.",
-                            Name = "Workshops"
-                        },
-                        new
-                        {
-                            CategoryId = 3,
-                            Description = "Educational meetings for discussing specialized topics or subjects.",
-                            Name = "Seminars"
-                        },
-                        new
-                        {
-                            CategoryId = 4,
-                            Description = "Online seminars conducted over the internet.",
-                            Name = "Webinars"
-                        },
-                        new
-                        {
-                            CategoryId = 5,
-                            Description = "Informal gatherings for people with shared interests.",
-                            Name = "Meetups"
-                        },
-                        new
-                        {
-                            CategoryId = 6,
-                            Description = "Live music performances.",
-                            Name = "Concerts"
-                        },
-                        new
-                        {
-                            CategoryId = 7,
-                            Description = "Large public celebrations with various activities, often including music, food, and entertainment.",
-                            Name = "Festivals"
-                        },
-                        new
-                        {
-                            CategoryId = 8,
-                            Description = "Competitive athletic events and games.",
-                            Name = "Sports"
-                        },
-                        new
-                        {
-                            CategoryId = 9,
-                            Description = "Events focused on building professional connections and relationships.",
-                            Name = "Networking"
-                        },
-                        new
-                        {
-                            CategoryId = 10,
-                            Description = "Exhibitions where companies showcase and demonstrate their products and services.",
-                            Name = "Trade Shows"
-                        },
-                        new
-                        {
-                            CategoryId = 11,
-                            Description = "Events organized to raise funds or awareness for charitable causes.",
-                            Name = "Charity"
-                        },
-                        new
-                        {
-                            CategoryId = 12,
-                            Description = "Social gatherings for celebration and entertainment.",
-                            Name = "Parties"
-                        },
-                        new
-                        {
-                            CategoryId = 13,
-                            Description = "Educational sessions or courses on various topics.",
-                            Name = "Classes"
-                        },
-                        new
-                        {
-                            CategoryId = 14,
-                            Description = "Events where programmers and developers collaborate intensively on software projects.",
-                            Name = "Hackathons"
-                        },
-                        new
-                        {
-                            CategoryId = 15,
-                            Description = "Public displays of art, products, or information.",
-                            Name = "Exhibitions"
-                        },
-                        new
-                        {
-                            CategoryId = 16,
-                            Description = "Events related to religious practices and gatherings.",
-                            Name = "Religious"
-                        },
-                        new
-                        {
-                            CategoryId = 17,
-                            Description = "Events organized to raise money for specific causes or organizations.",
-                            Name = "Fundraisers"
-                        },
-                        new
-                        {
-                            CategoryId = 18,
-                            Description = "Local events that engage and involve the community.",
-                            Name = "Community"
-                        },
-                        new
-                        {
-                            CategoryId = 19,
-                            Description = "Events designed for family participation and enjoyment.",
-                            Name = "Family"
-                        },
-                        new
-                        {
-                            CategoryId = 20,
-                            Description = "Events that do not fit into the above categories.",
-                            Name = "Other"
-                        });
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Comment", b =>
@@ -213,6 +100,9 @@ namespace EventManagement.Infrustructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -238,6 +128,9 @@ namespace EventManagement.Infrustructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -245,6 +138,9 @@ namespace EventManagement.Infrustructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CreatorUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -271,7 +167,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CreatedBy");
+                    b.HasIndex("CreatorUserId");
 
                     b.ToTable("Events");
                 });
@@ -287,6 +183,9 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -298,11 +197,17 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastLoginDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -326,13 +231,13 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasOne("EventManagement.Data.Entities.Event", "Event")
                         .WithMany("Attendees")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EventManagement.Data.Entities.User", "User")
                         .WithMany("AttendingEvents")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Event");
@@ -364,13 +269,13 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasOne("EventManagement.Data.Entities.Category", "Category")
                         .WithMany("Events")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EventManagement.Data.Entities.User", "Creator")
                         .WithMany("CreatedEvents")
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("CreatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");

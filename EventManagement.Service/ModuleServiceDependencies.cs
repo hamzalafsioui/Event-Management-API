@@ -9,6 +9,7 @@ namespace EventManagement.Service
 		public static IServiceCollection AddServiceDependencies(this IServiceCollection services)
 		{
 			services.AddTransient<IUserService, UserService>();
+			//services.AddTransient<IEventService, EventService>();
 			return services;
 		}
 	}

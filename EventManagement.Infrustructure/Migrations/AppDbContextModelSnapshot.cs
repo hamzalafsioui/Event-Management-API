@@ -17,7 +17,7 @@ namespace EventManagement.Infrustructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -57,7 +57,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Attendees");
+                    b.ToTable("Attendees", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Category", b =>
@@ -78,7 +78,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Comment", b =>
@@ -114,7 +114,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Event", b =>
@@ -166,7 +166,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("CreatorUserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.User", b =>
@@ -220,7 +220,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Attendee", b =>

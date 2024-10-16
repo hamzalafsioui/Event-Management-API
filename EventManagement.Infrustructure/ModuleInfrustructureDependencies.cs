@@ -9,9 +9,9 @@ namespace EventManagement.Infrustructure
 	{
 		public static IServiceCollection AddInfrustructureDependencies(this IServiceCollection services)
 		{
-			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
 
+			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IEventRepository, EventRepository>();
 			services.AddTransient<IAttendeeRepository, AttendeeRepository>();
 			services.AddTransient<ICommentRepository, CommentRepository>();
