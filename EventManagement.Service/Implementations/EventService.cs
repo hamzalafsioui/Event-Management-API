@@ -1,0 +1,34 @@
+﻿using EventManagement.Data.Entities;
+using EventManagement.Infrustructure.Repositories;
+using EventManagement.Service.Abstracts;
+using Microsoft.EntityFrameworkCore;
+
+namespace EventManagement.Service.Implementations
+{
+	internal class EventService : IEventService
+	{
+		#region Fields
+		private readonly IEventRepository _eventRepository;
+
+		#endregion
+		#region Constructors
+		public EventService(IEventRepository eventRepository)
+		{
+			_eventRepository = eventRepository;
+		}
+		#endregion
+		#region Handle Functions
+		public Task<Event> GetEventByIdAsync(int id)
+		{
+			var result = _eventRepository.GetTableNoTracking().Where(x => x.EventId.Equals(id))
+															  .Include(e => e.Creator)
+															  .Include(e => e.Attendees).ThenInclude(a => a.User)
+															  .Include(e => e.Comments).ThenInclude(c => c.User)
+															  .FirstOrDefaultAsync();
+			return result;
+		}
+		#endregion
+
+
+	}
+}

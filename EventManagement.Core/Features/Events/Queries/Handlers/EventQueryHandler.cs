@@ -14,12 +14,12 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
-		private readonly IUserService _eventService;
+		private readonly IEventService _eventService;
 		private readonly IMapper _mapper;
 		#endregion
 
 		#region Consructors
-		public EventQueryHandler(IStringLocalizer<SharedResources> stringLocalizer, IUserService eventService, IMapper mapper) : base(stringLocalizer)
+		public EventQueryHandler(IStringLocalizer<SharedResources> stringLocalizer, IEventService eventService, IMapper mapper) : base(stringLocalizer)
 		{
 			_stringLocalizer = stringLocalizer;
 			_eventService = eventService;
@@ -35,7 +35,7 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			// Invalid Id
 			if (request.Id < 1)
 				return BadRequest<GetEventByIdResponse>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
-			var response = await _eventService.GetByIdAsync(request.Id);
+			var response = await _eventService.GetEventByIdAsync(request.Id);
 			// check is Exist
 			if (response == null)
 				return NotFound<GetEventByIdResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
