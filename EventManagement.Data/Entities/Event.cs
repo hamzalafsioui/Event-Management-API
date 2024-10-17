@@ -11,18 +11,18 @@ namespace EventManagement.Data.Entities
 		public required DateTime StartTime { get; set; } // validate always StartTime before EndTime
 		public required DateTime EndTime { get; set; }
 		public required int CategoryId { get; set; }
-		public required int CreatedBy { get; set; }
+		public required int CreatorUserId { get; set; }
 		public required int Capacity { get; set; }
 
-		public DateTime CreatedAt { get; set; } 
-		public DateTime UpdatedAt { get; set; } 
+		public DateTime CreatedAt { get; set; }
+		public DateTime UpdatedAt { get; set; }
 
 		public Category Category { get; set; }
 		public User Creator { get; set; }
 		public virtual ICollection<Attendee> Attendees { get; set; } = new HashSet<Attendee>();
-		public virtual ICollection<Comment> Comments { get; set; } =new HashSet<Comment>();
+		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
-		public Event(int eventId, string title, string? description , string location, DateTime startTime, DateTime endTime, int categoryId, int createdBy,int capacity)
+		public Event(int eventId, string title, string? description, string location, DateTime startTime, DateTime endTime, int categoryId, int createdBy, int capacity)
 		{
 			if (endTime <= startTime)
 				throw new ArgumentException("End time must be after start time.");
@@ -34,9 +34,9 @@ namespace EventManagement.Data.Entities
 			StartTime = startTime;
 			EndTime = endTime;
 			CategoryId = categoryId;
-			CreatedBy = createdBy;
+			CreatorUserId = createdBy;
 			Capacity = capacity;
-			
+
 		}
 		public Event()
 		{
