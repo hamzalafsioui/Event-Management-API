@@ -49,7 +49,7 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasOne(e => e.Creator)
 				.WithMany()
 				//.WithMany(u => u.CreatedEvents)
-				.HasForeignKey(e => e.CreatedBy)
+				.HasForeignKey(e => e.CreatorUserId)
 				.OnDelete(DeleteBehavior.Restrict);
 			builder.ToTable("Events");
 

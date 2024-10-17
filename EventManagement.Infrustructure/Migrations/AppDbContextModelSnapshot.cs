@@ -57,7 +57,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Attendees", (string)null);
+                    b.ToTable("Attendees");
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Category", b =>
@@ -78,7 +78,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Comment", b =>
@@ -114,7 +114,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Event", b =>
@@ -133,9 +133,6 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
 
                     b.Property<int>("CreatorUserId")
                         .HasColumnType("int");
@@ -166,7 +163,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("CreatorUserId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.User", b =>
@@ -220,7 +217,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Attendee", b =>
