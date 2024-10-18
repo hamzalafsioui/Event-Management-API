@@ -2,12 +2,12 @@
 
 namespace EventManagement.Core.Mapping.Events
 {
-	public partial class EventProfile:Profile
+	public partial class EventProfile : Profile
 	{
-        public EventProfile()
-        {
+		public EventProfile()
+		{
 			GetEventByIdMapping();
-
+			AddEventCommandMapping();
 		}
-    }
+	}
 }
