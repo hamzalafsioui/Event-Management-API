@@ -1,7 +1,6 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Events.Queries.Models;
 using EventManagement.Data.AppMetaData;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
@@ -12,9 +11,9 @@ namespace EventManagement.API.Controllers
 	{
 		#region  Functions
 		[HttpGet(Router.EventRouting.GetById)]
-		public async Task<IActionResult> GetEventById([FromRoute] int id)
+		public async Task<IActionResult> GetEventById([FromQuery] GetEventByIdQuery getEventByIdQuery)
 		{
-			var response = await Mediator.Send(new GetEventByIdQuery(id));
+			var response = await Mediator.Send(getEventByIdQuery);
 			return NewResult(response);
 		}
 		#endregion
