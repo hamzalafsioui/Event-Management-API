@@ -12,6 +12,7 @@ namespace EventManagement.Service
 			services.AddTransient<IEventService, EventService>();
 			services.AddTransient<IAttendeeService, AttendeeService>();
 			services.AddTransient<ICommentService, CommentService>();
+			services.AddTransient<ICategoryService, CategoryService>();
 			return services;
 		}
 	}
