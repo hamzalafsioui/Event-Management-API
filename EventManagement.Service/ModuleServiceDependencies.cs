@@ -10,6 +10,8 @@ namespace EventManagement.Service
 		{
 			services.AddTransient<IUserService, UserService>();
 			services.AddTransient<IEventService, EventService>();
+			services.AddTransient<IAttendeeService, AttendeeService>();
+			services.AddTransient<ICommentService, CommentService>();
 			return services;
 		}
 	}
