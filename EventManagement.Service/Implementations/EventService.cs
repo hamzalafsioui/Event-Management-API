@@ -20,12 +20,12 @@ namespace EventManagement.Service.Implementations
 		#region Handle Functions
 		public async Task<Event> GetEventByIdAsync(int id)
 		{
-			
+
 			var result = await _eventRepository.GetTableNoTracking().Where(x => x.EventId.Equals(id))
 															  .Include(e => e.Creator)
-															  .Include(e=>e.Category)
-															 // .Include(e => e.Attendees).ThenInclude(a => a.User)
-															  .Include(e => e.Comments).ThenInclude(c => c.User)
+															  .Include(e => e.Category)
+															  // .Include(e => e.Attendees).ThenInclude(a => a.User)
+															  // .Include(e => e.Comments).ThenInclude(c => c.User)
 															  .FirstOrDefaultAsync();
 			return result;
 		}
