@@ -51,7 +51,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.UserId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
 			// mapping between user and Request
-			 _mapper.Map(request,user);
+			_mapper.Map(request, user);
 			// Call update service
 			var result = await _userService.EditAsync(user);
 
