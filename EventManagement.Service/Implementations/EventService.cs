@@ -16,6 +16,7 @@ namespace EventManagement.Service.Implementations
 		{
 			_eventRepository = eventRepository;
 		}
+
 		#endregion
 		#region Handle Functions
 		public async Task<Event> GetEventByIdAsync(int id)
@@ -28,6 +29,15 @@ namespace EventManagement.Service.Implementations
 															  // .Include(e => e.Comments).ThenInclude(c => c.User)
 															  .FirstOrDefaultAsync();
 			return result;
+		}
+
+
+		public async Task<string> AddAsync(Event @event)
+		{
+			// we can checking DB is already Exist this Event
+			await _eventRepository.AddAsync(@event);
+			return "Success";
+
 		}
 		#endregion
 
