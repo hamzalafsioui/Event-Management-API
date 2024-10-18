@@ -7,9 +7,11 @@ namespace EventManagement.Core.Features.Events.Queries.Models
 	public class GetEventByIdQuery:IRequest<Response<GetEventByIdResponse>>
 	{
 		public int Id { get; set; }
-        public GetEventByIdQuery(int id)
-        {
-			Id = id;
-		}
+		public int AttendeePageNumber { get; set; }
+		public int AttendeePageSize { get; set; }
+		public int CommentPageNumber { get; set; }
+		public int CommentPageSize { get; set; }
+
+      
     }
 }
