@@ -6,5 +6,6 @@ namespace EventManagement.Service.Abstracts
 	{
 		public Task<Event> GetEventByIdAsync(int id);
 		public Task<string> AddAsync(Event @event);
+		public Task<List<Event>> GetEventsListAsync();
 	}
 }

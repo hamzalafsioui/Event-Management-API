@@ -39,6 +39,11 @@ namespace EventManagement.Service.Implementations
 			return "Success";
 
 		}
+
+		public async Task<List<Event>> GetEventsListAsync()
+		{
+			return await _eventRepository.GetEventsListAsync();
+		}
 		#endregion
 
 
