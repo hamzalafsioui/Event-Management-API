@@ -8,6 +8,7 @@ namespace EventManagement.Core.Mapping.Events
 		{
 			GetEventByIdMapping();
 			AddEventCommandMapping();
+			GetEventListMapping();
 		}
 	}
 }
