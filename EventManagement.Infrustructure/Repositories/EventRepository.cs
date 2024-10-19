@@ -24,7 +24,8 @@ namespace EventManagement.Infrustructure.Abstracts
 		#region Handl Functions
 		public async Task<List<Event>> GetEventsListAsync()
 		{
-			return await _events.ToListAsync();
+			return await _events.AsNoTracking().Include(x => x.Category)
+				.Include(x => x.Creator).ToListAsync();
 		}
 
 
