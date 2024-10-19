@@ -7,7 +7,6 @@ using EventManagement.Core.Wrappers;
 using EventManagement.Data.Entities;
 using EventManagement.Service.Abstracts;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.Linq.Expressions;
 
@@ -15,7 +14,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 {
 	public class EventQueryHandler : ResponseHandler,
 		IRequestHandler<GetEventByIdQuery, Response<GetEventByIdResponse>>,
-		IRequestHandler<GetEventListQuery, Response<List<GetEventListResponse>>>
+		IRequestHandler<GetEventListQuery, Response<List<GetEventListResponse>>>,
+		IRequestHandler<GetEventPaginatedListQuery, PaginatedResult<GetEventPaginatedListResponse>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -82,6 +82,22 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			};
 			// return result
 			return result;
+		}
+
+		public async Task<PaginatedResult<GetEventPaginatedListResponse>> Handle(GetEventPaginatedListQuery request, CancellationToken cancellationToken)
+		{
+			Expression<Func<Event, GetEventPaginatedListResponse>> expression = e => new GetEventPaginatedListResponse(
+													e.EventId, e.Title, e.Description, e.Location, e.StartTime, e.EndTime,
+													e.Category.Name, e.Creator.Username, e.Capacity, e.CreatedAt);
+
+			var filterQuery = _eventService.FilterEventsPaginatedQueryable(request.OrderBy, request.Search!);
+			var paginatedList = await filterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+			paginatedList.Meta = new
+			{
+				Count = paginatedList.Data.Count,
+			};
+			return paginatedList;
+
 		}
 		#endregion
 
