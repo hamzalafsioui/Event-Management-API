@@ -171,4 +171,16 @@
   <data name="InvalidFormat" xml:space="preserve">
     <value>تنسيق غير صالح</value>
   </data>
+  <data name="CategoryId" xml:space="preserve">
+    <value>معرف الفئة</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>وقت البداية</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>وقت النهاية</value>
+  </data>
+  <data name="MustBeAfter" xml:space="preserve">
+    <value>يجب أن يكون بعد</value>
+  </data>
 </root>

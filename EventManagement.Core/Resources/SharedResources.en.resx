@@ -171,4 +171,16 @@
   <data name="InvalidFormat" xml:space="preserve">
     <value>Invalid Format</value>
   </data>
+  <data name="CategoryId" xml:space="preserve">
+    <value>Category Id</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="MustBeAfter" xml:space="preserve">
+    <value>Must Be After</value>
+  </data>
 </root>

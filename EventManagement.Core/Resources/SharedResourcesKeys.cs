@@ -3,7 +3,7 @@
 	public static class SharedResourcesKeys
 	{
 		public const string Required = "Required";
-		public const string NotFound = "Not Found";
+		public const string NotFound = "NotFound";
 		public const string Deleted = "Deleted";
 		public const string Created = "Created";
 		public const string Updated = "Updated";
@@ -12,12 +12,18 @@
 		public const string UnprocessableEntity = "UnprocessableEntity";
 		public const string BadRequest = "Bad Request";
 
-		public const string NotEmpty = "Not Empty";
-		public const string InvalidId = "Invalid Id";
+		public const string NotEmpty = "NotEmpty";
+		public const string InvalidId = "InvalidId";
 		public const string UserId = "UserId";
 		public const string Username = "Username";
-		public const string AlreadyExist = "Already Exist";
-		public const string MaxLengthIs100 = "Max Length Is 100";
-		public const string InvalidFormat = "Invalid Format";
+		public const string AlreadyExist = "AlreadyExist";
+		public const string MaxLengthIs100 = "MaxLengthIs100";
+		public const string InvalidFormat = "InvalidFormat";
+
+		public const string CategoryId = "CategoryId";
+		//public const string DoesNotExist = "Does Not Exist";
+		public const string StartTime = "StartTime";
+		public const string EndTime = "EndTime";
+		public const string MustBeAfter = "MustBeAfter";
 	}
 }

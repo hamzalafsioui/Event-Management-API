@@ -169,7 +169,19 @@
   <data name="MaxLengthIs100" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="InvalidFormat" xml:space="preserve">
+  <data name="InvalidFormat" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="CategoryId" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="StartTime" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="EndTime" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="MustBeAfter" xml:space="preserve">
     <value />
   </data>
 </root>
