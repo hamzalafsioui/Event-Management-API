@@ -1,5 +1,8 @@
-﻿namespace EventManagement.Data.Helper
+﻿using System.Text.Json.Serialization;
+
+namespace EventManagement.Data.Helper
 {
+	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public enum EventOrderingEnum
 	{
 		EventId = 0,
@@ -7,7 +10,8 @@
 		Location = 2,
 		StartTime = 3,
 		EndTime = 4,
-		Creator = 5,
-		CreatedAt = 6,
+		CategoryName = 5,
+		Creator = 6,
+		CreatedAt = 7,
 	}
 }
