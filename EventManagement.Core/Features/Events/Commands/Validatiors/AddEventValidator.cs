@@ -6,17 +6,19 @@ using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Events.Commands.Validatiors
 {
-	public class AddEventValidator:AbstractValidator<AddEventCommand>
+	public class AddEventValidator : AbstractValidator<AddEventCommand>
 	{
 		#region Fields
 		private readonly IEventService _eventService;
+		private readonly ICategoryService _categoryService;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
 		#endregion
 		#region Constructors
-		public AddEventValidator(IEventService eventService, IStringLocalizer<SharedResources> stringLocalizer)
+		public AddEventValidator(IEventService eventService, ICategoryService categoryService, IStringLocalizer<SharedResources> stringLocalizer)
 		{
 			_eventService = eventService;
+			_categoryService = categoryService;
 			this._stringLocalizer = stringLocalizer;
 			ApplyValidationsRules();
 			ApplyCustomValidationsRules();
@@ -33,8 +35,8 @@ namespace EventManagement.Core.Features.Events.Commands.Validatiors
 
 			RuleFor(x => x.Location)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
-				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]); 
-		
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
+
 
 			RuleFor(x => x.StartTime)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
@@ -47,7 +49,7 @@ namespace EventManagement.Core.Features.Events.Commands.Validatiors
 			RuleFor(x => x.CategoryId)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
-			
+
 			RuleFor(x => x.CreatorUserId)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
@@ -56,6 +58,19 @@ namespace EventManagement.Core.Features.Events.Commands.Validatiors
 
 		public void ApplyCustomValidationsRules()
 		{
+			// is CategoryId Exist
+			RuleFor(x => x.CategoryId)
+				.MustAsync((key, CancellationToken) => _categoryService.IsCategoryIdExist(key))
+				.WithMessage(_stringLocalizer[SharedResourcesKeys.CategoryId] + " " + _stringLocalizer[SharedResourcesKeys.NotFound]);
+
+			// is EndTime after StartTime
+			RuleFor(x => x.EndTime)
+				.Must((context, endTime, CancellationToken) =>
+				{
+					var startTime = context.StartTime;
+					return startTime < endTime;
+				}).WithMessage(_stringLocalizer[$"{_stringLocalizer[SharedResourcesKeys.EndTime]} {_stringLocalizer[SharedResourcesKeys.MustBeAfter]} {_stringLocalizer[SharedResourcesKeys.StartTime]}"]);
+
 			// check is exist a conflict StartTime & EndTime with Other Event
 		}
 		#endregion
