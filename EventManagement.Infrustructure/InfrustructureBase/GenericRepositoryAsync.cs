@@ -24,18 +24,18 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 
 		#region Actions
 
-		public async Task<T> GetByIdAsync(int id)
+		public virtual async Task<T> GetByIdAsync(int id)
 		{
 			return await _dbContext.Set<T>().FindAsync(id);
 		}
-		public  IQueryable<T> GetTableAsTracking()
+		public virtual IQueryable<T> GetTableAsTracking()
 		{
 			return _dbContext.Set<T>().AsTracking().AsQueryable();
 		}
 
-		public  IQueryable<T> GetTableNoTracking()
+		public virtual IQueryable<T> GetTableNoTracking()
 		{
-			return  _dbContext.Set<T>().AsNoTracking().AsQueryable();
+			return _dbContext.Set<T>().AsNoTracking().AsQueryable();
 		}
 
 		public virtual async Task<T> AddAsync(T entity)
@@ -70,7 +70,7 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 
 		public virtual async Task UpdateAsync(T entity)
 		{
-			 _dbContext.Set<T>().Update(entity);
+			_dbContext.Set<T>().Update(entity);
 			await _dbContext.SaveChangesAsync();
 		}
 
@@ -79,28 +79,28 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 			_dbContext.Set<T>().UpdateRange(entities);
 			await _dbContext.SaveChangesAsync();
 		}
-		public async Task SaveChangesAsync()
+		public virtual async Task SaveChangesAsync()
 		{
 			await _dbContext.SaveChangesAsync();
 		}
-		public IDbContextTransaction BeginTransaction()
+		public virtual IDbContextTransaction BeginTransaction()
 		{
 			return _dbContext.Database.BeginTransaction();
 		}
 
-		public void Commit()
+		public virtual void Commit()
 		{
 			_dbContext.Database.CommitTransaction();
 		}
 
-		public void RollBack()
+		public virtual void RollBack()
 		{
 			_dbContext.Database.RollbackTransaction();
 		}
 
-		
 
-		
+
+
 		#endregion
 
 	}
