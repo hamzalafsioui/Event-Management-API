@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 
 namespace EventManagement.Service.Abstracts
 {
@@ -7,5 +8,6 @@ namespace EventManagement.Service.Abstracts
 		public Task<Event> GetEventByIdAsync(int id);
 		public Task<string> AddAsync(Event @event);
 		public Task<List<Event>> GetEventsListAsync();
+		public IQueryable<Event> FilterEventsPaginatedQueryable(EventOrderingEnum orderingEnum, string search);
 	}
 }

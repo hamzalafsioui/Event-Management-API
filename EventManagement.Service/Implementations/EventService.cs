@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,48 @@ namespace EventManagement.Service.Implementations
 		public async Task<List<Event>> GetEventsListAsync()
 		{
 			return await _eventRepository.GetEventsListAsync();
+		}
+
+		public IQueryable<Event> FilterEventsPaginatedQueryable(EventOrderingEnum orderingEnum, string search)
+		{
+			var queryable = _eventRepository.GetTableNoTracking().AsQueryable();
+
+			if (!string.IsNullOrEmpty(search))
+			{
+				queryable = queryable.Where(x => x.Title.Contains(search) || x.Creator.Username.Contains(search) || x.Location.Contains(search));
+
+			}
+			switch (orderingEnum)
+			{
+				case EventOrderingEnum.EventId:
+					queryable = queryable.OrderBy(x => x.EventId);
+					break;
+				case EventOrderingEnum.Title:
+					queryable = queryable.OrderBy(x => x.Title);
+					break;
+				case EventOrderingEnum.Location:
+					queryable = queryable.OrderBy(x => x.Location);
+					break;
+				case EventOrderingEnum.StartTime:
+					queryable = queryable.OrderBy(x => x.StartTime);
+					break;
+				case EventOrderingEnum.EndTime:
+					queryable = queryable.OrderBy(x => x.EndTime);
+					break;
+				case EventOrderingEnum.CategoryName:
+					queryable = queryable.OrderBy(x => x.Category.Name);
+					break;
+				case EventOrderingEnum.Creator:
+					queryable = queryable.OrderBy(x => x.Creator.Username);
+					break;
+				case EventOrderingEnum.CreatedAt:
+					queryable = queryable.OrderBy(x => x.CreatedAt);
+					break;
+				default:
+					queryable = queryable.OrderBy(x => x.EventId);
+					break;
+			}
+			return queryable;
 		}
 		#endregion
 
