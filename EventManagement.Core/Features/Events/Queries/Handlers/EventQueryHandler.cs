@@ -7,13 +7,15 @@ using EventManagement.Core.Wrappers;
 using EventManagement.Data.Entities;
 using EventManagement.Service.Abstracts;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.Linq.Expressions;
 
 namespace EventManagement.Core.Features.Events.Queries.Handlers
 {
 	public class EventQueryHandler : ResponseHandler,
-		IRequestHandler<GetEventByIdQuery, Response<GetEventByIdResponse>>
+		IRequestHandler<GetEventByIdQuery, Response<GetEventByIdResponse>>,
+		IRequestHandler<GetEventListQuery, Response<List<GetEventListResponse>>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -64,6 +66,22 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			// response 
 			return Success(eventMapper);
 
+		}
+
+		public async Task<Response<List<GetEventListResponse>>> Handle(GetEventListQuery request, CancellationToken cancellationToken)
+		{
+			// cal event service to retrieve list
+			var eventList = await _eventService.GetEventsListAsync();
+			// initial mapping
+			var eventListMapping = _mapper.Map<List<GetEventListResponse>>(eventList);
+			// transfer data to response handler
+			var result = Success(eventListMapping);
+			result.Meta = new
+			{
+				count = eventListMapping.Count,
+			};
+			// return result
+			return result;
 		}
 		#endregion
 
