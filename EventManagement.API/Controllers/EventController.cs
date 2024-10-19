@@ -11,6 +11,12 @@ namespace EventManagement.API.Controllers
 	public class EventController : AppControllerBase
 	{
 		#region  Functions
+		[HttpGet(Router.EventRouting.List)]
+		public async Task<IActionResult> GetEventList()
+		{
+			var response = await Mediator.Send(new GetEventListQuery());
+			return NewResult(response);
+		}
 		[HttpGet(Router.EventRouting.GetById)]
 		public async Task<IActionResult> GetEventById([FromQuery] GetEventByIdQuery getEventByIdQuery)
 		{
