@@ -23,7 +23,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(getEventByIdQuery);
 			return NewResult(response);
 		}
-
+		[HttpGet(Router.EventRouting.Paginated)]
+		public async Task<IActionResult> Paginated([FromQuery] GetEventPaginatedListQuery query)
+		{
+			var response = await Mediator.Send(query);
+			return Ok(response);
+		}
 		[HttpPost(Router.EventRouting.Create)]
 		public async Task<IActionResult> Create([FromBody] AddEventCommand command)
 		{
