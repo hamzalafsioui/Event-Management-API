@@ -28,6 +28,10 @@ namespace EventManagement.Infrustructure.Abstracts
 				.Include(x => x.Creator).ToListAsync();
 		}
 
+		public override IQueryable<Event> GetTableNoTracking()
+		{
+			return base.GetTableNoTracking().Include(e => e.Category).Include(e => e.Creator);
+		}
 
 		#endregion
 
