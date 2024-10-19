@@ -7,7 +7,7 @@ namespace EventManagement.Service.Abstracts
 	{
 		public Task<List<User>> GetUsersListAsync();
 		public IQueryable<User> GetUsersListQueryable();
-		public IQueryable<User> FilterUserPaginatedQueryable(UserOrderingEnum orderingEnum,string search);
+		public IQueryable<User> FilterUserPaginatedQueryable(UserOrderingEnum orderingEnum, string search);
 		public Task<User> GetByIdWithIncludeAsync(int id);
 		public Task<User> GetByIdAsync(int id);
 

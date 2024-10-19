@@ -99,7 +99,7 @@ namespace EventManagement.Service.Implementations
 			return _userRepository.GetTableNoTracking().AsQueryable();
 		}
 
-		public IQueryable<User> FilterUserPaginatedQueryable(UserOrderingEnum orderingEnum,string search)
+		public IQueryable<User> FilterUserPaginatedQueryable(UserOrderingEnum orderingEnum, string search)
 		{
 			var queryable = _userRepository.GetTableNoTracking().AsQueryable();
 			if (!string.IsNullOrEmpty(search))
@@ -131,7 +131,7 @@ namespace EventManagement.Service.Implementations
 					queryable = queryable.OrderBy(x => x.CreatedAt);
 					break;
 				default:
-					queryable = queryable.OrderBy(x=>x.UserId);
+					queryable = queryable.OrderBy(x => x.UserId);
 					break;
 			}
 			return queryable;
