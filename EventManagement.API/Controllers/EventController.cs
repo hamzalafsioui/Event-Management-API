@@ -41,6 +41,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		[HttpDelete(Router.EventRouting.GetById)]
+		public async Task<IActionResult> Delete([FromQuery] int id)
+		{
+			var response = await Mediator.Send(new DeleteEventCommand(id));
+			return NewResult(response);
+		}
 		#endregion
 	}
 }
