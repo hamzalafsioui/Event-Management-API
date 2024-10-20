@@ -183,4 +183,7 @@
   <data name="MustBeAfter" xml:space="preserve">
     <value>يجب أن يكون بعد</value>
   </data>
+  <data name="EventId" xml:space="preserve">
+    <value>معرف الحدث</value>
+  </data>
 </root>

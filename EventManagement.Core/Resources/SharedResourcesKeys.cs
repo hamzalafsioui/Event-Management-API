@@ -25,5 +25,8 @@
 		public const string StartTime = "StartTime";
 		public const string EndTime = "EndTime";
 		public const string MustBeAfter = "MustBeAfter";
+
+		public const string EventId = "EventId";
+
 	}
 }
