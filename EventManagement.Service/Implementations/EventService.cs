@@ -87,6 +87,20 @@ namespace EventManagement.Service.Implementations
 			}
 			return queryable;
 		}
+
+		public async Task<string> EditAsync(Event @event)
+		{
+			try
+			{
+				await _eventRepository.UpdateAsync(@event);
+				await _eventRepository.SaveChangesAsync();
+				return "Success";
+			}
+			catch
+			{
+				return "Failed";
+			}
+		}
 		#endregion
 
 

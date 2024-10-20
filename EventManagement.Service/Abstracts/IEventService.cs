@@ -9,5 +9,6 @@ namespace EventManagement.Service.Abstracts
 		public Task<string> AddAsync(Event @event);
 		public Task<List<Event>> GetEventsListAsync();
 		public IQueryable<Event> FilterEventsPaginatedQueryable(EventOrderingEnum orderingEnum, string search);
+		public Task<string> EditAsync(Event @event);
 	}
 }
