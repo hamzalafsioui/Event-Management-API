@@ -11,7 +11,8 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 {
 	public class EventCommandHandler : ResponseHandler,
 		IRequestHandler<AddEventCommand, Response<string>>,
-		IRequestHandler<EditEventCommand, Response<string>>
+		IRequestHandler<EditEventCommand, Response<string>>,
+		IRequestHandler<DeleteEventCommand, Response<string>>
 	{
 		private readonly IEventService _eventService;
 		private readonly IMapper _mapper;
@@ -57,6 +58,21 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			else
 				return BadRequest<string>();
 
+		}
+
+		public async Task<Response<string>> Handle(DeleteEventCommand request, CancellationToken cancellationToken)
+		{
+			// check is event exist
+			var @event = await _eventService.GetEventByIdAsync(request.EventId);
+			// return BadRequest if not exist
+			if (@event == null)
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {request.EventId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
+			// call delete service
+			var result = await _eventService.DeleteAsync(@event);
+			if (result == "Success")
+				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {@event.EventId} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
+			else
+				return BadRequest<string>();
 		}
 		#endregion
 
