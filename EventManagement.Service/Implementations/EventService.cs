@@ -101,6 +101,20 @@ namespace EventManagement.Service.Implementations
 				return "Failed";
 			}
 		}
+
+		public async Task<string> DeleteAsync(Event @event)
+		{
+			try
+			{
+				await _eventRepository.DeleteAsync(@event);
+				await _eventRepository.SaveChangesAsync();
+				return "Success";
+			}
+			catch
+			{
+				return "Failed";
+			}
+		}
 		#endregion
 
 
