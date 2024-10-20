@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Events.Commands.Handlers
 {
 	public class EventCommandHandler : ResponseHandler,
-		IRequestHandler<AddEventCommand, Response<string>>
+		IRequestHandler<AddEventCommand, Response<string>>,
+		IRequestHandler<EditEventCommand, Response<string>>
 	{
 		private readonly IEventService _eventService;
 		private readonly IMapper _mapper;
@@ -35,6 +36,24 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			var result = await _eventService.AddAsync(newEvent);
 			if (result == "Success")
 				return Success("Added Successfully");
+			else
+				return BadRequest<string>();
+
+		}
+
+		public async Task<Response<string>> Handle(EditEventCommand request, CancellationToken cancellationToken)
+		{
+			// check is eventId exists
+			var @event = await _eventService.GetEventByIdAsync(request.Id);
+			if (@event == null)
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {request.Id} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
+
+			// mapping between event & request
+			_mapper.Map(request, @event);
+			// call update service
+			var result = await _eventService.EditAsync(@event);
+			if (result == "Success")
+				return Success($"Edit Successfully In Id {@event.EventId}");
 			else
 				return BadRequest<string>();
 
