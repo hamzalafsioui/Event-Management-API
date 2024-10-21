@@ -7,6 +7,8 @@ using EventManagement.Core.Wrappers;
 using EventManagement.Data.Entities.Identity;
 using EventManagement.Service.Abstracts;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Linq.Expressions;
 
@@ -19,16 +21,16 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 
 	{
 		#region Fields
-		private readonly IUserService _userService;
+		private readonly UserManager<User> _userManager;
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
 		#endregion
 
 		#region Constructors
-		public UserQueryHandler(IUserService userService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+		public UserQueryHandler(UserManager<User> userManager, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
 		{
-			this._userService = userService;
+			this._userManager = userManager;
 			this._mapper = mapper;
 			_stringLocalizer = stringLocalizer;
 		}
@@ -37,7 +39,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		#region Handle Functions
 		public async Task<Response<List<GetUserListResponse>>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
 		{
-			var studentList = await _userService.GetUsersListAsync();
+			var studentList = await _userManager.Users.ToListAsync();
 			var studentListMapping = _mapper.Map<List<GetUserListResponse>>(studentList);
 
 			var result = Success(studentListMapping);
@@ -52,7 +54,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		{
 			if (request.Id < 1)
 				return BadRequest<GetSingleUserResponse>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
-			var user = await _userService.GetByIdWithIncludeAsync(request.Id);
+			var user = await _userManager.Users.FirstOrDefaultAsync(x=>x.Id.Equals(request.Id));
 			if (user == null)
 			{
 				return NotFound<GetSingleUserResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
@@ -63,17 +65,16 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 
 		public async Task<PaginatedResult<GetUserPaginatedListResponse>> Handle(GetUserPaginatedListQuery request, CancellationToken cancellationToken)
 		{
-			Expression<Func<User, GetUserPaginatedListResponse>> expression = e => new GetUserPaginatedListResponse(e.Id, e.UserName, e.FirstName, e.LastName, e.DateOfBirth, e.Email, e.Image, e.Role.ToString(), e.CreatedAt);
-
-			var FilterQuery = _userService.FilterUserPaginatedQueryable(request.OrderBy, request.Search!);
-			var PaginatedList = await FilterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+			var users = _userManager.Users.AsQueryable();
+			var PaginatedList = await _mapper.ProjectTo<GetUserPaginatedListResponse>(users)
+											 .ToPaginatedListAsync(request.PageNumber,request.PageSize);
 			PaginatedList.Meta = new
 			{
-				count = PaginatedList.Data.Count(),
+				Count = PaginatedList.Data.Count()
 			};
+			
 			return PaginatedList;
 		}
-
 
 		#endregion
 

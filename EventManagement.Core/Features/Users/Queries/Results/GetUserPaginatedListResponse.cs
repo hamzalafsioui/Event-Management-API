@@ -2,7 +2,7 @@
 {
 	public class GetUserPaginatedListResponse
 	{
-		public int UserId { get; set; }
+		public int Id { get; set; }
 		public string Username { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -13,17 +13,9 @@
 		public DateTime CreatedAt { get; set; }
 
 
-		public GetUserPaginatedListResponse(int userId, string username, string firstName, string lastName, DateTime dateOfBirth, string email, string? image, string role, DateTime createdAt)
+		public GetUserPaginatedListResponse()
 		{
-			UserId = userId;
-			Username = username;
-			Email = email;
-			FirstName = firstName;
-			LastName = lastName;
-			Age = DateTime.UtcNow.Year - dateOfBirth.Year;
-			Image = image;
-			Role = role;
-			CreatedAt = createdAt;
+
 		}
 	}
 }

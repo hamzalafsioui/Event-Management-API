@@ -3,7 +3,7 @@ using EventManagement.Data.Helper;
 
 namespace EventManagement.Service.Abstracts
 {
-    public interface IUserService
+	public interface IUserService
 	{
 		public Task<List<User>> GetUsersListAsync();
 		public IQueryable<User> GetUsersListQueryable();

@@ -12,7 +12,7 @@ namespace EventManagement.Core.Mapping.Users
 			EditUserCommandMapping();
 		}
 
-		private int CalculateAge(DateTime dateOfBirth)
+		private static int CalculateAge(DateTime dateOfBirth)
 		{
 			var today = DateTime.UtcNow;
 			var age = today.Year - dateOfBirth.Year;

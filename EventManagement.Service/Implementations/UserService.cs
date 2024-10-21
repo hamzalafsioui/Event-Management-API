@@ -2,17 +2,31 @@
 using EventManagement.Data.Helper;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace EventManagement.Service.Implementations
 {
-    public class UserService : IUserService
+	public class UserService : UserManager<User>, IUserService
 	{
 		#region Fields
 		private IUserRepository _userRepository;
 		#endregion
 
 		#region Constructors
-		public UserService(IUserRepository userRepository)
+		public UserService(IUserRepository userRepository,
+				   IUserStore<User> store,
+				   IOptions<IdentityOptions> optionsAccessor,
+				   IPasswordHasher<User> passwordHasher,
+				   IEnumerable<IUserValidator<User>> userValidators,
+				   IEnumerable<IPasswordValidator<User>> passwordValidators,
+				   ILookupNormalizer keyNormalizer,
+				   IdentityErrorDescriber errors,
+				   IServiceProvider services,
+				   ILogger<UserManager<User>> logger)
+	: base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 		{
 			_userRepository = userRepository;
 		}
@@ -29,9 +43,9 @@ namespace EventManagement.Service.Implementations
 		public async Task<User> GetByIdWithIncludeAsync(int id)
 		{
 			//var user = await _userRepository.GetByIdAsync(id);
-			var user = _userRepository.GetTableNoTracking()
+			var user = await _userRepository.GetTableNoTracking()
 									   .Where(x => x.Id == id)
-									   .FirstOrDefault();  // we can use Include Here
+									   .FirstOrDefaultAsync();  // we can use Include Here
 			return user!;
 		}
 
@@ -50,7 +64,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserNameExist(string name)
 		{
 			// check is username exist or no
-			var result = _userRepository.GetTableNoTracking().Where(x => x.UserName.Equals(name)).FirstOrDefault();
+			var result = await _userRepository.GetTableNoTracking().Where(x => x.UserName.Equals(name)).FirstOrDefaultAsync();
 			if (result != null)
 				return true;
 			return false;
@@ -59,7 +73,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserNameExistExcludeSelf(string username, int id)
 		{
 			// check if the username is exist or not with other id
-			var result = _userRepository.GetTableNoTracking().Where(x => x.UserName.Equals(username) & !(x.Id.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
+			var result = await _userRepository.GetTableNoTracking().Where(x => x.UserName.Equals(username) & !(x.Id.Equals(id))).FirstOrDefaultAsync(); // !& x.UserId.Equals(id) => && x.UserId != id
 			if (result == null)
 				return false;
 			return true;
