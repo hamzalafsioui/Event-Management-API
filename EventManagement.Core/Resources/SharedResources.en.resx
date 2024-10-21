@@ -186,4 +186,10 @@
   <data name="EventId" xml:space="preserve">
     <value>Event Id</value>
   </data>
+  <data name="NotMatched" xml:space="preserve">
+    <value>Not Matched</value>
+  </data>
+  <data name="FailedToAddUser" xml:space="preserve">
+    <value>Failed To Add User</value>
+  </data>
 </root>

@@ -186,4 +186,10 @@
   <data name="EventId" xml:space="preserve">
     <value>معرف الحدث</value>
   </data>
+  <data name="NotMatched" xml:space="preserve">
+    <value>غير متطابقة</value>
+  </data>
+  <data name="FailedToAddUser" xml:space="preserve">
+    <value>فشلت عملية إضافة المستخدم</value>
+  </data>
 </root>

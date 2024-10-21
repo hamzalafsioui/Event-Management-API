@@ -27,6 +27,11 @@
 		public const string MustBeAfter = "MustBeAfter";
 
 		public const string EventId = "EventId";
+		public const string Password = "Password";
+		public const string NotMatched = "NotMatched";
+		public const string Email = "Email";
+		public const string FailedToAddUser = "FailedToAddUser";
+
 
 	}
 }

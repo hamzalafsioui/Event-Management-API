@@ -25,7 +25,7 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 		#region Actions
 		public void ApplyValidationsRules()
 		{
-			RuleFor(x => x.Username)
+			RuleFor(x => x.UserName)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required])
 				.MaximumLength(15).WithMessage(_stringLocalizer[SharedResourcesKeys.MaxLengthIs100])
@@ -46,14 +46,18 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 
 			RuleFor(x => x.Password)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
-				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required  ])
+				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required])
 				.MinimumLength(3);
+			RuleFor(x => x.ConfirmPassword)
+				.Equal(x => x.Password)
+				.WithMessage($"{_stringLocalizer[SharedResourcesKeys.Password]} " + _stringLocalizer[SharedResourcesKeys.NotMatched]);
+
 
 		}
 
 		public void ApplyCustomValidationsRules()
 		{
-			RuleFor(x => x.Username)
+			RuleFor(x => x.UserName)
 				.MustAsync(async (key, CancellationToken) => !(await _userService.IsUserNameExist(key)))
 				.WithMessage($"{_stringLocalizer[SharedResourcesKeys.Username]} " + _stringLocalizer[SharedResourcesKeys.AlreadyExist]);
 		}

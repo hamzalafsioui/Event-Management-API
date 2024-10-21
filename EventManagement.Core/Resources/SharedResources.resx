@@ -187,4 +187,10 @@
   <data name="EventId" xml:space="preserve">
     <value />
   </data>
+  <data name="NotMatched" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="FailedToAddUser" xml:space="preserve">
+    <value />
+  </data>
 </root>
