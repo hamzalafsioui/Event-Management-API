@@ -9,7 +9,7 @@ namespace EventManagement.Core.Mapping.Events
 		{
 			CreateMap<Event, GetEventListResponse>()
 				.ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
-				.ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.Creator.Username));
+				.ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.Creator.UserName));
 
 		}
 	}

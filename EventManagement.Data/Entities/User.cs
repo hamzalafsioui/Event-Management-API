@@ -1,20 +1,14 @@
-﻿
-using EventManagement.Data.Abstracts;
+﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Helper;
+using Microsoft.AspNetCore.Identity;
 
 namespace EventManagement.Data.Entities
 {
-	public class User:IHasCreatedAt,IHasUpdatedAt
+	public class User : IdentityUser<int>, IHasCreatedAt, IHasUpdatedAt
 	{
 
-		public int UserId { get; set; }
-		public required string Username { get; set; }
-		public required string PasswordHash { get; set; }
 		public required string FirstName { get; set; }
 		public required string LastName { get; set; }
-		public required string Email { get; set; }
-		//public byte[]? Image { get; set; }
-
 		public DateTime DateOfBirth { get; set; }
 		public string? Image { get; set; }
 		public UserRoleEnum Role { get; set; }
@@ -27,19 +21,7 @@ namespace EventManagement.Data.Entities
 		public virtual ICollection<Attendee> AttendingEvents { get; set; } = new HashSet<Attendee>();
 		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
-		public User(int userId, string username, string password, string email, string firstName, string lastName, string? image, UserRoleEnum role, DateTime createdAt, DateTime updatedAt)
-		{
-			UserId = userId;
-			Username = username;
-			PasswordHash = password;
-			Email = email;
-			FirstName = firstName;
-			LastName = lastName;
-			Image = image;
-			Role = role;
-			CreatedAt = createdAt;
-			UpdatedAt = updatedAt;
-		}
+
 
 		public User()
 		{

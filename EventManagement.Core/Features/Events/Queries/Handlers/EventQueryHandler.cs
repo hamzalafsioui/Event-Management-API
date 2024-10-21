@@ -53,8 +53,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			var eventMapper = _mapper.Map<GetEventByIdResponse>(response);
 
 			// Pagination
-			Expression<Func<Attendee, AttendeeResponse>> expressionAttend = eA => new AttendeeResponse(eA.AttendeeId, eA.User.Username);
-			Expression<Func<Comment, CommentResponse>> expressionComment = eC => new CommentResponse(eC.CommentId, eC.User.Username, eC.Content);
+			Expression<Func<Attendee, AttendeeResponse>> expressionAttend = eA => new AttendeeResponse(eA.AttendeeId, eA.User.UserName);
+			Expression<Func<Comment, CommentResponse>> expressionComment = eC => new CommentResponse(eC.CommentId, eC.User.UserName, eC.Content);
 			var AttendeesQueryable = _attendeeService.GetAttendeesByEventIdQueryable(request.Id);
 			var CommentsQueryable = _commentService.GetCommentsByEventIdQueryable(request.Id);
 
@@ -88,7 +88,7 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		{
 			Expression<Func<Event, GetEventPaginatedListResponse>> expression = e => new GetEventPaginatedListResponse(
 													e.EventId, e.Title, e.Description, e.Location, e.StartTime, e.EndTime,
-													e.Category.Name, e.Creator.Username, e.Capacity, e.CreatedAt);
+													e.Category.Name, e.Creator.UserName, e.Capacity, e.CreatedAt);
 
 			var filterQuery = _eventService.FilterEventsPaginatedQueryable(request.OrderBy, request.Search!);
 			var paginatedList = await filterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);

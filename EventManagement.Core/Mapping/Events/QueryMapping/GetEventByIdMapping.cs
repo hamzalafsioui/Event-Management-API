@@ -11,7 +11,7 @@ namespace EventManagement.Core.Mapping.Events
 		{
 			CreateMap<Event, GetEventByIdResponse>()
 				.ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
-				.ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator != null ? src.Creator.Username : "Unknown"));
+				.ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator != null ? src.Creator.UserName : "Unknown"));
 			//	.ForMember(dest => dest.AttendeesList, opt => opt.MapFrom(src => src.Attendees))
 			//.ForMember(dest => dest.CommentsList, opt => opt.MapFrom(src => src.Comments));
 

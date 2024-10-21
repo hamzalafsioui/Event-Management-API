@@ -30,14 +30,14 @@ namespace EventManagement.Service.Implementations
 		{
 			//var user = await _userRepository.GetByIdAsync(id);
 			var user = _userRepository.GetTableNoTracking()
-									   .Where(x => x.UserId == id)
+									   .Where(x => x.Id == id)
 									   .FirstOrDefault();  // we can use Include Here
 			return user!;
 		}
 
 		public async Task<string> AddAsync(User user)
 		{
-			var result = await IsUserNameExist(user.Username);
+			var result = await IsUserNameExist(user.UserName);
 			if (!result)
 			{
 				await _userRepository.AddAsync(user);
@@ -50,7 +50,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserNameExist(string name)
 		{
 			// check is username exist or no
-			var result = _userRepository.GetTableNoTracking().Where(x => x.Username.Equals(name)).FirstOrDefault();
+			var result = _userRepository.GetTableNoTracking().Where(x => x.UserName.Equals(name)).FirstOrDefault();
 			if (result != null)
 				return true;
 			return false;
@@ -59,7 +59,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserNameExistExcludeSelf(string username, int id)
 		{
 			// check if the username is exist or not with other id
-			var result = _userRepository.GetTableNoTracking().Where(x => x.Username.Equals(username) & !(x.UserId.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
+			var result = _userRepository.GetTableNoTracking().Where(x => x.UserName.Equals(username) & !(x.Id.Equals(id))).FirstOrDefault(); // !& x.UserId.Equals(id) => && x.UserId != id
 			if (result == null)
 				return false;
 			return true;
@@ -104,16 +104,16 @@ namespace EventManagement.Service.Implementations
 			var queryable = _userRepository.GetTableNoTracking().AsQueryable();
 			if (!string.IsNullOrEmpty(search))
 			{
-				queryable = queryable.Where(x => x.Username.Contains(search) || x.Email.Contains(search));
+				queryable = queryable.Where(x => x.UserName.Contains(search) || x.Email.Contains(search));
 
 			}
 			switch (orderingEnum)
 			{
 				case UserOrderingEnum.UserId:
-					queryable = queryable.OrderBy(x => x.UserId);
+					queryable = queryable.OrderBy(x => x.Id);
 					break;
 				case UserOrderingEnum.Username:
-					queryable = queryable.OrderBy(x => x.Username);
+					queryable = queryable.OrderBy(x => x.UserName);
 					break;
 				case UserOrderingEnum.FirstName:
 					queryable = queryable.OrderBy(x => x.FirstName);
@@ -131,7 +131,7 @@ namespace EventManagement.Service.Implementations
 					queryable = queryable.OrderBy(x => x.CreatedAt);
 					break;
 				default:
-					queryable = queryable.OrderBy(x => x.UserId);
+					queryable = queryable.OrderBy(x => x.Id);
 					break;
 			}
 			return queryable;

@@ -39,7 +39,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddInfrustructureDependencies()
 				.AddServiceDependencies()
-				.AddCoreDependencies();
+				.AddCoreDependencies()
+				.AddServiceRegistration();
 
 #endregion
 

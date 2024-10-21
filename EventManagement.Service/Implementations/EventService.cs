@@ -52,7 +52,7 @@ namespace EventManagement.Service.Implementations
 
 			if (!string.IsNullOrEmpty(search))
 			{
-				queryable = queryable.Where(x => x.Title.Contains(search) || x.Creator.Username.Contains(search) || x.Location.Contains(search));
+				queryable = queryable.Where(x => x.Title.Contains(search) || x.Creator.UserName.Contains(search) || x.Location.Contains(search));
 
 			}
 			switch (orderingEnum)
@@ -76,7 +76,7 @@ namespace EventManagement.Service.Implementations
 					queryable = queryable.OrderBy(x => x.Category.Name);
 					break;
 				case EventOrderingEnum.Creator:
-					queryable = queryable.OrderBy(x => x.Creator.Username);
+					queryable = queryable.OrderBy(x => x.Creator.UserName);
 					break;
 				case EventOrderingEnum.CreatedAt:
 					queryable = queryable.OrderBy(x => x.CreatedAt);

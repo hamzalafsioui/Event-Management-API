@@ -10,15 +10,15 @@ namespace EventManagement.Infrustructure.Configurations
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			builder.HasKey(u => u.UserId);
-			builder.Property(u => u.UserId)
+			builder.HasKey(u => u.Id);
+			builder.Property(u => u.Id)
 				.ValueGeneratedOnAdd();
 
-			builder.HasIndex(u => u.Username)
+			builder.HasIndex(u => u.UserName)
 				.IsUnique()
 				.HasDatabaseName("IX_Users_UserName");
 
-			builder.Property(u => u.Username)
+			builder.Property(u => u.UserName)
 				.HasMaxLength(50)
 				.IsRequired();
 		

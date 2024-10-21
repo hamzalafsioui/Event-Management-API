@@ -57,7 +57,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 			// return response
 			if (result == "Success")
-				return Success($"Edit Successfully In Id {user.UserId}");
+				return Success($"Edit Successfully In Id {user.Id}");
 			else
 				return BadRequest<string>();
 		}
@@ -76,7 +76,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 			// return response
 			if (result == "Success")
-				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {user.UserId} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
+				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {user.Id} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
 			else
 				return BadRequest<string>();
 		}
