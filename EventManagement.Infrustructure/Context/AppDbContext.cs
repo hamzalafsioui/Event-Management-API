@@ -1,5 +1,6 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities;
+using EventManagement.Data.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Infrustructure.Context
 {
-	public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int,IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int,IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 	{
         public AppDbContext()
         {

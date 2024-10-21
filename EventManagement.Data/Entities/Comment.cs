@@ -1,9 +1,10 @@
 ﻿using EventManagement.Data.Abstracts;
+using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Helper;
 
 namespace EventManagement.Data.Entities
 {
-	public class Comment:IHasCreatedAt,IHasUpdatedAt
+    public class Comment:IHasCreatedAt,IHasUpdatedAt
 	{
 		public int CommentId { get; set; }
 		public int EventId { get; set; }

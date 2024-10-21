@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Entities;
+﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace EventManagement.Infrustructure.Configurations
 {
-	public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{

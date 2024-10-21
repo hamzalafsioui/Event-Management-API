@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Entities;
+﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Infrustructure.Context;
 using EventManagement.Infrustructure.InfrustructureBase;
 using EventManagement.Infrustructure.Repositories;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Infrustructure.Abstracts
 {
-	public class UserRepository : GenericRepositoryAsync<User>, IUserRepository
+    public class UserRepository : GenericRepositoryAsync<User>, IUserRepository
 	{
 		#region Fields
 		private readonly DbSet<User> _users;

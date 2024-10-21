@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Entities;
+﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Infrustructure.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace EventManagement.Infrustructure
 {
-	public static class ServiceRegistration
+    public static class ServiceRegistration
 	{
 		public static IServiceCollection AddServiceRegistration(this IServiceCollection services)
 		{

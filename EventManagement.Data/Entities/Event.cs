@@ -1,8 +1,9 @@
 ﻿using EventManagement.Data.Abstracts;
+using EventManagement.Data.Entities.Identity;
 
 namespace EventManagement.Data.Entities
 {
-	public class Event : IHasCreatedAt, IHasUpdatedAt
+    public class Event : IHasCreatedAt, IHasUpdatedAt
 	{
 		public int EventId { get; set; }
 		public required string Title { get; set; }

@@ -2,14 +2,14 @@
 using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Resources;
-using EventManagement.Data.Entities;
+using EventManagement.Data.Entities.Identity;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Users.Commands.Handlers
 {
-	public class UserCommandHandler : ResponseHandler,
+    public class UserCommandHandler : ResponseHandler,
 		IRequestHandler<AddUserCommand, Response<string>>,
 		IRequestHandler<EditUserCommand, Response<string>>,
 		IRequestHandler<DeleteUserCommand, Response<string>>

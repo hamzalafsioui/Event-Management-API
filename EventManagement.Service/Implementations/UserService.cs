@@ -1,11 +1,11 @@
-﻿using EventManagement.Data.Entities;
+﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Helper;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 
 namespace EventManagement.Service.Implementations
 {
-	public class UserService : IUserService
+    public class UserService : IUserService
 	{
 		#region Fields
 		private IUserRepository _userRepository;

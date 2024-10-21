@@ -4,7 +4,7 @@ using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Core.Features.Users.Queries.Results;
 using EventManagement.Core.Resources;
 using EventManagement.Core.Wrappers;
-using EventManagement.Data.Entities;
+using EventManagement.Data.Entities.Identity;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace EventManagement.Core.Features.Users.Queries.Handlers
 {
-	public class UserQueryHandler : ResponseHandler,
+    public class UserQueryHandler : ResponseHandler,
 		IRequestHandler<GetUserListQuery, Response<List<GetUserListResponse>>>,
 		IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>,
 		IRequestHandler<GetUserPaginatedListQuery, PaginatedResult<GetUserPaginatedListResponse>>
