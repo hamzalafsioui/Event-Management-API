@@ -5,11 +5,10 @@ using MediatR;
 
 namespace EventManagement.Core.Features.Users.Queries.Models
 {
-	public class GetUserPaginatedListQuery : IRequest<PaginatedResult<GetUserPaginatedListResponse>>
-	{
-		public int PageNumber { get; set; }
-		public int PageSize { get; set; }
-		public UserOrderingEnum OrderBy { get; set; }
-		public string? Search { get; set; }
-	}
+	public record GetUserPaginatedListQuery(
+		int PageNumber,
+		int PageSize,
+		UserOrderingEnum OrderBy,
+		string? Search
+	) : IRequest<PaginatedResult<GetUserPaginatedListResponse>>;
 }

@@ -1,15 +1,15 @@
 ﻿namespace EventManagement.Core.Features.Users.Queries.Results
 {
-	public class GetSingleUserResponse
+	public record GetSingleUserResponse
 	{
-		public string Id { get; set; }
-		public required string Username { get; set; }
-		public required string Email { get; set; }
-		public required string FirstName { get; set; }
-		public required string LastName { get; set; }
-		public required int Age { get; set; }
-		public string? Image { get; set; }
-		public required string Role { get; set; }
-		public DateTime CreatedAt { get; set; }
+		public string Id { get; init; }
+		public required string Username { get; init; }
+		public required string Email { get; init; }
+		public required string FirstName { get; init; }
+		public required string LastName { get; init; }
+		public required int Age { get; init; }
+		public string? Image { get; init; }
+		public required string Role { get; init; }
+		public required DateTime CreatedAt { get; init; }
 	}
 }

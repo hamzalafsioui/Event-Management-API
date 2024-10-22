@@ -1,21 +1,18 @@
 ﻿namespace EventManagement.Core.Features.Users.Queries.Results
 {
-	public class GetUserPaginatedListResponse
+	public record GetUserPaginatedListResponse
 	{
-		public int Id { get; set; }
-		public string Username { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-		public string Email { get; set; }
-		public int Age { get; set; }
-		public string? Image { get; set; }
-		public string Role { get; set; }
-		public DateTime CreatedAt { get; set; }
+		public int Id { get; init; }
+		public required string Username { get; init; }
+		public required string FirstName { get; init; }
+		public required string LastName { get; init; }
+		public required string Email { get; init; }
+		public required int Age { get; init; }
+		public string? Image { get; init; }
+		public required string Role { get; init; }
+		public required DateTime CreatedAt { get; init; }
 
 
-		public GetUserPaginatedListResponse()
-		{
 
-		}
 	}
 }
