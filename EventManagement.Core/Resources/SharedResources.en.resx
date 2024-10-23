@@ -201,4 +201,7 @@
   <data name="EmailAlreadyExist" xml:space="preserve">
     <value>Email is already in use by another user</value>
   </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Password Changed</value>
+  </data>
 </root>

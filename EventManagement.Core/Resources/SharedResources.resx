@@ -199,7 +199,10 @@
   <data name="FailedToDelete" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="EmailAlreadyExist" xml:space="preserve">
+  <data name="EmailAlreadyExist" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
     <value />
   </data>
 </root>

@@ -11,10 +11,12 @@
 		{
 			private const string Prefix = Rule + "/User";
 			public const string List = Prefix + "/List";
+			public const string Paginated = Prefix + "/Paginated";
 			public const string GetById = Prefix + SingleRoute;
 			public const string Create = Prefix + "/Create";
 			public const string Edit = Prefix;
-			public const string Paginated = Prefix + "/Paginated";
+			public const string Delete = Prefix+"/{id}";
+			public const string ChangePassword = Prefix + "/Change-Password";
 
 		}
 		public static class EventRouting

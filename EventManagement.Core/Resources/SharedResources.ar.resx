@@ -201,4 +201,7 @@
   <data name="EmailAlreadyExist" xml:space="preserve">
     <value>البريد الإلكتروني قيد الإستخدام من طرف مستخدم آخر </value>
   </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>تم تغيير كلمة المرور</value>
+  </data>
 </root>

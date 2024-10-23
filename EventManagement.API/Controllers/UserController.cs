@@ -45,10 +45,17 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 
-		[HttpDelete(Router.UserRouting.GetById)]
+		[HttpDelete(Router.UserRouting.Delete)]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new DeleteUserCommand(id));
+			return NewResult(response);
+		}
+
+		[HttpPut(Router.UserRouting.ChangePassword)]
+		public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordCommand command)
+		{
+			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
 		#endregion

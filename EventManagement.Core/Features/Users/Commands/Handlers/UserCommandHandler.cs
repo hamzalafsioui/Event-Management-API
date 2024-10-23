@@ -12,7 +12,8 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 	public class UserCommandHandler : ResponseHandler,
 		IRequestHandler<AddUserCommand, Response<string>>,
 		IRequestHandler<EditUserCommand, Response<string>>,
-		IRequestHandler<DeleteUserCommand, Response<string>>
+		IRequestHandler<DeleteUserCommand, Response<string>>,
+		IRequestHandler<ChangeUserPasswordCommand, Response<string>>
 	{
 
 		#region Fields
@@ -93,6 +94,23 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {user.Id} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
 			else
 				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToDelete]}");
+		}
+
+		public async Task<Response<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+		{
+			// get user
+			var user = await _userManager.FindByIdAsync(request.Id.ToString());
+			// checking 
+			if (user == null)
+				return NotFound<string>();
+			// change password
+			var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+			// return response
+			if (result.Succeeded)
+				return Success<string>($"{_stringLocalizer[SharedResourcesKeys.PasswordChanged]}");
+			else
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.BadRequest]} : {result.Errors?.FirstOrDefault()?.Description}");
+
 		}
 
 		#endregion

@@ -8,6 +8,7 @@
 		public const string Created = "Created";
 		public const string Updated = "Updated";
 		public const string Operation = "Operation";
+		public const string PasswordChanged = "PasswordChanged";
 		public const string TooManyRequest = "TooManyRequest";
 		public const string UnprocessableEntity = "UnprocessableEntity";
 		public const string BadRequest = "Bad Request";
