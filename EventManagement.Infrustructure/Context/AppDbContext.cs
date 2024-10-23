@@ -47,6 +47,24 @@ namespace EventManagement.Infrustructure.Context
 						createdEntity.CreatedAt = DateTime.UtcNow;
 					}
 				}
+
+				// Handle DeletedAt for soft delete
+				if (entry.State == EntityState.Deleted)
+				{
+					// If the entity implements IHasDeletedAt, perform soft delete instead of actual deletion
+					if (entry.Entity is IHasDeletedAt deletedEntity)
+					{
+						// Convert the delete operation into an update
+						entry.State = EntityState.Modified;
+						deletedEntity.DeletedAt = DateTime.UtcNow;
+
+						
+						if (entry.Entity is User userEntity) 
+						{
+							userEntity.IsDeleted = true;
+						}
+					}
+				}
 			}
 			return base.SaveChangesAsync(cancellationToken);
 		}

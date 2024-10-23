@@ -8,4 +8,8 @@
 	{
 		DateTime UpdatedAt { get; set; }
 	}
+	public interface IHasDeletedAt
+	{
+		DateTime? DeletedAt { get; set; }
+	}
 }

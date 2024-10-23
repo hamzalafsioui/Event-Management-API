@@ -85,11 +85,8 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			if (user == null)
 				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.id} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
-			// soft delete
-			user.IsDeleted = true;
-			// Call Delete service
-			//var result = await _userManager.DeleteAsync(user);
-			var result = await _userManager.UpdateAsync(user);
+			// Call Delete service (applying soft delete in SaveChangesAsync())
+			var result = await _userManager.DeleteAsync(user);
 
 			// return response
 			if (result.Succeeded)
