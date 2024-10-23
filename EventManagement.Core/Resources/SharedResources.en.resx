@@ -195,4 +195,10 @@
   <data name="FailedToUpdate" xml:space="preserve">
     <value>Update Operation Failed</value>
   </data>
+  <data name="FailedToDelete" xml:space="preserve">
+    <value>Delete Operation Failed</value>
+  </data>
+  <data name="EmailAlreadyExist" xml:space="preserve">
+    <value>Email is already in use by another user</value>
+  </data>
 </root>

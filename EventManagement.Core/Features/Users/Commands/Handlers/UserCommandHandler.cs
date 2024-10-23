@@ -11,8 +11,8 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 {
 	public class UserCommandHandler : ResponseHandler,
 		IRequestHandler<AddUserCommand, Response<string>>,
-		IRequestHandler<EditUserCommand, Response<string>>
-	//IRequestHandler<DeleteUserCommand, Response<string>>
+		IRequestHandler<EditUserCommand, Response<string>>,
+		IRequestHandler<DeleteUserCommand, Response<string>>
 	{
 
 		#region Fields
@@ -36,12 +36,12 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			var userByEmail = await _userManager.FindByEmailAsync(request.Email);
 			// email is exist
 			if (userByEmail != null)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.Email]} {_stringLocalizer[SharedResourcesKeys.AlreadyExist]}");
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.Email]} {_stringLocalizer[SharedResourcesKeys.EmailAlreadyExist]}");
 			// if username  is Exist
 			var userByUserName = await _userManager.FindByNameAsync(request.UserName);
 			// username is exist
 			if (userByUserName != null)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.Username]} {_stringLocalizer[SharedResourcesKeys.AlreadyExist]}");
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.Username]} {_stringLocalizer[SharedResourcesKeys.UsernameAlreadyExist]}");
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
 			// create
@@ -77,24 +77,26 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToUpdate]}");
 		}
 
-		//public async Task<Response<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
-		//{
-		//	// check is Id is exist
-		//	var user = await _userService.GetByIdAsync(request.userId);
-		//	// return NotFound
-		//	if (user == null)
-		//		return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.userId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
+		public async Task<Response<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+		{
+			// check is Id is exist
+			var user = await _userManager.FindByIdAsync(request.id.ToString());
+			// return NotFound
+			if (user == null)
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.id} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
+			// soft delete
+			user.IsDeleted = true;
+			// Call Delete service
+			//var result = await _userManager.DeleteAsync(user);
+			var result = await _userManager.UpdateAsync(user);
 
-		//	// Call Delete service
-		//	var result = await _userService.DeleteAsync(user);
-
-		//	// return response
-		//	if (result == "Success")
-		//		return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {user.Id} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
-		//	else
-		//		return BadRequest<string>();
-		//}
+			// return response
+			if (result.Succeeded)
+				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {user.Id} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
+			else
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToDelete]}");
+		}
 
 		#endregion
 	}

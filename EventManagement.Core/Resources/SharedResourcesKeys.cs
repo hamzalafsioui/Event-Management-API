@@ -16,7 +16,8 @@
 		public const string InvalidId = "InvalidId";
 		public const string UserId = "UserId";
 		public const string Username = "Username";
-		public const string UsernameAlreadyExist = "AlreadyExist";
+		public const string UsernameAlreadyExist = "UsernameAlreadyExist";
+		public const string EmailAlreadyExist = "EmailAlreadyExist";
 		public const string MaxLengthIs100 = "MaxLengthIs100";
 		public const string InvalidFormat = "InvalidFormat";
 
@@ -32,6 +33,7 @@
 		public const string Email = "Email";
 		public const string FailedToAdd = "FailedToAdd";
 		public const string FailedToUpdate = "FailedToUpdate";
+		public const string FailedToDelete = "FailedToDelete";
 
 
 	}

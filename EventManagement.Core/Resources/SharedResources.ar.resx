@@ -195,4 +195,10 @@
   <data name="FailedToUpdate" xml:space="preserve">
     <value>عملية التحديث فشلت</value>
   </data>
+  <data name="FailedToDelete" xml:space="preserve">
+    <value>عملية الحذف فشلت</value>
+  </data>
+  <data name="EmailAlreadyExist" xml:space="preserve">
+    <value>البريد الإلكتروني قيد الإستخدام من طرف مستخدم آخر </value>
+  </data>
 </root>
