@@ -5,17 +5,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace EventManagement.Core.Features.Users.Commands.Models
 {
-	public class EditUserCommand : IRequest<Response<string>>
+	public record EditUserCommand : IRequest<Response<string>>
 	{
-		public int UserId { get; set; }
-		public string Username { get; set; }
-		public string Password { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-		public DateTime DateOfBirth { get; set; }
-		public string Email { get; set; }
-		public IFormFile? Image { get; set; }
-		public UserRoleEnum Role { get; set; }
+		public required int Id { get; init; }
+		public required string Username { get; init; }
+		public required string FirstName { get; init; }
+		public required string LastName { get; init; }
+		public required DateTime DateOfBirth { get; init; }
+		public required string Email { get; init; }
+		public IFormFile? Image { get; init; }
+		public required UserRoleEnum Role { get; init; }
 
 	}
 }

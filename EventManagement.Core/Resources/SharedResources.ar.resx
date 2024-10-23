@@ -159,8 +159,8 @@
   <data name="UserId" xml:space="preserve">
     <value>معرف المستخدم</value>
   </data>
-  <data name="AlreadyExist" xml:space="preserve">
-    <value>موجود بالفعل</value>
+  <data name="UsernameAlreadyExist" xml:space="preserve">
+    <value>اسم المستخدم قيد الإستخدام بالفعل بواسطة مستخدم آخر</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>اسم المستخدم</value>
@@ -189,7 +189,10 @@
   <data name="NotMatched" xml:space="preserve">
     <value>غير متطابقة</value>
   </data>
-  <data name="FailedToAddUser" xml:space="preserve">
-    <value>فشلت عملية إضافة المستخدم</value>
+  <data name="FailedToAdd" xml:space="preserve">
+    <value>عملية الإضافة فشلت</value>
+  </data>
+  <data name="FailedToUpdate" xml:space="preserve">
+    <value>عملية التحديث فشلت</value>
   </data>
 </root>

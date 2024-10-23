@@ -159,8 +159,8 @@
   <data name="UserId" xml:space="preserve">
     <value>User Id</value>
   </data>
-  <data name="AlreadyExist" xml:space="preserve">
-    <value>Already Exists</value>
+  <data name="UsernameAlreadyExist" xml:space="preserve">
+    <value>Username is already in use by another user</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
@@ -189,7 +189,10 @@
   <data name="NotMatched" xml:space="preserve">
     <value>Not Matched</value>
   </data>
-  <data name="FailedToAddUser" xml:space="preserve">
-    <value>Failed To Add User</value>
+  <data name="FailedToAdd" xml:space="preserve">
+    <value>Add Operation Failed</value>
+  </data>
+  <data name="FailedToUpdate" xml:space="preserve">
+    <value>Update Operation Failed</value>
   </data>
 </root>
