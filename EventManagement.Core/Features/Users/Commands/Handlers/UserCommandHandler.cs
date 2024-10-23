@@ -10,8 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Users.Commands.Handlers
 {
 	public class UserCommandHandler : ResponseHandler,
-		IRequestHandler<AddUserCommand, Response<string>>
-	//	,IRequestHandler<EditUserCommand, Response<string>>,
+		IRequestHandler<AddUserCommand, Response<string>>,
+		IRequestHandler<EditUserCommand, Response<string>>
 	//IRequestHandler<DeleteUserCommand, Response<string>>
 	{
 
@@ -48,7 +48,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			var CreateResult = await _userManager.CreateAsync(identityUser, request.Password);
 			// Failed
 			if (!CreateResult.Succeeded)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAddUser]} : {CreateResult.Errors?.FirstOrDefault()?.Description}");
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAdd]} : {CreateResult.Errors?.FirstOrDefault()?.Description}");
 
 
 			// Message
@@ -57,25 +57,25 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			return Created($"{_stringLocalizer[SharedResourcesKeys.Created]}");
 		}
 
-		//public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
-		//{
-		//	// check is Id is exist
-		//	var user = await _userService.GetByIdAsync(request.UserId);
-		//	// return NotFound
-		//	if (user == null)
-		//		return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.UserId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
+		public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+		{
+			// check is Id is exist
+			var OldUser = await _userManager.FindByIdAsync(request.Id.ToString());
+			// return NotFound
+			if (OldUser == null)
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.Id} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
-		//	// mapping between user and Request
-		//	_mapper.Map(request, user);
-		//	// Call update service
-		//	var result = await _userService.EditAsync(user);
+			// mapping between user and Request
+			var newUser = _mapper.Map(request, OldUser);
+			// Call update service
+			var result = await _userManager.UpdateAsync(newUser);
 
-		//	// return response
-		//	if (result == "Success")
-		//		return Success($"Edit Successfully In Id {user.Id}");
-		//	else
-		//		return BadRequest<string>();
-		//}
+			// return response
+			if (result.Succeeded)
+				return Success($"Edit Successfully In Id {newUser.Id}");
+			else
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToUpdate]}");
+		}
 
 		//public async Task<Response<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
 		//{

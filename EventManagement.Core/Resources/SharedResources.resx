@@ -160,7 +160,7 @@
   <data name="UserId" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="AlreadyExist" type="System.Resources.ResXNullRef, System.Windows.Forms">
+  <data name="UsernameAlreadyExist" xml:space="preserve">
     <value />
   </data>
   <data name="Username" type="System.Resources.ResXNullRef, System.Windows.Forms">
@@ -190,7 +190,10 @@
   <data name="NotMatched" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="FailedToAddUser" xml:space="preserve">
+  <data name="FailedToAdd" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FailedToUpdate" xml:space="preserve">
     <value />
   </data>
 </root>

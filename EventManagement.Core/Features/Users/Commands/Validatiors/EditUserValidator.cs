@@ -1,21 +1,26 @@
 ﻿using EventManagement.Core.Features.Users.Commands.Models;
-using EventManagement.Service.Abstracts;
+using EventManagement.Core.Resources;
+using EventManagement.Data.Entities.Identity;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Users.Commands.Validatiors
 {
-	public class EditUserValidator:AbstractValidator<EditUserCommand>
+	public class EditUserValidator : AbstractValidator<EditUserCommand>
 	{
 		#region Fields
-		private readonly IUserService _userService;
+		private readonly UserManager<User> _userManager;
+		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
 		#endregion
 		#region Constructors
-		public EditUserValidator(IUserService userService)
+		public EditUserValidator(UserManager<User> userManger, IStringLocalizer<SharedResources> stringLocalizer)
 		{
 			ApplyValidationsRules();
 			ApplyCustomValidationsRules();
-			this._userService = userService;
+			this._userManager = userManger;
+			this._stringLocalizer = stringLocalizer;
 		}
 		#endregion
 		#region Actions
@@ -40,18 +45,18 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
 				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null");
 
-			RuleFor(x => x.Password)
-				.NotEmpty().WithMessage("{PropertyName} is required, Must not be empty")
-				.NotNull().WithMessage("{PropertyName} with {PropertyValue} Must not be Null")
-				.MinimumLength(3);
-
 		}
 
 		public void ApplyCustomValidationsRules()
 		{
 			RuleFor(x => x.Username)
-				.MustAsync(async (model,key,CancellationToken) => !(await _userService.IsUserNameExistExcludeSelf(key,model.UserId)))
-				.WithMessage("UserName Is Already Exist");
+				.MustAsync(async (model, key, CancellationToken) =>
+				{
+					// Excluded current user
+					var user = await _userManager.FindByNameAsync(key);
+					return user == null || user.Id == model.Id;
+				})
+				.WithMessage($"{_stringLocalizer[SharedResourcesKeys.UsernameAlreadyExist]}");
 		}
 		#endregion
 	}
