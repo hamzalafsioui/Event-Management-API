@@ -1,5 +1,5 @@
 ﻿using EventManagement.Data.Entities.Identity;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace EventManagement.Service.Implementations
 {
-	public class UserService : UserManager<User>, IUserService
+    public class UserService : UserManager<User>, IUserService
 	{
 		#region Fields
 		private IUserRepository _userRepository;

@@ -1,10 +1,10 @@
 ﻿using EventManagement.Data.Abstracts;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace EventManagement.Data.Entities.Identity
 {
-	public class User : IdentityUser<int>, IHasCreatedAt, IHasUpdatedAt, IHasDeletedAt
+    public class User : IdentityUser<int>, IHasCreatedAt, IHasUpdatedAt, IHasDeletedAt
 	{
 
 		public required string FirstName { get; set; }

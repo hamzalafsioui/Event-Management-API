@@ -1,11 +1,11 @@
 ﻿using EventManagement.Core.Bases;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace EventManagement.Core.Features.Users.Commands.Models
 {
-	public record EditUserCommand : IRequest<Response<string>>
+    public record EditUserCommand : IRequest<Response<string>>
 	{
 		public required int Id { get; init; }
 		public required string Username { get; init; }

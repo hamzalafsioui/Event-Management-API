@@ -1,6 +1,6 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities.Identity;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 
 namespace EventManagement.Data.Entities
 {

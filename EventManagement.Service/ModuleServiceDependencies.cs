@@ -13,6 +13,7 @@ namespace EventManagement.Service
 			services.AddTransient<IAttendeeService, AttendeeService>();
 			services.AddTransient<ICommentService, CommentService>();
 			services.AddTransient<ICategoryService, CategoryService>();
+			services.AddTransient<IAuthenticationService, AuthenticationService>();
 			return services;
 		}
 	}

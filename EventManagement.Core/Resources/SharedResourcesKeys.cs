@@ -36,6 +36,8 @@
 		public const string FailedToUpdate = "FailedToUpdate";
 		public const string FailedToDelete = "FailedToDelete";
 
+		public const string IncrorrectData = "IncrorrectData";
+
 
 	}
 }

@@ -1,11 +1,11 @@
 ﻿using EventManagement.Core.Bases;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace EventManagement.Core.Features.Users.Commands.Models
 {
-	public class AddUserCommand : IRequest<Response<string>>
+    public class AddUserCommand : IRequest<Response<string>>
 	{
 		public required string UserName { get; init; }
 		public required string Password { get; init; }

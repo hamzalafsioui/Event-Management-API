@@ -204,4 +204,7 @@
   <data name="PasswordChanged" xml:space="preserve">
     <value>تم تغيير كلمة المرور</value>
   </data>
+  <data name="IncrorrectInformation" xml:space="preserve">
+    <value>البيانات خاطئة </value>
+  </data>
 </root>

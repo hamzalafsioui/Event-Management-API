@@ -1,12 +1,12 @@
 ﻿using EventManagement.Data.Entities;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Service.Implementations
 {
-	internal class EventService : IEventService
+    internal class EventService : IEventService
 	{
 		#region Fields
 		private readonly IEventRepository _eventRepository;

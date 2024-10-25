@@ -1,9 +1,9 @@
 ﻿using EventManagement.Data.Entities;
-using EventManagement.Data.Helper;
+using EventManagement.Data.Helper.Enums;
 
 namespace EventManagement.Service.Abstracts
 {
-	public interface IEventService
+    public interface IEventService
 	{
 		public Task<Event> GetEventByIdAsync(int id);
 		public Task<string> AddAsync(Event @event);

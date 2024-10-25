@@ -1,13 +1,18 @@
 ﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Helper.Authentication;
 using EventManagement.Infrustructure.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace EventManagement.Infrustructure
 {
 	public static class ServiceRegistration
 	{
-		public static IServiceCollection AddServiceRegistration(this IServiceCollection services)
+		public static IServiceCollection AddServiceRegistration(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddIdentity<User, IdentityRole<int>>(opt =>
 			{
@@ -30,7 +35,34 @@ namespace EventManagement.Infrustructure
 				opt.User.RequireUniqueEmail = true;
 				opt.SignIn.RequireConfirmedEmail = false;
 			}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+			// Authentication : JwtOptions
+			var JwtSettings = new JwtSettings();
+			configuration.GetSection(nameof(JwtSettings)).Bind(JwtSettings);
+			services.AddSingleton(JwtSettings);
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = JwtSettings.Issuer,
+						ValidAudience = JwtSettings.Audience,
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Key)),
+						ClockSkew = TimeSpan.Zero // Eliminate clock skew for token expiration
+					};
+				});
+
 			return services;
+
 		}
 	}
 }

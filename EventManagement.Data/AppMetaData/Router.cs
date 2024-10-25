@@ -29,5 +29,12 @@
 			public const string Paginated = Prefix + "/Paginated";
 
 		}
+		public static class AuthenticationRouting
+		{
+			private const string Prefix = Rule + "/Authentication";
+			public const string SignIn = Prefix + "/SignIn";
+		
+
+		}
 	}
 }

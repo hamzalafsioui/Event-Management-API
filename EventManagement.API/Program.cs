@@ -40,7 +40,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddInfrustructureDependencies()
 				.AddServiceDependencies()
 				.AddCoreDependencies()
-				.AddServiceRegistration();
+				.AddServiceRegistration(builder.Configuration);
 
 #endregion
 
@@ -103,6 +103,7 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

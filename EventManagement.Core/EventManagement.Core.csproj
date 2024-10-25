@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Authentication\Commands\Results\" />
+    <Folder Include="Features\Authentication\Queries\" />
     <Folder Include="Features\Users\Queries\Validatiors\" />
   </ItemGroup>
 
