@@ -32,11 +32,11 @@ namespace EventManagement.Service.Implementations
 			};
 
 			// create the signing key from appsettings.json
-			if (string.IsNullOrEmpty(_jwtSettings.Key))
+			if (string.IsNullOrEmpty(_jwtSettings.SigningKey))
 			{
-				throw new ArgumentNullException(nameof(_jwtSettings.Key), "JWT signing key cannot be null or empty.");
+				throw new ArgumentNullException(nameof(_jwtSettings.SigningKey), "JWT signing key cannot be null or empty.");
 			}
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SigningKey));
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 			// create the token descriptor with clims,exipry, signing credentials

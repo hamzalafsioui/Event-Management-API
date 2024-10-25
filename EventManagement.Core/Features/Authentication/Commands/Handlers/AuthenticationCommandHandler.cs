@@ -38,7 +38,7 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 			// return no user found
 			if (user == null)
 			{
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.BadRequest]}");
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.IncrorrectData]}");
 			}
 			// try to sign in
 			var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);

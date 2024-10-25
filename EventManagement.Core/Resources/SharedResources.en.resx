@@ -204,7 +204,7 @@
   <data name="PasswordChanged" xml:space="preserve">
     <value>Password Changed</value>
   </data>
-  <data name="IncrorrectInformation" xml:space="preserve">
+  <data name="IncrorrectData" xml:space="preserve">
     <value>Incorrect Data</value>
   </data>
 </root>

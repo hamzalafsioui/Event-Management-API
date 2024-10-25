@@ -2,6 +2,7 @@
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Data.AppMetaData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
@@ -24,6 +25,7 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(query);
 			return Ok(response);
 		}
+		[Authorize]
 		[HttpGet(Router.UserRouting.GetById)]
 		public async Task<IActionResult> GetUserById([FromRoute] int id)
 		{
