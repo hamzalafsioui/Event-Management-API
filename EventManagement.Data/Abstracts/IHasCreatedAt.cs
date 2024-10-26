@@ -12,4 +12,8 @@
 	{
 		DateTime? DeletedAt { get; set; }
 	}
+	public interface IHasExpiredAt
+	{
+		DateTime ExpiredAt { get; set; }
+	}
 }

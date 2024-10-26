@@ -26,6 +26,9 @@ namespace EventManagement.Infrustructure.Context
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Attendee> Attendees { get; set; }
 		public DbSet<Comment> Comments { get; set; }
+		public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+
+
 		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
 			var entities = ChangeTracker.Entries();

@@ -2,6 +2,7 @@
 using EventManagement.Core.Features.Authentication.Commands.Models;
 using EventManagement.Core.Resources;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Helper.Authentication;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +10,8 @@ using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 {
-	internal class AuthenticationCommandHandler : ResponseHandler,
-		IRequestHandler<SignInCommand, Response<string>>
+	public class AuthenticationCommandHandler : ResponseHandler,
+		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -31,28 +32,28 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 		#endregion
 		#region Handle Functions
 
-		public async Task<Response<string>> Handle(SignInCommand request, CancellationToken cancellationToken)
+		public async Task<Response<JwtAuthResponse>> Handle(SignInCommand request, CancellationToken cancellationToken)
 		{
 			// cheking if user exist or not
 			var user = await _userManager.FindByNameAsync(request.UserName);
 			// return no user found
 			if (user == null)
 			{
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.IncrorrectData]}");
+				return BadRequest<JwtAuthResponse>($"{_stringLocalizer[SharedResourcesKeys.IncrorrectData]}");
 			}
 			// try to sign in
 			var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 			// return Failed if UserName/Email - Password wrong
 			if (!signInResult.Succeeded)
 			{
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.IncrorrectData]}");
+				return BadRequest<JwtAuthResponse>($"{_stringLocalizer[SharedResourcesKeys.IncrorrectData]}");
 
 			}
 			// generate Token 
-			var accessToken = await _authenticationService.GetJWTToken(user);
+			var result =  _authenticationService.GetJWTToken(user);
 			// return token
 
-			return Success(accessToken);
+			return Success<JwtAuthResponse>(result);
 		}
 		#endregion
 

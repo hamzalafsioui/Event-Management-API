@@ -1,6 +1,7 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Helper.Enums;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventManagement.Data.Entities.Identity
 {
@@ -20,6 +21,8 @@ namespace EventManagement.Data.Entities.Identity
 		public virtual ICollection<Event> CreatedEvents { get; set; } = new HashSet<Event>();
 		public virtual ICollection<Attendee> AttendingEvents { get; set; } = new HashSet<Attendee>();
 		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+		[InverseProperty(nameof(UserRefreshToken.user))]
+		public virtual ICollection<UserRefreshToken> UserRefreshTokens { get; set; } = new HashSet<UserRefreshToken>();
 
 
 
@@ -28,6 +31,7 @@ namespace EventManagement.Data.Entities.Identity
 			CreatedEvents = new HashSet<Event>();
 			AttendingEvents = new HashSet<Attendee>();
 			Comments = new HashSet<Comment>();
+			UserRefreshTokens = new HashSet<UserRefreshToken>();
 		}
 	}
 }
