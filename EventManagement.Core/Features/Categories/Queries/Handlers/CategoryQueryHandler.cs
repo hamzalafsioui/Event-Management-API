@@ -3,6 +3,7 @@ using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Categories.Queries.Models;
 using EventManagement.Core.Features.Categories.Queries.Responses;
 using EventManagement.Core.Resources;
+using EventManagement.Data.Entities;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -10,7 +11,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Categories.Queries.Handlers
 {
 	public class CategoryQueryHandler : ResponseHandler,
-		IRequestHandler<GetCategoryListQuery, Response<List<GetCategoryListResponse>>>
+		IRequestHandler<GetCategoryListQuery, Response<List<GetCategoryListResponse>>>,
+		IRequestHandler<GetCategoryByIdQuery,Response<GetCategoryByIdResponse>>
 	{
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly ICategoryService _categoryService;
@@ -44,6 +46,17 @@ namespace EventManagement.Core.Features.Categories.Queries.Handlers
 				Count = categoriesListMapping.Count,
 			};
 			return result;
+		}
+
+		public async Task<Response<GetCategoryByIdResponse>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+		{
+			var category = await _categoryService.GetCategoryByIdAsync(request.CategoryId);
+			if (category == null)
+				return BadRequest<GetCategoryByIdResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			
+			var categoryMapping = _mapper.Map<GetCategoryByIdResponse>(category);
+
+		    return Success<GetCategoryByIdResponse>(categoryMapping);
 		}
 		#endregion
 

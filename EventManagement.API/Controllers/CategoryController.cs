@@ -10,9 +10,15 @@ namespace EventManagement.API.Controllers
 	public class CategoryController : AppControllerBase
 	{
 		[HttpGet(Router.CategoryRouting.List)]
-		public async Task<IActionResult> GetEventList()
+		public async Task<IActionResult> GetCategoryList()
 		{
 			var response = await Mediator.Send(new GetCategoryListQuery());
+			return NewResult(response);
+		}
+		[HttpGet(Router.CategoryRouting.GetById)]
+		public async Task<IActionResult> GetCategoryById([FromQuery] GetCategoryByIdQuery getCategoryByIdQuery)
+		{
+			var response = await Mediator.Send((getCategoryByIdQuery));
 			return NewResult(response);
 		}
 	}

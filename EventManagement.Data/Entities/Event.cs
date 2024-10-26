@@ -3,7 +3,7 @@ using EventManagement.Data.Entities.Identity;
 
 namespace EventManagement.Data.Entities
 {
-    public class Event : IHasCreatedAt, IHasUpdatedAt
+	public class Event : IHasCreatedAt, IHasUpdatedAt
 	{
 		public int EventId { get; set; }
 		public required string Title { get; set; }
@@ -12,7 +12,7 @@ namespace EventManagement.Data.Entities
 		public required DateTime StartTime { get; set; } // validate always StartTime before EndTime
 		public required DateTime EndTime { get; set; }
 		public required int CategoryId { get; set; }
-		public required int CreatorUserId { get; set; }
+		public required int CreatorId { get; set; }
 		public required int Capacity { get; set; }
 
 		public DateTime CreatedAt { get; set; }
@@ -35,7 +35,7 @@ namespace EventManagement.Data.Entities
 			StartTime = startTime;
 			EndTime = endTime;
 			CategoryId = categoryId;
-			CreatorUserId = createdBy;
+			CreatorId = createdBy;
 			Capacity = capacity;
 
 		}
