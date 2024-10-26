@@ -4,8 +4,6 @@ using MediatR;
 
 namespace EventManagement.Core.Features.Events.Queries.Models
 {
-	public class GetEventListQuery:IRequest<Response<List<GetEventListResponse>>>
-	{
-		
-	}
+	public record GetEventListQuery : IRequest<Response<List<GetEventListResponse>>>;
+
 }

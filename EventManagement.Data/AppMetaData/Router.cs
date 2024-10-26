@@ -15,7 +15,7 @@
 			public const string GetById = Prefix + SingleRoute;
 			public const string Create = Prefix + "/Create";
 			public const string Edit = Prefix;
-			public const string Delete = Prefix+"/{id}";
+			public const string Delete = Prefix + "/{id}";
 			public const string ChangePassword = Prefix + "/Change-Password";
 
 		}
@@ -33,8 +33,13 @@
 		{
 			private const string Prefix = Rule + "/Authentication";
 			public const string SignIn = Prefix + "/SignIn";
-		
 
+
+		}
+		public static class CategoryRouting
+		{
+			private const string Prefix = Rule + "/Category";
+			public const string List = Prefix + "/List";
 		}
 	}
 }
