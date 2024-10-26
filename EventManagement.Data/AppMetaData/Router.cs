@@ -41,6 +41,7 @@
 			private const string Prefix = Rule + "/Category";
 			public const string List = Prefix + "/List";
 			public const string GetById = Prefix;
+			public const string Create = Prefix + "/Create";
 		}
 	}
 }

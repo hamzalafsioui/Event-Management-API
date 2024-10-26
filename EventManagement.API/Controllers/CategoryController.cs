@@ -1,4 +1,5 @@
 ﻿using EventManagement.API.Base;
+using EventManagement.Core.Features.Categories.Command.Models;
 using EventManagement.Core.Features.Categories.Queries.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,12 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> GetCategoryById([FromQuery] GetCategoryByIdQuery getCategoryByIdQuery)
 		{
 			var response = await Mediator.Send((getCategoryByIdQuery));
+			return NewResult(response);
+		}
+		[HttpPost(Router.CategoryRouting.Create)]
+		public async Task<IActionResult> Create([FromBody] AddCategoryCommand command)
+		{
+			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
 	}

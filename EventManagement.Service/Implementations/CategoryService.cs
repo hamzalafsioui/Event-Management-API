@@ -37,6 +37,20 @@ namespace EventManagement.Service.Implementations
 			var category = await _categoryRepository.GetTableNoTracking().Where(x => x.CategoryId.Equals(categoryId)).FirstOrDefaultAsync();
 			return category;
 		}
+		public async Task<bool> IsCategoryNameExistAsync(string name)
+		{
+			var category = await _categoryRepository.GetTableNoTracking().Where(c => c.Name.Equals(name)).FirstOrDefaultAsync();
+			if (category == null)
+				return false;
+			else
+				return true;
+
+		}
+		public async Task<string> AddAsync(Category category)
+		{
+			await _categoryRepository.AddAsync(category);
+			return "Success";
+		}
 		#endregion
 
 	}
