@@ -18,7 +18,7 @@ namespace EventManagement.Service.Implementations
 			_categoryRepository = categoryRepository;
 		}
 
-		
+
 		#endregion
 		#region Handle Functions
 		public async Task<bool> IsCategoryIdExist(int categoryId)
@@ -34,7 +34,7 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<Category> GetCategoryByIdAsync(int categoryId)
 		{
-			var category = await _categoryRepository.GetByIdAsync(categoryId);
+			var category = await _categoryRepository.GetTableNoTracking().Where(x => x.CategoryId.Equals(categoryId)).FirstOrDefaultAsync();
 			return category;
 		}
 		#endregion
