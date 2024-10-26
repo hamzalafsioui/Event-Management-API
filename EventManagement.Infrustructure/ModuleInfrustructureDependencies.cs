@@ -16,6 +16,7 @@ namespace EventManagement.Infrustructure
 			services.AddTransient<IAttendeeRepository, AttendeeRepository>();
 			services.AddTransient<ICommentRepository, CommentRepository>();
 			services.AddTransient<ICategoryRepository, CategoryRepository>();
+			services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 
 			return services;
 		}

@@ -50,7 +50,7 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 
 			}
 			// generate Token 
-			var result =  _authenticationService.GetJWTToken(user);
+			var result = await _authenticationService.GetJWTTokenAsync(user);
 			// return token
 
 			return Success<JwtAuthResponse>(result);

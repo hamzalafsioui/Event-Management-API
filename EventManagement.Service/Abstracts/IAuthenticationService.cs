@@ -5,6 +5,6 @@ namespace EventManagement.Service.Abstracts
 {
 	public interface IAuthenticationService
 	{
-		public JwtAuthResponse GetJWTToken(User user);
+		public Task<JwtAuthResponse> GetJWTTokenAsync(User user);
 	}
 }
