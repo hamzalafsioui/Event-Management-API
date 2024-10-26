@@ -6,8 +6,8 @@ namespace EventManagement.Core.Mapping.Categories
 	{
 		public CategoryProfile()
 		{
-			GetCategoryListMapping();
-			GetCategoryByIdMapping();
+			GetCategoryListQueryMapping();
+			GetCategoryByIdQueryMapping();
 			AddCategoryCommandMapping();
 		}
 	}

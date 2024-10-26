@@ -5,9 +5,9 @@ namespace EventManagement.Core.Mapping.Categories
 {
 	public partial class CategoryProfile
 	{
-		private void GetCategoryByIdMapping()
+		private void GetCategoryListQueryMapping()
 		{
-			CreateMap<Category, GetCategoryByIdResponse>();
+			CreateMap<Category, GetCategoryListResponse>();
 		}
 	}
 }
