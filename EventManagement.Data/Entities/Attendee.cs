@@ -1,9 +1,10 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities.Identity;
+using System.Text.Json.Serialization;
 
 namespace EventManagement.Data.Entities
 {
-    public class Attendee : IHasCreatedAt, IHasUpdatedAt
+	public class Attendee : IHasCreatedAt, IHasUpdatedAt
 	{
 		public int AttendeeId { get; set; }
 		public int EventId { get; set; }
@@ -20,13 +21,14 @@ namespace EventManagement.Data.Entities
 	}
 
 
-
+	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public enum RSVPStatus   // Répondez s'il vous plaît
 	{
 		Going,
 		NotGoing,
 		Interested,
 		Cancelled,
-		Maybe
+		Maybe,
+		Pending
 	}
 }
