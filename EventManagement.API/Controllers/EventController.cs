@@ -18,7 +18,7 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 		[HttpGet(Router.EventRouting.GetById)]
-		public async Task<IActionResult> GetEventById([FromQuery] GetEventByIdQuery getEventByIdQuery)
+		public async Task<IActionResult> GetEventById([FromRoute] GetEventByIdQuery getEventByIdQuery)
 		{
 			var response = await Mediator.Send(getEventByIdQuery);
 			return NewResult(response);
@@ -41,8 +41,8 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
-		[HttpDelete(Router.EventRouting.GetById)]
-		public async Task<IActionResult> Delete([FromQuery] int id)
+		[HttpDelete(Router.EventRouting.Delete)]
+		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new DeleteEventCommand(id));
 			return NewResult(response);

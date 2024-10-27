@@ -17,9 +17,9 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 		[HttpGet(Router.CategoryRouting.GetById)]
-		public async Task<IActionResult> GetCategoryById([FromQuery] GetCategoryByIdQuery getCategoryByIdQuery)
+		public async Task<IActionResult> GetCategoryById([FromRoute] int id)
 		{
-			var response = await Mediator.Send((getCategoryByIdQuery));
+			var response = await Mediator.Send((new GetCategoryByIdQuery(id)));
 			return NewResult(response);
 		}
 		[HttpPost(Router.CategoryRouting.Create)]
