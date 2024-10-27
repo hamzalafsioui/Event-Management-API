@@ -50,7 +50,7 @@ namespace EventManagement.Core.Features.Events.Commands.Validatiors
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
 
-			RuleFor(x => x.CreatorUserId)
+			RuleFor(x => x.CreatorId)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
 

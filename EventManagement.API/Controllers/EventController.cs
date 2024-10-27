@@ -18,7 +18,7 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 		[HttpGet(Router.EventRouting.GetById)]
-		public async Task<IActionResult> GetEventById([FromRoute] GetEventByIdQuery getEventByIdQuery)
+		public async Task<IActionResult> GetEventById([FromQuery] GetEventByIdQuery getEventByIdQuery)
 		{
 			var response = await Mediator.Send(getEventByIdQuery);
 			return NewResult(response);
