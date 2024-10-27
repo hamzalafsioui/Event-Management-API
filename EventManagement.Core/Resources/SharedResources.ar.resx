@@ -207,4 +207,7 @@
   <data name="IncrorrectData" xml:space="preserve">
     <value>البيانات خاطئة </value>
   </data>
+  <data name="CategoryExist" xml:space="preserve">
+    <value>اسم الفئة موجود بالفعل</value>
+  </data>
 </root>

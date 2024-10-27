@@ -9,6 +9,7 @@ namespace EventManagement.Core.Mapping.Categories
 			GetCategoryListQueryMapping();
 			GetCategoryByIdQueryMapping();
 			AddCategoryCommandMapping();
+			EditCategoryCommandMapping();
 		}
 	}
 }

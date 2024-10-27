@@ -35,7 +35,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<Category> GetCategoryByIdAsync(int categoryId)
 		{
 			var category = await _categoryRepository.GetTableNoTracking().Where(x => x.CategoryId.Equals(categoryId)).FirstOrDefaultAsync();
-			return category;
+			return category!;
 		}
 		public async Task<bool> IsCategoryNameExistAsync(string name)
 		{
@@ -46,9 +46,30 @@ namespace EventManagement.Service.Implementations
 				return true;
 
 		}
+		public async Task<bool> IsCategoryNameExistExcludeSelfAsync(string categoryName, int categoryId)
+		{
+			var category = await _categoryRepository.GetTableNoTracking().Where(c => c.Name.Equals(categoryName) && c.CategoryId != categoryId).FirstOrDefaultAsync();
+			if (category == null)
+				return false;
+			else
+				return true;
+
+		}
 		public async Task<string> AddAsync(Category category)
 		{
 			await _categoryRepository.AddAsync(category);
+			return "Success";
+		}
+
+		public async Task<string> EditAsync(Category category)
+		{
+			await _categoryRepository.UpdateAsync(category);
+			return "Success";
+		}
+
+		public async Task<string> DeleteAsync(Category category)
+		{
+			await _categoryRepository.DeleteAsync(category);
 			return "Success";
 		}
 		#endregion

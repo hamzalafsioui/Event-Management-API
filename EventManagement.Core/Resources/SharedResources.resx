@@ -118,96 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Required" xml:space="preserve">
-    <value>This Field is Required</value>
+    <value />
   </data>
   <data name="NotFound" xml:space="preserve">
-    <value>Not Found</value>
+    <value />
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted Successfully</value>
+    <value />
   </data>
   <data name="Created" xml:space="preserve">
-    <value>Created Successfully</value>
+    <value />
   </data>
   <data name="Updated" xml:space="preserve">
-    <value>Updated Successfully</value>
+    <value />
   </data>
   <data name="Operation" xml:space="preserve">
-    <value>Operation Successfully</value>
+    <value />
   </data>
   <data name="TooManyRequest" xml:space="preserve">
-    <value>Too Many Requests</value>
+    <value />
   </data>
   <data name="Unprocessable" xml:space="preserve">
-    <value>Unprocessable Entity</value>
+    <value />
   </data>
   <data name="BadRequest" xml:space="preserve">
-    <value>Bad Request</value>
+    <value />
   </data>
   <data name="NotEmpty" xml:space="preserve">
-    <value>The Field Must Not Be Empty</value>
+    <value />
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value />
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value />
   </data>
   <data name="InvalidID" xml:space="preserve">
-    <value>Invalid Id</value>
+    <value />
   </data>
   <data name="UserId" xml:space="preserve">
-    <value>User Id</value>
+    <value />
   </data>
   <data name="UsernameAlreadyExist" xml:space="preserve">
-    <value>Username is already in use by another user</value>
+    <value />
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Username</value>
+    <value />
   </data>
   <data name="MaxLengthIs100" xml:space="preserve">
-    <value>Max Length Is 100</value>
+    <value />
   </data>
   <data name="InvalidFormat" xml:space="preserve">
-    <value>Invalid Format</value>
+    <value />
   </data>
   <data name="CategoryId" xml:space="preserve">
-    <value>Category Id</value>
+    <value />
   </data>
   <data name="StartTime" xml:space="preserve">
-    <value>Start Time</value>
+    <value />
   </data>
   <data name="EndTime" xml:space="preserve">
-    <value>End Time</value>
+    <value />
   </data>
   <data name="MustBeAfter" xml:space="preserve">
-    <value>Must Be After</value>
+    <value />
   </data>
   <data name="EventId" xml:space="preserve">
-    <value>Event Id</value>
+    <value />
   </data>
   <data name="NotMatched" xml:space="preserve">
-    <value>Not Matched</value>
+    <value />
   </data>
   <data name="FailedToAdd" xml:space="preserve">
-    <value>Add Operation Failed</value>
+    <value />
   </data>
   <data name="FailedToUpdate" xml:space="preserve">
-    <value>Update Operation Failed</value>
+    <value />
   </data>
   <data name="FailedToDelete" xml:space="preserve">
-    <value>Delete Operation Failed</value>
+    <value />
   </data>
   <data name="EmailAlreadyExist" xml:space="preserve">
-    <value>Email is already in use by another user</value>
+    <value />
   </data>
   <data name="PasswordChanged" xml:space="preserve">
-    <value>Password Changed</value>
+    <value />
   </data>
   <data name="IncrorrectData" xml:space="preserve">
-    <value>Incorrect Data</value>
+    <value />
   </data>
   <data name="CategoryExist" xml:space="preserve">
-    <value>Category Name Is Already Exist</value>
+    <value>اسم الفئة موجود بالفعل</value>
   </data>
 </root>

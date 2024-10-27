@@ -8,6 +8,9 @@ namespace EventManagement.Service.Abstracts
 		public Task<List<Category>> GetCategoriesListAsync();
 		public Task<Category> GetCategoryByIdAsync(int categoryId);
 		public Task<bool> IsCategoryNameExistAsync(string categoryName);
+		public Task<bool> IsCategoryNameExistExcludeSelfAsync(string categoryName, int categoryId);
 		public Task<string> AddAsync(Category category);
+		public Task<string> EditAsync(Category category);
+		public Task<string> DeleteAsync(Category category);
 	}
 }
