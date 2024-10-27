@@ -28,5 +28,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		[HttpPut(Router.CategoryRouting.Edit)]
+		public async Task<IActionResult> Edit([FromBody] EditCategoryCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 	}
 }

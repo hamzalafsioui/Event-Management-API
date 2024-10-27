@@ -37,6 +37,7 @@
 		public const string FailedToDelete = "FailedToDelete";
 
 		public const string IncrorrectData = "IncrorrectData";
+		public const string CategoryExist = "CategoryExist";
 
 
 	}

@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Categories.Command.Handlers
 {
 	public class CategoryCommandHandler : ResponseHandler,
-		IRequestHandler<AddCategoryCommand, Response<string>>
+		IRequestHandler<AddCategoryCommand, Response<string>>,
+		IRequestHandler<EditCategoryCommand, Response<string>>
 
 	{
 		#region Fields
@@ -40,9 +41,31 @@ namespace EventManagement.Core.Features.Categories.Command.Handlers
 			// save data
 			var result = await _categoryService.AddAsync(categoryMapping);
 			if (result == "Success")
-				return Success<string>(_stringLocalizer[SharedResourcesKeys.Created]);
+				return Created<string>(_stringLocalizer[SharedResourcesKeys.Created]);
 			else
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
+
+		}
+
+		public async Task<Response<string>> Handle(EditCategoryCommand request, CancellationToken cancellationToken)
+		{
+			// check is category Exist
+			var category = await _categoryService.GetCategoryByIdAsync(request.CategoryId);
+			// not found
+			if (category == null)
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			// check is categoryName exist
+			var IscategoryNameExist = await _categoryService.IsCategoryNameExistExcludeSelfAsync(request.Name, request.CategoryId);
+			if (IscategoryNameExist)
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.CategoryExist]);
+			// mapping
+			var categoryMapping = _mapper.Map<Category>(request);
+			// call Edit service
+			var result = await _categoryService.EditAsync(categoryMapping);
+			if (result != "Success")
+				BadRequest<string>();
+
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 
 		}
 		#endregion
