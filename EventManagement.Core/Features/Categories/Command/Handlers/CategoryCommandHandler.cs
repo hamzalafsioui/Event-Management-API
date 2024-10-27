@@ -11,7 +11,8 @@ namespace EventManagement.Core.Features.Categories.Command.Handlers
 {
 	public class CategoryCommandHandler : ResponseHandler,
 		IRequestHandler<AddCategoryCommand, Response<string>>,
-		IRequestHandler<EditCategoryCommand, Response<string>>
+		IRequestHandler<EditCategoryCommand, Response<string>>,
+		IRequestHandler<DeleteCategoryCommand, Response<string>>
 
 	{
 		#region Fields
@@ -63,10 +64,26 @@ namespace EventManagement.Core.Features.Categories.Command.Handlers
 			// call Edit service
 			var result = await _categoryService.EditAsync(categoryMapping);
 			if (result != "Success")
-				BadRequest<string>();
+				BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 
+		}
+
+		public async Task<Response<string>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+		{
+			//retrieve category
+			var category = await _categoryService.GetCategoryByIdAsync(request.CategoryId);
+			// if not exist 
+			if (category == null)
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+
+			// call delete service
+			var result = await _categoryService.DeleteAsync(category);
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToDelete]);
+
+			return Deleted<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
 		}
 		#endregion
 

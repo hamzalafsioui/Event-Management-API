@@ -43,6 +43,7 @@
 			public const string GetById = Prefix;
 			public const string Create = Prefix + "/Create";
 			public const string Edit = Prefix;
+			public const string Delete = Prefix + SingleRoute;
 		}
 	}
 }
