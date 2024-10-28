@@ -1,6 +1,7 @@
 ﻿using EventManagement.Data.Entities;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Service.Implementations
 {
@@ -27,6 +28,20 @@ namespace EventManagement.Service.Implementations
 		{
 			await _attendeeRepository.AddAsync(attendee);
 			return "Success";
+		}
+
+		public async Task<string> UpdateAsyc(Attendee attendee)
+		{
+			await _attendeeRepository.UpdateAsync(attendee);
+			return "Success";
+		}
+
+		public async Task<Attendee> GetAttendeeByUserIdEventIdAsync(int userId, int eventId)
+		{
+			var attendee = await _attendeeRepository.GetTableNoTracking()
+				.Where(a => a.UserId.Equals(userId) && a.EventId.Equals(eventId))
+				.FirstOrDefaultAsync();
+			return attendee!;
 		}
 		#endregion
 

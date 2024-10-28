@@ -7,6 +7,7 @@ namespace EventManagement.Core.Mapping.Attendees
 		public AttendeeProfile()
 		{
 			AddAttendeeCommandMapping();
+			EditAttendeeCommandMapping();
 		}
 	}
 }

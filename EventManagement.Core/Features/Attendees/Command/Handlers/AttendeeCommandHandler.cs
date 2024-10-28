@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Attendees.Command.Handlers
 {
 	public class AttendeeCommandHandler : ResponseHandler,
-		IRequestHandler<AddAttendeeCommand, Response<string>>
+		IRequestHandler<AddAttendeeCommand, Response<string>>,
+		IRequestHandler<EditAttendeeCommand, Response<string>>
 	{
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly IAttendeeService _attendeeService;
@@ -37,6 +38,18 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 			if (result != "Success")
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
 			return Created<string>(_stringLocalizer[SharedResourcesKeys.Created]);
+		}
+
+		public async Task<Response<string>> Handle(EditAttendeeCommand request, CancellationToken cancellationToken)
+		{
+			// mapping 
+			var attendeeMapping = _mapper.Map<Attendee>(request);
+			// call add attendee service
+			var result = await _attendeeService.UpdateAsyc(attendeeMapping);
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
+
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 		}
 		#endregion
 

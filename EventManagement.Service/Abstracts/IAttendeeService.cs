@@ -6,5 +6,7 @@ namespace EventManagement.Service.Abstracts
 	{
 		IQueryable<Attendee> GetAttendeesByEventIdQueryable(int eventId);
 		Task<string> AddAsync(Attendee attendee);
+		Task<Attendee> GetAttendeeByUserIdEventIdAsync(int userId, int eventId);
+		Task<string> UpdateAsyc(Attendee attendee);
 	}
 }
