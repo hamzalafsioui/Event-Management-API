@@ -47,10 +47,11 @@ namespace EventManagement.Infrustructure.Configurations
 
 			builder
 				.HasOne(e => e.Creator)
-				.WithMany()
-				//.WithMany(u => u.CreatedEvents)
+				.WithMany(u => u.CreatedEvents)
 				.HasForeignKey(e => e.CreatorId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.HasQueryFilter(x => x.Status == EventStatus.Actived);
 			builder.ToTable("Events");
 
 		}

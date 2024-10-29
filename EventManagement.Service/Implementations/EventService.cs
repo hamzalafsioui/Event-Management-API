@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Service.Implementations
 {
-    internal class EventService : IEventService
+	internal class EventService : IEventService
 	{
 		#region Fields
 		private readonly IEventRepository _eventRepository;
@@ -114,6 +114,18 @@ namespace EventManagement.Service.Implementations
 			{
 				return "Failed";
 			}
+		}
+
+		public async Task<string> CancelAsync(int eventId)
+		{
+			var @event = await _eventRepository.GetTableAsTracking().FirstOrDefaultAsync(x => x.EventId == eventId);
+			if (@event != null)
+			{
+				@event.Status = EventStatus.Canceled;
+				await _eventRepository.UpdateAsync(@event);
+				return "Success";
+			}
+			return "Failed";
 		}
 		#endregion
 

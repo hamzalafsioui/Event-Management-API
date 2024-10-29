@@ -14,6 +14,7 @@ namespace EventManagement.Data.Entities
 		public required int CategoryId { get; set; }
 		public required int CreatorId { get; set; }
 		public required int Capacity { get; set; }
+		public EventStatus Status { get; set; } = EventStatus.Actived;
 
 		public DateTime CreatedAt { get; set; }
 		public DateTime UpdatedAt { get; set; }
@@ -46,6 +47,10 @@ namespace EventManagement.Data.Entities
 		}
 	}
 
-
+	public enum EventStatus
+	{
+		Actived,
+		Canceled,
+	}
 
 }

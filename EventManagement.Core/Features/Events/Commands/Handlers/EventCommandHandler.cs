@@ -12,7 +12,8 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 	public class EventCommandHandler : ResponseHandler,
 		IRequestHandler<AddEventCommand, Response<string>>,
 		IRequestHandler<EditEventCommand, Response<string>>,
-		IRequestHandler<DeleteEventCommand, Response<string>>
+		IRequestHandler<DeleteEventCommand, Response<string>>,
+		IRequestHandler<CancelEventCommand, Response<string>>
 	{
 		private readonly IEventService _eventService;
 		private readonly IMapper _mapper;
@@ -73,6 +74,16 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {@event.EventId} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
 			else
 				return BadRequest<string>();
+		}
+
+		public async Task<Response<string>> Handle(CancelEventCommand request, CancellationToken cancellationToken)
+		{
+
+			// call cancel service
+			var result = await _eventService.CancelAsync(request.EventId);
+			if (result != "Success")
+				return BadRequest<string>();
+			return Success<string>($"{_stringLocalizer[SharedResourcesKeys.Updated]}");
 		}
 		#endregion
 

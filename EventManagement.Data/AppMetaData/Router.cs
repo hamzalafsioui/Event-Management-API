@@ -28,6 +28,7 @@
 			public const string Edit = Prefix;
 			public const string Paginated = Prefix + "/Paginated";
 			public const string Delete = Prefix + SingleRoute;
+			public const string Cancel = Prefix+ "/{id}/cancel";
 
 
 		}
