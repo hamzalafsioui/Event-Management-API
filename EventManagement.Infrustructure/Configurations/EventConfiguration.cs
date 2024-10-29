@@ -20,15 +20,15 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasMaxLength(80)
 				.IsRequired();
 
-			builder
-				.Property(u => u.CreatedAt)
-				.ValueGeneratedOnAdd()
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder
+			//	.Property(u => u.CreatedAt)
+			//	.ValueGeneratedOnAdd()
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
-			builder
-				.Property(u => u.UpdatedAt)
-				.ValueGeneratedOnUpdate()
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder
+			//	.Property(u => u.UpdatedAt)
+			//	.ValueGeneratedOnUpdate()
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
 			builder.HasIndex(e => e.StartTime)
 				.HasDatabaseName("IX_Events_StartTime");

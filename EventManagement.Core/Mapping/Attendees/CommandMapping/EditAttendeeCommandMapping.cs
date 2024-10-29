@@ -8,8 +8,7 @@ namespace EventManagement.Core.Mapping.Attendees
 		private void EditAttendeeCommandMapping()
 		{
 			CreateMap<EditAttendeeCommand, Attendee>()
-				.ForMember(dest => dest.Status, opt => opt.MapFrom(src => ParseStatus(src.Status)))
-				.ForMember(dest => dest.RSVPDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+				.ForMember(dest => dest.Status, opt => opt.MapFrom(src => ParseStatus(src.Status)));
 		}
 	}
 }

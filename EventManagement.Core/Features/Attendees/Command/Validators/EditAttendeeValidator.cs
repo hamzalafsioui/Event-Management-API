@@ -65,7 +65,7 @@ namespace EventManagement.Core.Features.Attendees.Command.Validators
 				})
 				.WithMessage(_stringLocalizer[SharedResourcesKeys.NotFound]);
 
-
+			// block operation HasAttended if date > EndTime 
 
 
 		}

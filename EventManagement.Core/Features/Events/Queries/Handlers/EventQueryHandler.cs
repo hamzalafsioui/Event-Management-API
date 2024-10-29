@@ -53,8 +53,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			var eventMapper = _mapper.Map<GetEventByIdResponse>(response);
 
 			// Pagination
-			Expression<Func<Attendee, AttendeeResponse>> expressionAttend = eA => new AttendeeResponse(eA.AttendeeId, eA.User.UserName);
-			Expression<Func<Comment, CommentResponse>> expressionComment = eC => new CommentResponse(eC.CommentId, eC.User.UserName, eC.Content);
+			Expression<Func<Attendee, AttendeeResponse>> expressionAttend = eA => new AttendeeResponse(eA.User.UserName!);
+			Expression<Func<Comment, CommentResponse>> expressionComment = eC => new CommentResponse(eC.CommentId, eC.User.UserName!, eC.Content);
 			var AttendeesQueryable = _attendeeService.GetAttendeesByEventIdQueryable(request.Id);
 			var CommentsQueryable = _commentService.GetCommentsByEventIdQueryable(request.Id);
 

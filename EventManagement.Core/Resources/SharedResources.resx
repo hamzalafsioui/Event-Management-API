@@ -210,4 +210,7 @@
   <data name="CategoryExist" xml:space="preserve">
     <value>اسم الفئة موجود بالفعل</value>
   </data>
+  <data name="AlreadyRegistered" xml:space="preserve">
+    <value>Already Registered</value>
+  </data>
 </root>

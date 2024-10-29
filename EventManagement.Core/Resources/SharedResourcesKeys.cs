@@ -19,6 +19,8 @@
 		public const string Username = "Username";
 		public const string UsernameAlreadyExist = "UsernameAlreadyExist";
 		public const string EmailAlreadyExist = "EmailAlreadyExist";
+		public const string AlreadyRegistered = "AlreadyRegistered";
+
 		public const string MaxLengthIs100 = "MaxLengthIs100";
 		public const string InvalidFormat = "InvalidFormat";
 

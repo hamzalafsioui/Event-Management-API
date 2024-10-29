@@ -69,6 +69,17 @@ namespace EventManagement.Core.Features.Attendees.Command.Validators
 				})
 				.WithMessage(_stringLocalizer[SharedResourcesKeys.EventId] + " " + _stringLocalizer[SharedResourcesKeys.NotFound]);
 
+			// Is User attended to event
+			RuleFor(x => x.UserId)
+				.MustAsync(async (context, key, CancellationToken) =>
+				{
+					var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(key, context.EventId);
+					return attendee == null;
+				}).WithMessage(_stringLocalizer[SharedResourcesKeys.AlreadyRegistered]);
+
+			// check is date < startTime of the event
+
+
 
 		}
 		#endregion

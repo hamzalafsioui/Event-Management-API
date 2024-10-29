@@ -19,15 +19,15 @@ namespace EventManagement.Infrustructure.Configurations
 			builder.Property(c => c.Status)
 				.HasConversion<int>();
 
-			builder
-				.Property(u => u.CreatedAt)
-				.ValueGeneratedOnAdd()
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder
+			//	.Property(u => u.CreatedAt)
+			//	.ValueGeneratedOnAdd()
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
-			builder
-				.Property(u => u.UpdatedAt)
-				.ValueGeneratedOnUpdate()
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder
+			//	.Property(u => u.UpdatedAt)
+			//	.ValueGeneratedOnUpdate()
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
 			builder
 				.HasOne(c => c.Event)

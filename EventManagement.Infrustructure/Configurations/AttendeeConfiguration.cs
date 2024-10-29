@@ -9,8 +9,6 @@ namespace EventManagement.Infrustructure.Configurations
 		public void Configure(EntityTypeBuilder<Attendee> builder)
 		{
 			builder.HasKey(a => new { a.EventId, a.UserId });
-			builder.Property(a => a.AttendeeId)
-				.ValueGeneratedOnAdd();
 
 			builder
 				.HasOne(a => a.Event)
@@ -24,23 +22,23 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasForeignKey(a => a.UserId)
 				.OnDelete(DeleteBehavior.Restrict);
 
-			builder
-				.Property(a => a.Status)
-				.HasConversion(v => v.ToString(),  // how data will be store in DB
-				v => (RSVPStatus)Enum.Parse(typeof(RSVPStatus), v))  // how data will be retrieve from DB to Enum
-				.HasMaxLength(30);
+			//builder
+			//	.Property(a => a.Status)
+			//	.HasConversion(v => v.ToString(),  // how data will be store in DB
+			//	v => (RSVPStatus)Enum.Parse(typeof(RSVPStatus), v))  // how data will be retrieve from DB to Enum
+			//	.HasMaxLength(30);
 
 
 
 			builder.HasIndex(a => new { a.EventId, a.UserId })
 				   .HasDatabaseName("IX_Attendees_EventId_UserId");
 
-			builder.Property(a => a.CreatedAt)
-				.ValueGeneratedOnAdd()
-				.HasDefaultValueSql("GETUTCDATE()");
-			builder.Property(a => a.UpdatedAt)
-				.ValueGeneratedOnUpdate()
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder.Property(a => a.CreatedAt)
+			//	.ValueGeneratedOnAdd()
+			//	.HasDefaultValueSql("GETUTCDATE()");
+			//builder.Property(a => a.UpdatedAt)
+			//	.ValueGeneratedOnUpdate()
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
 			builder.ToTable("Attendees");
 		}

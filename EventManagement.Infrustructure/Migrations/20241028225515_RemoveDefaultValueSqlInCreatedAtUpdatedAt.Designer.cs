@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Infrustructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241021172105_AddIdentityTables")]
-    partial class AddIdentityTables
+    [Migration("20241028225515_RemoveDefaultValueSqlInCreatedAtUpdatedAt")]
+    partial class RemoveDefaultValueSqlInCreatedAtUpdatedAt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,17 +27,14 @@ namespace EventManagement.Infrustructure.Migrations
 
             modelBuilder.Entity("EventManagement.Data.Entities.Attendee", b =>
                 {
-                    b.Property<int>("AttendeeId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendeeId"));
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("HasAttended")
                         .HasColumnType("bit");
@@ -51,16 +48,14 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AttendeeId");
-
-                    b.HasIndex("EventId");
+                    b.HasKey("EventId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Attendees");
+                    b.HasIndex("EventId", "UserId")
+                        .HasDatabaseName("IX_Attendees_EventId_UserId");
+
+                    b.ToTable("Attendees", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Category", b =>
@@ -81,7 +76,129 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            Description = "Professional gatherings for networking, learning, and discussing industry topics.",
+                            Name = "Conferences"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            Description = "Interactive sessions focused on skill development and hands-on learning.",
+                            Name = "Workshops"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            Description = "Educational meetings for discussing specialized topics or subjects.",
+                            Name = "Seminars"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            Description = "Online seminars conducted over the internet.",
+                            Name = "Webinars"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            Description = "Informal gatherings for people with shared interests.",
+                            Name = "Meetups"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            Description = "Live music performances.",
+                            Name = "Concerts"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            Description = "Large public celebrations with various activities, often including music, food, and entertainment.",
+                            Name = "Festivals"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            Description = "Competitive athletic events and games.",
+                            Name = "Sports"
+                        },
+                        new
+                        {
+                            CategoryId = 9,
+                            Description = "Events focused on building professional connections and relationships.",
+                            Name = "Networking"
+                        },
+                        new
+                        {
+                            CategoryId = 10,
+                            Description = "Exhibitions where companies showcase and demonstrate their products and services.",
+                            Name = "Trade Shows"
+                        },
+                        new
+                        {
+                            CategoryId = 11,
+                            Description = "Events organized to raise funds or awareness for charitable causes.",
+                            Name = "Charity"
+                        },
+                        new
+                        {
+                            CategoryId = 12,
+                            Description = "Social gatherings for celebration and entertainment.",
+                            Name = "Parties"
+                        },
+                        new
+                        {
+                            CategoryId = 13,
+                            Description = "Educational sessions or courses on various topics.",
+                            Name = "Classes"
+                        },
+                        new
+                        {
+                            CategoryId = 14,
+                            Description = "Events where programmers and developers collaborate intensively on software projects.",
+                            Name = "Hackathons"
+                        },
+                        new
+                        {
+                            CategoryId = 15,
+                            Description = "Public displays of art, products, or information.",
+                            Name = "Exhibitions"
+                        },
+                        new
+                        {
+                            CategoryId = 16,
+                            Description = "Events related to religious practices and gatherings.",
+                            Name = "Religious"
+                        },
+                        new
+                        {
+                            CategoryId = 17,
+                            Description = "Events organized to raise money for specific causes or organizations.",
+                            Name = "Fundraisers"
+                        },
+                        new
+                        {
+                            CategoryId = 18,
+                            Description = "Local events that engage and involve the community.",
+                            Name = "Community"
+                        },
+                        new
+                        {
+                            CategoryId = 19,
+                            Description = "Events designed for family participation and enjoyment.",
+                            Name = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 20,
+                            Description = "Events that do not fit into the above categories.",
+                            Name = "Other"
+                        });
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Comment", b =>
@@ -94,7 +211,8 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -117,7 +235,7 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Event", b =>
@@ -140,9 +258,6 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -151,28 +266,42 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("EventId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("IX_Events_CategoryId");
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Events");
+                    b.HasIndex("EndTime")
+                        .HasDatabaseName("IX_Events_EndTime");
+
+                    b.HasIndex("StartTime")
+                        .HasDatabaseName("IX_Events_StartTime");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Events", (string)null);
                 });
 
-            modelBuilder.Entity("EventManagement.Data.Entities.User", b =>
+            modelBuilder.Entity("EventManagement.Data.Entities.Identity.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,6 +320,9 @@ namespace EventManagement.Infrustructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -267,6 +399,45 @@ namespace EventManagement.Infrustructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.Identity.UserRefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JwtId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRefreshTokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -407,13 +578,13 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasOne("EventManagement.Data.Entities.Event", "Event")
                         .WithMany("Attendees")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("EventManagement.Data.Entities.User", "User")
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", "User")
                         .WithMany("AttendingEvents")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Event");
@@ -426,13 +597,13 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasOne("EventManagement.Data.Entities.Event", "Event")
                         .WithMany("Comments")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("EventManagement.Data.Entities.User", "User")
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Event");
@@ -445,18 +616,33 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasOne("EventManagement.Data.Entities.Category", "Category")
                         .WithMany("Events")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("EventManagement.Data.Entities.User", "Creator")
-                        .WithMany("CreatedEvents")
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", "Creator")
+                        .WithMany()
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", null)
+                        .WithMany("CreatedEvents")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.Identity.UserRefreshToken", b =>
+                {
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", "user")
+                        .WithMany("UserRefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -470,7 +656,7 @@ namespace EventManagement.Infrustructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("EventManagement.Data.Entities.User", null)
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -479,7 +665,7 @@ namespace EventManagement.Infrustructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("EventManagement.Data.Entities.User", null)
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -494,7 +680,7 @@ namespace EventManagement.Infrustructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EventManagement.Data.Entities.User", null)
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -503,7 +689,7 @@ namespace EventManagement.Infrustructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("EventManagement.Data.Entities.User", null)
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -522,13 +708,15 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("EventManagement.Data.Entities.User", b =>
+            modelBuilder.Entity("EventManagement.Data.Entities.Identity.User", b =>
                 {
                     b.Navigation("AttendingEvents");
 
                     b.Navigation("Comments");
 
                     b.Navigation("CreatedEvents");
+
+                    b.Navigation("UserRefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

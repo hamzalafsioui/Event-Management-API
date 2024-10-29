@@ -42,8 +42,15 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 
 		public async Task<Response<string>> Handle(EditAttendeeCommand request, CancellationToken cancellationToken)
 		{
+			var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(request.UserId, request.EventId);
+
 			// mapping 
 			var attendeeMapping = _mapper.Map<Attendee>(request);
+			// handle RSVPDate
+			if (attendeeMapping.Status != attendee.Status)
+				attendeeMapping.RSVPDate = DateTime.UtcNow;
+			else
+				attendeeMapping.RSVPDate = attendee.RSVPDate;
 			// call add attendee service
 			var result = await _attendeeService.UpdateAsyc(attendeeMapping);
 			if (result != "Success")

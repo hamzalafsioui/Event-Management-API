@@ -38,13 +38,13 @@ namespace EventManagement.Infrustructure.Configurations
 			builder.Property(u => u.Role)
 				.HasColumnType("int");
 
-			builder
-				.Property(u => u.CreatedAt)
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder
+			//	.Property(u => u.CreatedAt)
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
-			builder
-				.Property(u => u.UpdatedAt)
-				.HasDefaultValueSql("GETUTCDATE()");
+			//builder
+			//	.Property(u => u.UpdatedAt)
+			//	.HasDefaultValueSql("GETUTCDATE()");
 
 			builder.HasIndex(u => u.Email)
 				.IsUnique()

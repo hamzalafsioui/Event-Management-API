@@ -1,6 +1,7 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Infrustructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -61,8 +62,8 @@ namespace EventManagement.Infrustructure.Context
 						entry.State = EntityState.Modified;
 						deletedEntity.DeletedAt = DateTime.UtcNow;
 
-						
-						if (entry.Entity is User userEntity) 
+
+						if (entry.Entity is User userEntity)
 						{
 							userEntity.IsDeleted = true;
 						}
@@ -77,6 +78,11 @@ namespace EventManagement.Infrustructure.Context
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+			modelBuilder.ApplyConfiguration(new AttendeeConfiguration()); //explicitly applying
+			modelBuilder.ApplyConfiguration(new CategoryConfiguration()); //explicitly applying
+			modelBuilder.ApplyConfiguration(new EventConfiguration()); // explicitly applying
+		//	modelBuilder.ApplyConfiguration(new UserConfiguration()); // explicitly applying
+			modelBuilder.ApplyConfiguration(new CommentConfiguration()); // explicitly applying
 
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Attendee).Assembly);
 
