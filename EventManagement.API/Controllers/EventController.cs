@@ -53,6 +53,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new CancelEventCommand(id));
 			return NewResult(response);
 		}
+		[HttpGet(Router.EventRouting.GetAttendees)]
+		public async Task<IActionResult> GetAttendees([FromRoute] int eventId)
+		{
+			var response = await Mediator.Send(new GetEventAttendeesQuery(eventId));
+			return NewResult(response);
+		}
 		#endregion
 	}
 }

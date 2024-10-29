@@ -12,6 +12,7 @@ namespace EventManagement.Service.Abstracts
 		public Task<string> EditAsync(Event @event);
 		public Task<string> DeleteAsync(Event @event);
 		public Task<string> CancelAsync(int eventId);
+		public Task<List<Event>> GetEventAttendeesListByIdAsync(int eventId);
 
 	}
 }

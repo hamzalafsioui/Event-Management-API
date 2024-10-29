@@ -10,6 +10,7 @@ namespace EventManagement.Core.Mapping.Events
 			AddEventCommandMapping();
 			GetEventListMapping();
 			EditEventCommandMapping();
+			GetEventAttendeesListMapping();
 		}
 	}
 }

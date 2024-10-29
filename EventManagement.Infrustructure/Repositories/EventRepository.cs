@@ -24,8 +24,12 @@ namespace EventManagement.Infrustructure.Abstracts
 		#region Handl Functions
 		public async Task<List<Event>> GetEventsListAsync()
 		{
-			return await _events.AsNoTracking().Include(x => x.Category)
-				.Include(x => x.Creator).ToListAsync();
+			var @events = await _events.AsNoTracking()
+				.Include(x => x.Category)
+				.Include(x => x.Creator)
+				.ToListAsync();
+
+			return events;
 		}
 
 		public override IQueryable<Event> GetTableNoTracking()

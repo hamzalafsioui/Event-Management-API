@@ -15,7 +15,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 	public class EventQueryHandler : ResponseHandler,
 		IRequestHandler<GetEventByIdQuery, Response<GetEventByIdResponse>>,
 		IRequestHandler<GetEventListQuery, Response<List<GetEventListResponse>>>,
-		IRequestHandler<GetEventPaginatedListQuery, PaginatedResult<GetEventPaginatedListResponse>>
+		IRequestHandler<GetEventPaginatedListQuery, PaginatedResult<GetEventPaginatedListResponse>>,
+		IRequestHandler<GetEventAttendeesQuery, Response<List<GetEventAttendeesResponse>>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -88,7 +89,7 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		{
 			Expression<Func<Event, GetEventPaginatedListResponse>> expression = e => new GetEventPaginatedListResponse(
 													e.EventId, e.Title, e.Description, e.Location, e.StartTime, e.EndTime,
-													e.Category.Name, e.Creator.UserName, e.Capacity, e.CreatedAt);
+													e.Category.Name, e.Creator.UserName!, e.Capacity, e.CreatedAt);
 
 			var filterQuery = _eventService.FilterEventsPaginatedQueryable(request.OrderBy, request.Search!);
 			var paginatedList = await filterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
@@ -98,6 +99,22 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			};
 			return paginatedList;
 
+		}
+
+		public async Task<Response<List<GetEventAttendeesResponse>>> Handle(GetEventAttendeesQuery request, CancellationToken cancellationToken)
+		{
+			// check is event exist
+			var @event = await _eventService.GetEventByIdAsync(request.EventId);
+			if (@event == null)
+				return BadRequest<List<GetEventAttendeesResponse>>();
+
+			// call event service
+			var EventAttendeesList = await _eventService.GetEventAttendeesListByIdAsync(request.EventId);
+
+			// mapping 
+			var EventAttendeesListMapping = _mapper.Map<List<GetEventAttendeesResponse>>(EventAttendeesList);
+			// return response
+			return Success(EventAttendeesListMapping);
 		}
 		#endregion
 

@@ -22,14 +22,13 @@ namespace EventManagement.Service.Implementations
 		#region Handle Functions
 		public async Task<Event> GetEventByIdAsync(int id)
 		{
-
 			var result = await _eventRepository.GetTableNoTracking().Where(x => x.EventId.Equals(id))
 															  .Include(e => e.Creator)
 															  .Include(e => e.Category)
-															  // .Include(e => e.Attendees).ThenInclude(a => a.User)
-															  // .Include(e => e.Comments).ThenInclude(c => c.User)
+															   .Include(e => e.Attendees).ThenInclude(a => a.User)
+															   .Include(e => e.Comments).ThenInclude(c => c.User)
 															  .FirstOrDefaultAsync();
-			return result;
+			return result!;
 		}
 
 
@@ -126,6 +125,15 @@ namespace EventManagement.Service.Implementations
 				return "Success";
 			}
 			return "Failed";
+		}
+
+		public async Task<List<Event>> GetEventAttendeesListByIdAsync(int eventId)
+		{
+			var eventAttendeesList = await _eventRepository.GetTableNoTracking()
+				.Include(x => x.Attendees).ThenInclude(x => x.User)
+				.Where(x => x.EventId == eventId).ToListAsync();
+			return eventAttendeesList;
+
 		}
 		#endregion
 
