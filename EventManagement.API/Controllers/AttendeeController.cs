@@ -33,5 +33,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		[HttpPatch(Router.AttendeeRouting.MarkAttendance)]
+		public async Task<IActionResult> MarkAttendance([FromBody] MarkAttendanceCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 	}
 }

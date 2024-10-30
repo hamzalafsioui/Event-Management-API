@@ -13,7 +13,8 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 		IRequestHandler<AddAttendeeCommand, Response<string>>,
 		IRequestHandler<EditAttendeeCommand, Response<string>>,
 		IRequestHandler<LeaveEventCommand, Response<string>>,
-		IRequestHandler<ChangeRSVPStatusCommand, Response<string>>
+		IRequestHandler<ChangeRSVPStatusCommand, Response<string>>,
+		IRequestHandler<MarkAttendanceCommand,Response<string>>
 	{
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly IAttendeeService _attendeeService;
@@ -91,7 +92,21 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 
 			}
 
-			// call add attendee service
+			// call update attendee service
+			var result = await _attendeeService.UpdateAsyc(attendee);
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
+
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+
+		}
+
+		public async Task<Response<string>> Handle(MarkAttendanceCommand request, CancellationToken cancellationToken)
+		{
+			var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(request.userId, request.eventId);
+			// Mark as attended
+			attendee.HasAttended = true;
+			// call update attendee service
 			var result = await _attendeeService.UpdateAsyc(attendee);
 			if (result != "Success")
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
