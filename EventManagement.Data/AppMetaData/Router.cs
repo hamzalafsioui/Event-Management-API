@@ -59,8 +59,9 @@
 			public const string Edit = Prefix;
 			public const string Delete = Prefix + SingleRoute;
 			public const string Leave = Prefix + "/{eventId}/{userId}/leave";
-			public const string ChangeStatus = Prefix+ "/status";
-			public const string MarkAttendance = Prefix+ "/attendance";
+			public const string ChangeStatus = Prefix + "/status";
+			public const string MarkAttendance = Prefix + "/attendance";
+			public const string AttendeeRegistered = Prefix + "{userId}/events";
 		}
 	}
 }

@@ -9,5 +9,6 @@ namespace EventManagement.Service.Abstracts
 		Task<Attendee> GetAttendeeByUserIdEventIdAsync(int userId, int eventId);
 		Task<string> UpdateAsyc(Attendee attendee);
 		Task<string> DeleteAsync(Attendee attendee);
+		Task<List<Attendee>> GetEventsByUserIdAsync(int userId);
 	}
 }

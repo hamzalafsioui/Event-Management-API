@@ -49,6 +49,15 @@ namespace EventManagement.Service.Implementations
 			await _attendeeRepository.DeleteAsync(attendee);
 			return "Success";
 		}
+
+		public async Task<List<Attendee>> GetEventsByUserIdAsync(int userId)
+		{
+			var registeredEvents = await _attendeeRepository.GetTableNoTracking()
+				.Where(x => x.UserId.Equals(userId))
+				.Include(x => x.Event)
+				.ToListAsync();
+			return registeredEvents;
+		}
 		#endregion
 
 	}

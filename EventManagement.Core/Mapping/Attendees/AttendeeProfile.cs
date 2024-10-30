@@ -8,6 +8,7 @@ namespace EventManagement.Core.Mapping.Attendees
 		{
 			AddAttendeeCommandMapping();
 			EditAttendeeCommandMapping();
+			GetRegisteredEventsListForUserQueryMapping();
 		}
 	}
 }

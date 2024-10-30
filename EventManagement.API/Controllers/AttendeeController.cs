@@ -1,5 +1,6 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Attendees.Command.Models;
+using EventManagement.Core.Features.Attendees.Queries.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,12 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> MarkAttendance([FromBody] MarkAttendanceCommand command)
 		{
 			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
+		[HttpGet(Router.AttendeeRouting.AttendeeRegistered)]
+		public async Task<IActionResult> GetRegisteredEventsForUser([FromRoute] int userId)
+		{
+			var response = await Mediator.Send(new GetRegisteredEventsForUserQuery(userId));
 			return NewResult(response);
 		}
 	}
