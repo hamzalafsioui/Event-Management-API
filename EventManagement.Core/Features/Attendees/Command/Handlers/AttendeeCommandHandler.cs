@@ -12,7 +12,8 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 	public class AttendeeCommandHandler : ResponseHandler,
 		IRequestHandler<AddAttendeeCommand, Response<string>>,
 		IRequestHandler<EditAttendeeCommand, Response<string>>,
-		IRequestHandler<LeaveEventCommand, Response<string>>
+		IRequestHandler<LeaveEventCommand, Response<string>>,
+		IRequestHandler<ChangeRSVPStatusCommand, Response<string>>
 	{
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly IAttendeeService _attendeeService;
@@ -73,6 +74,30 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 				return Success<string>($"{_stringLocalizer[SharedResourcesKeys.Updated]}");
 			else
 				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToUpdate]}");
+		}
+
+		public async Task<Response<string>> Handle(ChangeRSVPStatusCommand request, CancellationToken cancellationToken)
+		{
+			var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(request.userId, request.eventId);
+
+			// handle RSVPDate
+			if (Enum.TryParse(typeof(RSVPStatus), request.status, true, out var statusParsing))
+			{
+				if ((RSVPStatus)statusParsing != attendee.Status)
+				{
+					attendee.RSVPDate = DateTime.UtcNow;
+					attendee.Status = (RSVPStatus)statusParsing;
+				}
+
+			}
+
+			// call add attendee service
+			var result = await _attendeeService.UpdateAsyc(attendee);
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
+
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+
 		}
 		#endregion
 

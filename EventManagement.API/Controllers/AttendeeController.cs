@@ -27,5 +27,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new LeaveEventCommand(eventId, userId));
 			return NewResult(response);
 		}
+		[HttpPatch(Router.AttendeeRouting.ChangeStatus)]
+		public async Task<IActionResult> ChangeStatus([FromBody] ChangeRSVPStatusCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 	}
 }
