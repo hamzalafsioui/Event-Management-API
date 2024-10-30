@@ -21,5 +21,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(editAttendeeCommand);
 			return NewResult(response);
 		}
+		[HttpDelete(Router.AttendeeRouting.Leave)]
+		public async Task<IActionResult> LeaveEvent([FromRoute] int eventId, [FromRoute] int userId)
+		{
+			var response = await Mediator.Send(new LeaveEventCommand(eventId, userId));
+			return NewResult(response);
+		}
 	}
 }

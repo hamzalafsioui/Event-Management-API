@@ -14,7 +14,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 		IRequestHandler<EditEventCommand, Response<string>>,
 		IRequestHandler<DeleteEventCommand, Response<string>>,
 		IRequestHandler<CancelEventCommand, Response<string>>
-	{
+		{
 		private readonly IEventService _eventService;
 		private readonly IMapper _mapper;
 		#region Fields

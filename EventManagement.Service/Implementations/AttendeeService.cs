@@ -43,6 +43,12 @@ namespace EventManagement.Service.Implementations
 				.FirstOrDefaultAsync();
 			return attendee!;
 		}
+
+		public async Task<string> DeleteAsync(Attendee attendee)
+		{
+			await _attendeeRepository.DeleteAsync(attendee);
+			return "Success";
+		}
 		#endregion
 
 	}

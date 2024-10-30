@@ -1,5 +1,6 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities.Identity;
+using System.Text.Json.Serialization;
 
 namespace EventManagement.Data.Entities
 {
@@ -47,6 +48,7 @@ namespace EventManagement.Data.Entities
 		}
 	}
 
+	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public enum EventStatus
 	{
 		Actived,

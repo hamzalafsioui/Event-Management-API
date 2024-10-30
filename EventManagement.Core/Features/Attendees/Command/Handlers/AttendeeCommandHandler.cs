@@ -11,7 +11,8 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 {
 	public class AttendeeCommandHandler : ResponseHandler,
 		IRequestHandler<AddAttendeeCommand, Response<string>>,
-		IRequestHandler<EditAttendeeCommand, Response<string>>
+		IRequestHandler<EditAttendeeCommand, Response<string>>,
+		IRequestHandler<LeaveEventCommand, Response<string>>
 	{
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly IAttendeeService _attendeeService;
@@ -57,6 +58,21 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+		}
+
+		public async Task<Response<string>> Handle(LeaveEventCommand request, CancellationToken cancellationToken)
+		{
+			// check is event exist
+			var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(request.UserId, request.EventId);
+			// return BadRequest if not exist
+			if (attendee == null)
+				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {request.EventId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
+			// call delete service
+			var result = await _attendeeService.DeleteAsync(attendee);
+			if (result == "Success")
+				return Success<string>($"{_stringLocalizer[SharedResourcesKeys.Updated]}");
+			else
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToUpdate]}");
 		}
 		#endregion
 

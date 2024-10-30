@@ -29,7 +29,8 @@
 			public const string Paginated = Prefix + "/Paginated";
 			public const string Delete = Prefix + SingleRoute;
 			public const string Cancel = Prefix + "/{id}/cancel";
-			public const string GetAttendees = "api/events/{eventId}/attendees";
+			public const string GetAttendees = Prefix + "/{eventId}/attendees";
+			public const string UpdateStatus = Prefix + "/{id}/status";
 
 
 		}
@@ -51,12 +52,13 @@
 		}
 		public static class AttendeeRouting
 		{
-			private const string Prefix = Rule + "/Attendee";
+			private const string Prefix = Rule + "/Attendees";
 			public const string List = Prefix + "/List";
 			public const string GetById = Prefix + SingleRoute;
 			public const string Create = Prefix + "/JoinEvent";
 			public const string Edit = Prefix;
 			public const string Delete = Prefix + SingleRoute;
+			public const string Leave = Prefix + "/{eventId}/{userId}/leave";
 		}
 	}
 }
