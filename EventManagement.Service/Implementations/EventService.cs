@@ -144,6 +144,15 @@ namespace EventManagement.Service.Implementations
 				.ToListAsync();
 			return result;
 		}
+
+		public async Task<List<Event>> GetUpcomingEventsList()
+		{
+			var result = await _eventRepository.GetTableNoTracking()
+				.Where(x => x.StartTime > DateTime.UtcNow)
+				.Include(x => x.Creator)
+				.ToListAsync();
+			return result;
+		}
 		#endregion
 
 

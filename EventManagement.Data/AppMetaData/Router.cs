@@ -21,7 +21,7 @@
 		}
 		public static class EventRouting
 		{
-			private const string Prefix = Rule + "/Event";
+			private const string Prefix = Rule + "/Events";
 			public const string List = Prefix + "/List";
 			public const string GetById = Prefix + "/Paginated/id";
 			public const string Create = Prefix + "/Create";
@@ -32,6 +32,7 @@
 			public const string GetAttendees = Prefix + "/{eventId}/attendees";
 			public const string UpdateStatus = Prefix + "/{id}/status";
 			public const string GetEventsByCategoryId = Prefix + "/category/{categoryId}";
+			public const string upcoming = Prefix + "/upcoming";
 
 
 		}
