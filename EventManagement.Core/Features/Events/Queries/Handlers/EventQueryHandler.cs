@@ -16,7 +16,9 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		IRequestHandler<GetEventByIdQuery, Response<GetEventByIdResponse>>,
 		IRequestHandler<GetEventListQuery, Response<List<GetEventListResponse>>>,
 		IRequestHandler<GetEventPaginatedListQuery, PaginatedResult<GetEventPaginatedListResponse>>,
-		IRequestHandler<GetEventAttendeesQuery, Response<List<GetEventAttendeesResponse>>>
+		IRequestHandler<GetEventAttendeesQuery, Response<List<GetEventAttendeesResponse>>>,
+		IRequestHandler<GetEventsListByCategoryIdQuery, Response<List<GetEventsListByCategoryIdResponse>>>
+
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -115,6 +117,16 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			var EventAttendeesListMapping = _mapper.Map<List<GetEventAttendeesResponse>>(EventAttendeesList);
 			// return response
 			return Success(EventAttendeesListMapping);
+		}
+
+		public async Task<Response<List<GetEventsListByCategoryIdResponse>>> Handle(GetEventsListByCategoryIdQuery request, CancellationToken cancellationToken)
+		{
+			// call event service
+			var eventList = await _eventService.GetEventsListByCategoryId(request.categoryId);
+			// mapping 
+			var eventListMapping = _mapper.Map<List<GetEventsListByCategoryIdResponse>>(eventList);
+			// return result
+			return Success(eventListMapping);
 		}
 		#endregion
 

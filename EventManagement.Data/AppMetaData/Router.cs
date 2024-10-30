@@ -31,6 +31,7 @@
 			public const string Cancel = Prefix + "/{id}/cancel";
 			public const string GetAttendees = Prefix + "/{eventId}/attendees";
 			public const string UpdateStatus = Prefix + "/{id}/status";
+			public const string GetEventsByCategoryId = Prefix + "/category/{categoryId}";
 
 
 		}

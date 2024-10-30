@@ -11,6 +11,7 @@ namespace EventManagement.Core.Mapping.Events
 			GetEventListMapping();
 			EditEventCommandMapping();
 			GetEventAttendeesListMapping();
+			GetEventsListByCategoryIdQueryMapping();
 		}
 	}
 }

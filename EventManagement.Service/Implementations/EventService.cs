@@ -135,6 +135,15 @@ namespace EventManagement.Service.Implementations
 			return eventAttendeesList;
 
 		}
+
+		public async Task<List<Event>> GetEventsListByCategoryId(int categoryId)
+		{
+			var result = await _eventRepository.GetTableNoTracking()
+				.Where(x => x.CategoryId.Equals(categoryId))
+				.Include(x => x.Creator)
+				.ToListAsync();
+			return result;
+		}
 		#endregion
 
 

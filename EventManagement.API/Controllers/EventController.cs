@@ -59,6 +59,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetEventAttendeesQuery(eventId));
 			return NewResult(response);
 		}
+		[HttpGet(Router.EventRouting.GetEventsByCategoryId)]
+		public async Task<IActionResult> GetEventsByCategoryId(int categoryId)
+		{
+			var response = await Mediator.Send(new GetEventsListByCategoryIdQuery(categoryId));
+			return NewResult(response);
+		}
 		#endregion
 	}
 }
