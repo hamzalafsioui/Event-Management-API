@@ -41,6 +41,8 @@
 		public const string IncrorrectData = "IncrorrectData";
 		public const string CategoryExist = "CategoryExist";
 
+		public const string NotAttended = "NotAttended";
+
 
 	}
 }

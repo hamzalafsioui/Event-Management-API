@@ -34,6 +34,11 @@
 			public const string GetEventsByCategoryId = Prefix + "/category/{categoryId}";
 			public const string UpcomingOrPast = Prefix + "/upcomingOrPast";
 
+			public const string AddComment = Prefix + "/{eventId}/Comment";
+			public const string GetComments = Prefix + "/{eventId}/comments";
+
+
+
 
 		}
 		public static class AuthenticationRouting

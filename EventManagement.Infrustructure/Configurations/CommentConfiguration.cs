@@ -41,6 +41,8 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasForeignKey(c => c.UserId)
 				.OnDelete(DeleteBehavior.Restrict);
 
+			builder
+				.HasQueryFilter(x => x.Status == Data.Helper.Enums.CommentStatusEnum.Active);
 			builder.ToTable("Comments");
 		}
 	}

@@ -213,4 +213,7 @@
   <data name="AlreadyRegistered" xml:space="preserve">
     <value>Already Registered</value>
   </data>
+  <data name="NotAttended" xml:space="preserve">
+    <value>Not Attended</value>
+  </data>
 </root>

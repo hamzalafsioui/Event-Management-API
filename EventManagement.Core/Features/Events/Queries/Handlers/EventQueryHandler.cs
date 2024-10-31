@@ -18,7 +18,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		IRequestHandler<GetEventPaginatedListQuery, PaginatedResult<GetEventPaginatedListResponse>>,
 		IRequestHandler<GetEventAttendeesQuery, Response<List<GetEventAttendeesResponse>>>,
 		IRequestHandler<GetEventsListByCategoryIdQuery, Response<List<GetEventsListByCategoryIdResponse>>>,
-		IRequestHandler<GetUpcomingOrPastEventsListQuery, Response<List<GetUpcomingOrPastEventsListResponse>>>
+		IRequestHandler<GetUpcomingOrPastEventsListQuery, Response<List<GetUpcomingOrPastEventsListResponse>>>,
+		IRequestHandler<GetCommentsListByEventIdQuery, Response<List<GetCommentsListByEventIdResponse>>>
 
 	{
 		#region Fields
@@ -138,6 +139,16 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			var eventListMapping = _mapper.Map<List<GetUpcomingOrPastEventsListResponse>>(eventList);
 			// return result
 			return Success(eventListMapping);
+		}
+
+		public async Task<Response<List<GetCommentsListByEventIdResponse>>> Handle(GetCommentsListByEventIdQuery request, CancellationToken cancellationToken)
+		{
+			// call service
+			var CommentList = await _commentService.GetCommentsListByEventId(request.eventId);
+			// mapoing 
+			var commentListMapping = _mapper.Map<List<GetCommentsListByEventIdResponse>>(CommentList);
+
+			return Success<List<GetCommentsListByEventIdResponse>>(commentListMapping);
 		}
 		#endregion
 

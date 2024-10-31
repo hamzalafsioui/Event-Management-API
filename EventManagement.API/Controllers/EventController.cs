@@ -1,4 +1,5 @@
 ﻿using EventManagement.API.Base;
+using EventManagement.Core.Features.Comments.Commands.Models;
 using EventManagement.Core.Features.Events.Commands.Models;
 using EventManagement.Core.Features.Events.Queries.Models;
 using EventManagement.Data.AppMetaData;
@@ -70,6 +71,21 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> GetUpcomingOrPastEvents([FromQuery] DateTimeComparison comparison)
 		{
 			var response = await Mediator.Send(new GetUpcomingOrPastEventsListQuery(comparison));
+			return NewResult(response);
+		}
+
+		[HttpPost(Router.EventRouting.AddComment)]
+		public async Task<IActionResult> AddCommentToEvent([FromRoute] int eventId, [FromBody] AddCommentCommand command)
+		{
+			command.eventId = eventId;
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
+		[HttpGet(Router.EventRouting.GetComments)]
+		public async Task<IActionResult> GetComments([FromRoute] int eventId)
+		{
+
+			var response = await Mediator.Send(new GetCommentsListByEventIdQuery(eventId));
 			return NewResult(response);
 		}
 

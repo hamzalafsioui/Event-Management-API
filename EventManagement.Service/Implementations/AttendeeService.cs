@@ -58,6 +58,14 @@ namespace EventManagement.Service.Implementations
 				.ToListAsync();
 			return registeredEvents;
 		}
+
+		public async Task<bool> IsUserAttendedEvent(int eventId, int userId)
+		{
+			var result = await _attendeeRepository.GetTableNoTracking()
+													.Where(x => x.EventId.Equals(eventId) && x.UserId.Equals(userId) && x.HasAttended)
+													.FirstOrDefaultAsync();
+			return result != null;
+		}
 		#endregion
 
 	}

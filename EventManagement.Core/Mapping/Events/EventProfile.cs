@@ -13,6 +13,7 @@ namespace EventManagement.Core.Mapping.Events
 			GetEventAttendeesListMapping();
 			GetEventsListByCategoryIdQueryMapping();
 			GetUpcomingOrPastEventListQueryMapping();
+			GetCommentsListByEventIdMapping();
 		}
 	}
 }
