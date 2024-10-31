@@ -14,7 +14,7 @@ namespace EventManagement.Service.Abstracts
 		public Task<string> CancelAsync(int eventId);
 		public Task<List<Event>> GetEventAttendeesListByIdAsync(int eventId);
 		public Task<List<Event>> GetEventsListByCategoryId(int categoryId);
-		public Task<List<Event>> GetUpcomingEventsList();
+		public Task<List<Event>> GetUpcomingOrPastEventsList(DateTimeComparison comparison);
 
 	}
 }

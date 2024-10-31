@@ -145,13 +145,21 @@ namespace EventManagement.Service.Implementations
 			return result;
 		}
 
-		public async Task<List<Event>> GetUpcomingEventsList()
+		public async Task<List<Event>> GetUpcomingOrPastEventsList(DateTimeComparison comparison)
 		{
-			var result = await _eventRepository.GetTableNoTracking()
-				.Where(x => x.StartTime > DateTime.UtcNow)
-				.Include(x => x.Creator)
-				.ToListAsync();
-			return result;
+			var query = _eventRepository.GetTableNoTracking();
+
+			// Apply filter based on the comparison type
+			if (comparison == DateTimeComparison.Upcoming)
+			{
+				query = query.Where(x => x.StartTime > DateTime.UtcNow);
+			}
+			else
+			{
+				query = query.Where(x => x.StartTime <= DateTime.UtcNow);
+			}
+
+			return await query.Include(x => x.Creator).ToListAsync();
 		}
 		#endregion
 

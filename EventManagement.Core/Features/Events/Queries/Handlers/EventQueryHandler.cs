@@ -18,7 +18,7 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		IRequestHandler<GetEventPaginatedListQuery, PaginatedResult<GetEventPaginatedListResponse>>,
 		IRequestHandler<GetEventAttendeesQuery, Response<List<GetEventAttendeesResponse>>>,
 		IRequestHandler<GetEventsListByCategoryIdQuery, Response<List<GetEventsListByCategoryIdResponse>>>,
-		IRequestHandler<GetUpcomingEventsListQuery, Response<List<GetUpcomingEventsListResponse>>>
+		IRequestHandler<GetUpcomingOrPastEventsListQuery, Response<List<GetUpcomingOrPastEventsListResponse>>>
 
 	{
 		#region Fields
@@ -130,12 +130,12 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			return Success(eventListMapping);
 		}
 
-		public async Task<Response<List<GetUpcomingEventsListResponse>>> Handle(GetUpcomingEventsListQuery request, CancellationToken cancellationToken)
+		public async Task<Response<List<GetUpcomingOrPastEventsListResponse>>> Handle(GetUpcomingOrPastEventsListQuery request, CancellationToken cancellationToken)
 		{
 			// call event service 
-			var eventList = await _eventService.GetUpcomingEventsList();
+			var eventList = await _eventService.GetUpcomingOrPastEventsList(request.Comparison);
 			// mapping 
-			var eventListMapping = _mapper.Map<List<GetUpcomingEventsListResponse>>(eventList);
+			var eventListMapping = _mapper.Map<List<GetUpcomingOrPastEventsListResponse>>(eventList);
 			// return result
 			return Success(eventListMapping);
 		}

@@ -2,6 +2,7 @@
 using EventManagement.Core.Features.Events.Commands.Models;
 using EventManagement.Core.Features.Events.Queries.Models;
 using EventManagement.Data.AppMetaData;
+using EventManagement.Data.Helper.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
@@ -65,10 +66,10 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetEventsListByCategoryIdQuery(categoryId));
 			return NewResult(response);
 		}
-		[HttpGet(Router.EventRouting.upcoming)]
-		public async Task<IActionResult> GetUpcomingEvents()
+		[HttpGet(Router.EventRouting.UpcomingOrPast)]
+		public async Task<IActionResult> GetUpcomingOrPastEvents([FromQuery] DateTimeComparison comparison)
 		{
-			var response = await Mediator.Send(new GetUpcomingEventsListQuery());
+			var response = await Mediator.Send(new GetUpcomingOrPastEventsListQuery(comparison));
 			return NewResult(response);
 		}
 

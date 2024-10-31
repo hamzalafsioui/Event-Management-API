@@ -5,9 +5,9 @@ namespace EventManagement.Core.Mapping.Events
 {
 	public partial class EventProfile
 	{
-		private void GetUpcomingEventListQueryMapping()
+		private void GetUpcomingOrPastEventListQueryMapping()
 		{
-			CreateMap<Event, GetUpcomingEventsListResponse>()
+			CreateMap<Event, GetUpcomingOrPastEventsListResponse>()
 				.ForMember(x => x.Id, opt => opt.MapFrom(x => x.EventId))
 				.ForMember(x => x.Creator, opt => opt.MapFrom(x => x.Creator.UserName))
 				.ForMember(x => x.StartTime, opt => opt.MapFrom(x => x.StartTime))
