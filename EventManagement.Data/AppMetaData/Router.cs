@@ -9,10 +9,11 @@
 
 		public static class UserRouting
 		{
-			private const string Prefix = Rule + "/User";
+			private const string Prefix = Rule + "/Users";
 			public const string List = Prefix + "/List";
 			public const string Paginated = Prefix + "/Paginated";
 			public const string GetById = Prefix + SingleRoute;
+			public const string GetUserComments = Prefix + "/{userId}/comments";
 			public const string Create = Prefix + "/Create";
 			public const string Edit = Prefix;
 			public const string Delete = Prefix + SingleRoute;
@@ -75,7 +76,7 @@
 			private const string Prefix = Rule + "/Comments";
 			public const string GetById = Prefix + "/{commentId}";
 		};
-			
-		
+
+
 	}
 }

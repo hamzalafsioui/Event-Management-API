@@ -94,10 +94,6 @@ var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(options!.Value);
 #endregion
 
-#region Custom Middleware
-// Middlewares
-app.UseMiddleware<ErrorHandlerMiddleware>();
-#endregion
 
 
 app.UseHttpsRedirection();
@@ -105,6 +101,12 @@ app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+#region Custom Middleware
+// Middlewares
+app.UseMiddleware<ErrorHandlerMiddleware>();
+#endregion
+
 
 app.MapControllers();
 

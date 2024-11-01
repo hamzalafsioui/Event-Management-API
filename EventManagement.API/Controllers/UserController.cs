@@ -60,6 +60,13 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		[HttpGet(Router.UserRouting.GetUserComments)]
+		public async Task<IActionResult> GetUserComments([FromRoute] int userId)
+		{
+			var response = await Mediator.Send(new GetUserCommentsQuery(userId));
+			return NewResult(response);
+		}
+
 		#endregion
 
 

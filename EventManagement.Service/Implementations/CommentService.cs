@@ -46,6 +46,14 @@ namespace EventManagement.Service.Implementations
 				.ToListAsync();
 		}
 
+		public async Task<List<Comment>> GetUserCommentsListByUserIdAsync(int userId)
+		{
+			return await _commentRepository.GetTableNoTracking()
+				.Where(x => x.UserId.Equals(userId))
+				.Include(x => x.Event)
+				.ToListAsync();
+		}
+
 		#endregion
 
 	}

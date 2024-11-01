@@ -10,6 +10,7 @@ namespace EventManagement.Core.Mapping.Users
 			GetUserByIdMapping();
 			AddUserCommandMapping();
 			EditUserCommandMapping();
+			GetUserCommentsByUserIdQueryMapping();
 		}
 
 		private static int CalculateAge(DateTime dateOfBirth)

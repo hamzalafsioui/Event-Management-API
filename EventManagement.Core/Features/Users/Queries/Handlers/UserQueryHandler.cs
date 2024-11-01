@@ -10,29 +10,33 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using System.Linq.Expressions;
 
 namespace EventManagement.Core.Features.Users.Queries.Handlers
 {
-    public class UserQueryHandler : ResponseHandler,
+	public class UserQueryHandler : ResponseHandler,
 		IRequestHandler<GetUserListQuery, Response<List<GetUserListResponse>>>,
 		IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>,
-		IRequestHandler<GetUserPaginatedListQuery, PaginatedResult<GetUserPaginatedListResponse>>
+		IRequestHandler<GetUserPaginatedListQuery, PaginatedResult<GetUserPaginatedListResponse>>,
+		IRequestHandler<GetUserCommentsQuery, Response<List<GetUserCommentsResponse>>>
 
 	{
 		#region Fields
 		private readonly UserManager<User> _userManager;
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+		private readonly ICommentService _commentService;
 
 		#endregion
 
 		#region Constructors
-		public UserQueryHandler(UserManager<User> userManager, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+		public UserQueryHandler(UserManager<User> userManager, IMapper mapper,
+			IStringLocalizer<SharedResources> stringLocalizer,
+			ICommentService commentService) : base(stringLocalizer)
 		{
 			this._userManager = userManager;
 			this._mapper = mapper;
 			_stringLocalizer = stringLocalizer;
+			this._commentService = commentService;
 		}
 		#endregion
 
@@ -54,7 +58,7 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		{
 			if (request.Id < 1)
 				return BadRequest<GetSingleUserResponse>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
-			var user = await _userManager.Users.FirstOrDefaultAsync(x=>x.Id.Equals(request.Id));
+			var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 			if (user == null)
 			{
 				return NotFound<GetSingleUserResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
@@ -67,13 +71,30 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		{
 			var users = _userManager.Users.AsQueryable();
 			var PaginatedList = await _mapper.ProjectTo<GetUserPaginatedListResponse>(users)
-											 .ToPaginatedListAsync(request.PageNumber,request.PageSize);
+											 .ToPaginatedListAsync(request.PageNumber, request.PageSize);
 			PaginatedList.Meta = new
 			{
 				Count = PaginatedList.Data.Count()
 			};
-			
+
 			return PaginatedList;
+		}
+
+		public async Task<Response<List<GetUserCommentsResponse>>> Handle(GetUserCommentsQuery request, CancellationToken cancellationToken)
+		{
+			// invalid Id
+			if (request.userId < 1)
+				return BadRequest<List<GetUserCommentsResponse>>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
+			// checking is Exist
+			var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.userId));
+			if (user == null)
+			{
+				return NotFound<List<GetUserCommentsResponse>>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			}
+			var commentsList = await _commentService.GetUserCommentsListByUserIdAsync(request.userId);
+			// mapping
+			var commentListMapping = _mapper.Map<List<GetUserCommentsResponse>>(commentsList);
+			return Success(commentListMapping);
 		}
 
 		#endregion
