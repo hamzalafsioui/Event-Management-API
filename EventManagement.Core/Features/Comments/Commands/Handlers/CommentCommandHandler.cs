@@ -11,7 +11,8 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 {
 	public class CommentCommandHandler : ResponseHandler,
 		IRequestHandler<AddCommentCommand, Response<string>>,
-		IRequestHandler<EditCommentCommand, Response<string>>
+		IRequestHandler<EditCommentCommand, Response<string>>,
+		IRequestHandler<DeleteCommentCommand, Response<string>>
 	{
 
 		#region Fields
@@ -57,6 +58,21 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 			comment.Content = request.content;
 			// call service 
 			var result = await _commentService.UpdateAsync(comment);
+			// operation failed
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
+
+			// success
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+
+		}
+
+		public async Task<Response<string>> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
+		{
+			// retrieve comment
+			var comment = await _commentService.getCommentByIdAsync(request.commentId);
+			// call delete service
+			var result = await _commentService.DeleteAsync(comment);
 			// operation failed
 			if (result != "Success")
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);

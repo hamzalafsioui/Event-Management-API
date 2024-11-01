@@ -22,5 +22,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(editCommentCommand);
 			return NewResult(response);
 		}
+		[HttpDelete(Router.CommentRouting.Delete)]
+		public async Task<IActionResult> Delete([FromRoute] int id)
+		{
+			var response = await Mediator.Send(new DeleteCommentCommand(id));
+			return NewResult(response);
+		}
 	}
 }

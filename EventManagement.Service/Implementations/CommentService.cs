@@ -23,6 +23,12 @@ namespace EventManagement.Service.Implementations
 			return "Success";
 		}
 
+		public async Task<string> DeleteAsync(Comment comment)
+		{
+			await _commentRepository.DeleteAsync(comment);
+			return "Success";
+		}
+
 		public async Task<Comment> getCommentByIdAsync(int commentId)
 		{
 			var result = await _commentRepository.GetTableNoTracking()
@@ -42,7 +48,7 @@ namespace EventManagement.Service.Implementations
 		public async Task<int> GetCommentsCountForEvent(int eventId)
 		{
 			return await _commentRepository.GetTableNoTracking()
-				.Where(x=>x.EventId.Equals(eventId))
+				.Where(x => x.EventId.Equals(eventId))
 				.CountAsync();
 		}
 

@@ -70,13 +70,15 @@
 			public const string Leave = Prefix + "/{eventId}/{userId}/leave";
 			public const string ChangeStatus = Prefix + "/status";
 			public const string MarkAttendance = Prefix + "/attendance";
-			public const string AttendeeRegistered = Prefix + "{userId}/events";
+			public const string AttendeeRegistered = Prefix + "/{userId}/events";
 		}
 		public static class CommentRouting
 		{
 			private const string Prefix = Rule + "/Comments";
 			public const string GetById = Prefix + "/{commentId}";
-			public const string Edit = Prefix ;
+			public const string Edit = Prefix;
+			public const string Delete = Prefix + SingleRoute;
+
 		};
 
 

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Comments.Commands.Validators
 {
-	public class EditCommentValidator : AbstractValidator<EditCommentCommand>
+	public class DeleteCommentValidator : AbstractValidator<EditCommentCommand>
 	{
 		#region Fields
 		private readonly ICommentService _commentService;
@@ -14,7 +14,7 @@ namespace EventManagement.Core.Features.Comments.Commands.Validators
 
 		#endregion
 		#region Constructors
-		public EditCommentValidator(ICommentService commentService, IStringLocalizer<SharedResources> stringLocalizer)
+		public DeleteCommentValidator(ICommentService commentService, IStringLocalizer<SharedResources> stringLocalizer)
 		{
 			_commentService = commentService;
 			_stringLocalizer = stringLocalizer;
@@ -28,12 +28,6 @@ namespace EventManagement.Core.Features.Comments.Commands.Validators
 			RuleFor(x => x.commentId)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
-
-			RuleFor(x => x.content)
-				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
-				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
-
-
 		}
 
 		public void ApplyCustomValidationsRules()

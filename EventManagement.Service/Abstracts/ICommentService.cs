@@ -12,5 +12,6 @@ namespace EventManagement.Service.Abstracts
 		Task<List<Comment>> GetUserCommentsListByUserIdAsync(int userId);
 		Task<bool> IsCommentExistByIdAsync(int commentId);
 		Task<int> GetCommentsCountForEvent(int eventId);
+		Task<string> DeleteAsync(Comment comment);
 	}
 }
