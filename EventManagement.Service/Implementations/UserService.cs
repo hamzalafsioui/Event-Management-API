@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace EventManagement.Service.Implementations
 {
-    public class UserService : UserManager<User>, IUserService
+	public class UserService : UserManager<User>, IUserService
 	{
 		#region Fields
 		private IUserRepository _userRepository;
@@ -49,15 +49,15 @@ namespace EventManagement.Service.Implementations
 			return user!;
 		}
 
-		public async Task<string> AddAsync(User user)
+		public async Task<bool> AddAsync(User user)
 		{
 			var result = await IsUserNameExist(user.UserName);
 			if (!result)
 			{
 				await _userRepository.AddAsync(user);
-				return "Success";
+				return true;
 			}
-			return "Failed";
+			return false;
 
 		}
 
@@ -79,25 +79,25 @@ namespace EventManagement.Service.Implementations
 			return true;
 		}
 
-		public async Task<string> EditAsync(User userMapper)
+		public async Task<bool> EditAsync(User userMapper)
 		{
 			await _userRepository.UpdateAsync(userMapper);
-			return "Success";
+			return true;
 		}
 
-		public async Task<string> DeleteAsync(User user)
+		public async Task<bool> DeleteAsync(User user)
 		{
 			var transaction = _userRepository.BeginTransaction();
 			try
 			{
 				await _userRepository.DeleteAsync(user);
 				await transaction.CommitAsync();
-				return "Success";
+				return true;
 			}
 			catch (Exception ex)
 			{
 				await transaction.RollbackAsync();
-				return "Failed";
+				return false;
 			}
 
 		}

@@ -43,7 +43,7 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 			// call service 
 			var result = await _commentService.AddAsync(comment);
 			// operation failed
-			if (result != "Success")
+			if (result)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success
@@ -52,14 +52,14 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 
 		public async Task<Response<string>> Handle(EditCommentCommand request, CancellationToken cancellationToken)
 		{
-			var comment = await _commentService.getCommentByIdAsync(request.commentId);
+			var comment = await _commentService.GetCommentByIdAsync(request.commentId);
 
 			// explicite mapping without using automapper
 			comment.Content = request.content;
 			// call service 
 			var result = await _commentService.UpdateAsync(comment);
 			// operation failed
-			if (result != "Success")
+			if (result)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success
@@ -70,11 +70,11 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 		public async Task<Response<string>> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
 		{
 			// retrieve comment
-			var comment = await _commentService.getCommentByIdAsync(request.commentId);
+			var comment = await _commentService.GetCommentByIdAsync(request.commentId);
 			// call delete service
 			var result = await _commentService.DeleteAsync(comment);
 			// operation failed
-			if (result != "Success")
+			if (result)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success

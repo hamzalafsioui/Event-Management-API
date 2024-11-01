@@ -14,7 +14,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 		IRequestHandler<EditEventCommand, Response<string>>,
 		IRequestHandler<DeleteEventCommand, Response<string>>,
 		IRequestHandler<CancelEventCommand, Response<string>>
-		{
+	{
 		private readonly IEventService _eventService;
 		private readonly IMapper _mapper;
 		#region Fields
@@ -36,7 +36,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			var newEvent = _mapper.Map<Event>(request);
 			// call add event service
 			var result = await _eventService.AddAsync(newEvent);
-			if (result == "Success")
+			if (result)
 				return Success("Added Successfully");
 			else
 				return BadRequest<string>();
@@ -54,7 +54,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			_mapper.Map(request, @event);
 			// call update service
 			var result = await _eventService.EditAsync(@event);
-			if (result == "Success")
+			if (result)
 				return Success($"Edit Successfully In Id {@event.EventId}");
 			else
 				return BadRequest<string>();
@@ -70,7 +70,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {request.EventId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 			// call delete service
 			var result = await _eventService.DeleteAsync(@event);
-			if (result == "Success")
+			if (result)
 				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {@event.EventId} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
 			else
 				return BadRequest<string>();
@@ -81,7 +81,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 
 			// call cancel service
 			var result = await _eventService.CancelAsync(request.EventId);
-			if (result != "Success")
+			if (result)
 				return BadRequest<string>();
 			return Success<string>($"{_stringLocalizer[SharedResourcesKeys.Updated]}");
 		}

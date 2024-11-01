@@ -17,19 +17,19 @@ namespace EventManagement.Service.Implementations
 			_commentRepository = commentRepository;
 		}
 
-		public async Task<string> AddAsync(Comment comment)
+		public async Task<bool> AddAsync(Comment comment)
 		{
 			await _commentRepository.AddAsync(comment);
-			return "Success";
+			return true;
 		}
 
-		public async Task<string> DeleteAsync(Comment comment)
+		public async Task<bool> DeleteAsync(Comment comment)
 		{
 			await _commentRepository.DeleteAsync(comment);
-			return "Success";
+			return true;
 		}
 
-		public async Task<Comment> getCommentByIdAsync(int commentId)
+		public async Task<Comment> GetCommentByIdAsync(int commentId)
 		{
 			var result = await _commentRepository.GetTableNoTracking()
 				.Where(x => x.CommentId.Equals(commentId))
@@ -75,10 +75,10 @@ namespace EventManagement.Service.Implementations
 			return result != null;
 		}
 
-		public async Task<string> UpdateAsync(Comment comment)
+		public async Task<bool> UpdateAsync(Comment comment)
 		{
 			await _commentRepository.UpdateAsync(comment);
-			return "Success";
+			return true;
 		}
 
 		#endregion

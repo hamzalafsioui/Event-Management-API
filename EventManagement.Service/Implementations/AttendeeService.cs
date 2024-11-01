@@ -24,16 +24,16 @@ namespace EventManagement.Service.Implementations
 		{
 			return _attendeeRepository.GetTableNoTracking().Where(x => x.EventId.Equals(eventId)).AsQueryable();
 		}
-		public async Task<string> AddAsync(Attendee attendee)
+		public async Task<bool> AddAsync(Attendee attendee)
 		{
 			await _attendeeRepository.AddAsync(attendee);
-			return "Success";
+			return true;
 		}
 
-		public async Task<string> UpdateAsyc(Attendee attendee)
+		public async Task<bool> UpdateAsyc(Attendee attendee)
 		{
 			await _attendeeRepository.UpdateAsync(attendee);
-			return "Success";
+			return true;
 		}
 
 		public async Task<Attendee> GetAttendeeByUserIdEventIdAsync(int userId, int eventId)
@@ -44,10 +44,10 @@ namespace EventManagement.Service.Implementations
 			return attendee!;
 		}
 
-		public async Task<string> DeleteAsync(Attendee attendee)
+		public async Task<bool> DeleteAsync(Attendee attendee)
 		{
 			await _attendeeRepository.DeleteAsync(attendee);
-			return "Success";
+			return true;
 		}
 
 		public async Task<List<Attendee>> GetEventsByUserIdAsync(int userId)
@@ -62,9 +62,8 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserAttendedEvent(int eventId, int userId)
 		{
 			var result = await _attendeeRepository.GetTableNoTracking()
-													.Where(x => x.EventId.Equals(eventId) && x.UserId.Equals(userId) && x.HasAttended)
-													.FirstOrDefaultAsync();
-			return result != null;
+													.AnyAsync(x => x.EventId.Equals(eventId) && x.UserId.Equals(userId) && x.HasAttended);
+			return result;
 		}
 		#endregion
 

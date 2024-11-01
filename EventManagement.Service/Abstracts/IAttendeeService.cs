@@ -5,10 +5,10 @@ namespace EventManagement.Service.Abstracts
 	public interface IAttendeeService
 	{
 		IQueryable<Attendee> GetAttendeesByEventIdQueryable(int eventId);
-		Task<string> AddAsync(Attendee attendee);
+		Task<bool> AddAsync(Attendee attendee);
 		Task<Attendee> GetAttendeeByUserIdEventIdAsync(int userId, int eventId);
-		Task<string> UpdateAsyc(Attendee attendee);
-		Task<string> DeleteAsync(Attendee attendee);
+		Task<bool> UpdateAsyc(Attendee attendee);
+		Task<bool> DeleteAsync(Attendee attendee);
 		Task<List<Attendee>> GetEventsByUserIdAsync(int userId);
 		public Task<bool> IsUserAttendedEvent(int eventId, int userId);
 

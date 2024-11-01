@@ -38,7 +38,7 @@ namespace EventManagement.Core.Features.Comments.Queries.Handlers
 				return BadRequest<GetCommentByIdResponse>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
 
 			// check is comment exist
-			var comment = await _commentService.getCommentByIdAsync(request.commentId);
+			var comment = await _commentService.GetCommentByIdAsync(request.commentId);
 			if (comment == null)
 			{
 				return BadRequest<GetCommentByIdResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);

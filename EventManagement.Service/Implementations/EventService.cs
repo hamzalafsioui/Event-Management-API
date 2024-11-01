@@ -32,11 +32,11 @@ namespace EventManagement.Service.Implementations
 		}
 
 
-		public async Task<string> AddAsync(Event @event)
+		public async Task<bool> AddAsync(Event @event)
 		{
 			// we can checking DB is already Exist this Event
 			await _eventRepository.AddAsync(@event);
-			return "Success";
+			return true;
 
 		}
 
@@ -87,44 +87,44 @@ namespace EventManagement.Service.Implementations
 			return queryable;
 		}
 
-		public async Task<string> EditAsync(Event @event)
+		public async Task<bool> EditAsync(Event @event)
 		{
 			try
 			{
 				await _eventRepository.UpdateAsync(@event);
 				await _eventRepository.SaveChangesAsync();
-				return "Success";
+				return true;
 			}
 			catch
 			{
-				return "Failed";
+				return false;
 			}
 		}
 
-		public async Task<string> DeleteAsync(Event @event)
+		public async Task<bool> DeleteAsync(Event @event)
 		{
 			try
 			{
 				await _eventRepository.DeleteAsync(@event);
 				await _eventRepository.SaveChangesAsync();
-				return "Success";
+				return true;
 			}
 			catch
 			{
-				return "Failed";
+				return false;
 			}
 		}
 
-		public async Task<string> CancelAsync(int eventId)
+		public async Task<bool> CancelAsync(int eventId)
 		{
 			var @event = await _eventRepository.GetTableAsTracking().FirstOrDefaultAsync(x => x.EventId == eventId);
 			if (@event != null)
 			{
 				@event.Status = EventStatus.Canceled;
 				await _eventRepository.UpdateAsync(@event);
-				return "Success";
+				return true;
 			}
-			return "Failed";
+			return false;
 		}
 
 		public async Task<List<Attendee>> GetEventAttendeesListByIdAsync(int eventId)

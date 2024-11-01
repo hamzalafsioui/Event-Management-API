@@ -6,12 +6,12 @@ namespace EventManagement.Service.Abstracts
 	{
 		public IQueryable<Comment> GetCommentsByEventIdQueryable(int eventId);
 		public Task<List<Comment>> GetCommentsListByEventId(int eventId);
-		public Task<string> AddAsync(Comment comment);
-		public Task<string> UpdateAsync(Comment comment);
-		Task<Comment> getCommentByIdAsync(int commentId);
+		public Task<bool> AddAsync(Comment comment);
+		public Task<bool> UpdateAsync(Comment comment);
+		Task<Comment> GetCommentByIdAsync(int commentId);
 		Task<List<Comment>> GetUserCommentsListByUserIdAsync(int userId);
 		Task<bool> IsCommentExistByIdAsync(int commentId);
 		Task<int> GetCommentsCountForEvent(int eventId);
-		Task<string> DeleteAsync(Comment comment);
+		Task<bool> DeleteAsync(Comment comment);
 	}
 }

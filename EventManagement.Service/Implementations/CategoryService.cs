@@ -55,22 +55,22 @@ namespace EventManagement.Service.Implementations
 				return true;
 
 		}
-		public async Task<string> AddAsync(Category category)
+		public async Task<bool> AddAsync(Category category)
 		{
 			await _categoryRepository.AddAsync(category);
-			return "Success";
+			return true;
 		}
 
-		public async Task<string> EditAsync(Category category)
+		public async Task<bool> EditAsync(Category category)
 		{
 			await _categoryRepository.UpdateAsync(category);
-			return "Success";
+			return true;
 		}
 
-		public async Task<string> DeleteAsync(Category category)
+		public async Task<bool> DeleteAsync(Category category)
 		{
 			await _categoryRepository.DeleteAsync(category);
-			return "Success";
+			return true;
 		}
 		#endregion
 
