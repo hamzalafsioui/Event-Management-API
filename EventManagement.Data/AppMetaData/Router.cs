@@ -75,6 +75,7 @@
 		{
 			private const string Prefix = Rule + "/Comments";
 			public const string GetById = Prefix + "/{commentId}";
+			public const string Edit = Prefix ;
 		};
 
 

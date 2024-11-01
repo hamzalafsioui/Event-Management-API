@@ -1,4 +1,5 @@
 ﻿using EventManagement.API.Base;
+using EventManagement.Core.Features.Comments.Commands.Models;
 using EventManagement.Core.Features.Comments.Queries.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,12 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> GetCommentById([FromRoute] GetCommentByIdQuery getCommentByIdQuery)
 		{
 			var response = await Mediator.Send(getCommentByIdQuery);
+			return NewResult(response);
+		}
+		[HttpPut(Router.CommentRouting.Edit)]
+		public async Task<IActionResult> Edit([FromBody] EditCommentCommand editCommentCommand)
+		{
+			var response = await Mediator.Send(editCommentCommand);
 			return NewResult(response);
 		}
 	}

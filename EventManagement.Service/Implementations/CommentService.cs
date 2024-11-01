@@ -54,6 +54,19 @@ namespace EventManagement.Service.Implementations
 				.ToListAsync();
 		}
 
+		public async Task<bool> IsCommentExistByIdAsync(int commentId)
+		{
+			var result = await _commentRepository.GetTableNoTracking()
+				.FirstOrDefaultAsync(x => x.CommentId.Equals(commentId));
+			return result != null;
+		}
+
+		public async Task<string> UpdateAsync(Comment comment)
+		{
+			await _commentRepository.UpdateAsync(comment);
+			return "Success";
+		}
+
 		#endregion
 
 	}

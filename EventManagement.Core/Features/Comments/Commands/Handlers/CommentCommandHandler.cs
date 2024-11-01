@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Comments.Commands.Handlers
 {
 	public class CommentCommandHandler : ResponseHandler,
-		IRequestHandler<AddCommentCommand, Response<string>>
+		IRequestHandler<AddCommentCommand, Response<string>>,
+		IRequestHandler<EditCommentCommand, Response<string>>
 	{
 
 		#region Fields
@@ -46,6 +47,23 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 
 			// success
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Created]);
+		}
+
+		public async Task<Response<string>> Handle(EditCommentCommand request, CancellationToken cancellationToken)
+		{
+			var comment = await _commentService.getCommentByIdAsync(request.commentId);
+
+			// explicite mapping without using automapper
+			comment.Content = request.content;
+			// call service 
+			var result = await _commentService.UpdateAsync(comment);
+			// operation failed
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
+
+			// success
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Created]);
+
 		}
 		#endregion
 
