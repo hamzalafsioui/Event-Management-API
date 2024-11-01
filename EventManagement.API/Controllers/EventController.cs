@@ -88,6 +88,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetCommentsListByEventIdQuery(eventId));
 			return NewResult(response);
 		}
+		[HttpGet(Router.EventRouting.GetCommentsCountForEvent)]
+		public async Task<IActionResult> GetCommentsCountForEvent(int eventId)
+		{
+			var response = await Mediator.Send(new GetCommentsCountForEventByIdQuery(eventId));
+			return NewResult(response);
+		}
 
 		#endregion
 	}

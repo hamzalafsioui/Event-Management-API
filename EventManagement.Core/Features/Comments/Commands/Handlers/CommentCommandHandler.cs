@@ -62,7 +62,7 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success
-			return Success<string>(_stringLocalizer[SharedResourcesKeys.Created]);
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 
 		}
 		#endregion

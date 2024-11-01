@@ -43,6 +43,8 @@
 
 		public const string NotAttended = "NotAttended";
 
+		public const string Count = "Count";
+
 
 	}
 }

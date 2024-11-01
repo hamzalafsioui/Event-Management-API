@@ -38,6 +38,14 @@ namespace EventManagement.Service.Implementations
 		{
 			return _commentRepository.GetTableNoTracking().Where(e => e.EventId.Equals(eventId)).AsQueryable();
 		}
+
+		public async Task<int> GetCommentsCountForEvent(int eventId)
+		{
+			return await _commentRepository.GetTableNoTracking()
+				.Where(x=>x.EventId.Equals(eventId))
+				.CountAsync();
+		}
+
 		public async Task<List<Comment>> GetCommentsListByEventId(int eventId)
 		{
 			return await _commentRepository.GetTableNoTracking()

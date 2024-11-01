@@ -19,7 +19,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		IRequestHandler<GetEventAttendeesQuery, Response<List<GetEventAttendeesResponse>>>,
 		IRequestHandler<GetEventsListByCategoryIdQuery, Response<List<GetEventsListByCategoryIdResponse>>>,
 		IRequestHandler<GetUpcomingOrPastEventsListQuery, Response<List<GetUpcomingOrPastEventsListResponse>>>,
-		IRequestHandler<GetCommentsListByEventIdQuery, Response<List<GetCommentsListByEventIdResponse>>>
+		IRequestHandler<GetCommentsListByEventIdQuery, Response<List<GetCommentsListByEventIdResponse>>>,
+		IRequestHandler<GetCommentsCountForEventByIdQuery, Response<string>>
 
 	{
 		#region Fields
@@ -149,6 +150,13 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			var commentListMapping = _mapper.Map<List<GetCommentsListByEventIdResponse>>(CommentList);
 
 			return Success<List<GetCommentsListByEventIdResponse>>(commentListMapping);
+		}
+
+		public async Task<Response<string>> Handle(GetCommentsCountForEventByIdQuery request, CancellationToken cancellationToken)
+		{
+			// call service
+			var commentsCount = await _commentService.GetCommentsCountForEvent(request.eventId);
+			return Success(_stringLocalizer[SharedResourcesKeys.Count] + ": " + commentsCount);
 		}
 		#endregion
 

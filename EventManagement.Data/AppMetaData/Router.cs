@@ -37,6 +37,7 @@
 
 			public const string AddComment = Prefix + "/{eventId}/Comment";
 			public const string GetComments = Prefix + "/{eventId}/comments";
+			public const string GetCommentsCountForEvent = Prefix + "/{eventId}/comments/count";
 
 
 
