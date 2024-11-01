@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Comment\**" />
+    <EmbeddedResource Remove="Features\Comment\**" />
+    <None Remove="Features\Comment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EventManagement.Data\EventManagement.Data.csproj" />
     <ProjectReference Include="..\EventManagement.Infrustructure\EventManagement.Infrustructure.csproj" />
     <ProjectReference Include="..\EventManagement.Service\EventManagement.Service.csproj" />
@@ -15,8 +21,8 @@
   <ItemGroup>
     <Folder Include="Features\Authentication\Commands\Results\" />
     <Folder Include="Features\Authentication\Queries\" />
-    <Folder Include="Features\Comment\Queries\" />
     <Folder Include="Features\Users\Queries\Validatiors\" />
+    <Folder Include="Mapping\Comments\CommandMapping\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -22,6 +22,16 @@ namespace EventManagement.Service.Implementations
 			await _commentRepository.AddAsync(comment);
 			return "Success";
 		}
+
+		public async Task<Comment> getCommentByIdAsync(int commentId)
+		{
+			var result = await _commentRepository.GetTableNoTracking()
+				.Where(x => x.CommentId.Equals(commentId))
+				.Include(x => x.User)
+				.FirstOrDefaultAsync();
+
+			return result!;
+		}
 		#endregion
 		#region Actions
 		public IQueryable<Comment> GetCommentsByEventIdQueryable(int eventId)

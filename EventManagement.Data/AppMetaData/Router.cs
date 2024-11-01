@@ -70,5 +70,12 @@
 			public const string MarkAttendance = Prefix + "/attendance";
 			public const string AttendeeRegistered = Prefix + "{userId}/events";
 		}
+		public static class CommentRouting
+		{
+			private const string Prefix = Rule + "/Comments";
+			public const string GetById = Prefix + "/{commentId}";
+		};
+			
+		
 	}
 }

@@ -7,5 +7,6 @@ namespace EventManagement.Service.Abstracts
 		public IQueryable<Comment> GetCommentsByEventIdQueryable(int eventId);
 		public Task<List<Comment>> GetCommentsListByEventId(int eventId);
 		public Task<string> AddAsync(Comment comment);
+		Task<Comment> getCommentByIdAsync(int commentId);
 	}
 }

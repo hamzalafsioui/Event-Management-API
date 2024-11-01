@@ -27,7 +27,6 @@ namespace EventManagement.Infrustructure.Abstracts
 			return await _comments.ToListAsync();
 		}
 
-
 		#endregion
 
 	}
