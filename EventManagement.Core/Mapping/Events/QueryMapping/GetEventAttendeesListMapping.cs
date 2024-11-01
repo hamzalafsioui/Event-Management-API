@@ -7,9 +7,9 @@ namespace EventManagement.Core.Mapping.Events
 	{
 		private void GetEventAttendeesListMapping()
 		{
-			CreateMap<Event, GetEventAttendeesResponse>()
-				.ForMember(x => x.Id, opt => opt.MapFrom(x => x.Creator.Id))
-				.ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Creator.UserName));
+			CreateMap<Attendee, GetEventAttendeesResponse>()
+				.ForMember(x => x.Id, opt => opt.MapFrom(x => x.User.Id))
+				.ForMember(x => x.UserName, opt => opt.MapFrom(x => x.User.UserName));
 
 		}
 	}

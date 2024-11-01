@@ -127,12 +127,14 @@ namespace EventManagement.Service.Implementations
 			return "Failed";
 		}
 
-		public async Task<List<Event>> GetEventAttendeesListByIdAsync(int eventId)
+		public async Task<List<Attendee>> GetEventAttendeesListByIdAsync(int eventId)
 		{
-			var eventAttendeesList = await _eventRepository.GetTableNoTracking()
-				.Include(x => x.Attendees).ThenInclude(x => x.User)
-				.Where(x => x.EventId == eventId).ToListAsync();
-			return eventAttendeesList;
+			var eventWithAttendees = await _eventRepository.GetTableNoTracking()
+					.Include(x => x.Attendees.Where(x => x.HasAttended))
+					.ThenInclude(x => x.User)
+					.SingleOrDefaultAsync(x => x.EventId == eventId);
+
+			return eventWithAttendees?.Attendees.ToList() ?? new List<Attendee>();
 
 		}
 

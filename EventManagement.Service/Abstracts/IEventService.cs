@@ -12,7 +12,7 @@ namespace EventManagement.Service.Abstracts
 		public Task<string> EditAsync(Event @event);
 		public Task<string> DeleteAsync(Event @event);
 		public Task<string> CancelAsync(int eventId);
-		public Task<List<Event>> GetEventAttendeesListByIdAsync(int eventId);
+		public Task<List<Attendee>> GetEventAttendeesListByIdAsync(int eventId);
 		public Task<List<Event>> GetEventsListByCategoryId(int categoryId);
 		public Task<List<Event>> GetUpcomingOrPastEventsList(DateTimeComparison comparison);
 
