@@ -38,64 +38,64 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 			return _dbContext.Set<T>().AsNoTracking().AsQueryable();
 		}
 
-		public virtual async Task<T> AddAsync(T entity)
+		public virtual async Task<bool> AddAsync(T entity)
 		{
 			await _dbContext.Set<T>().AddAsync(entity);
-			await _dbContext.SaveChangesAsync();
-			return entity;
+			return await _dbContext.SaveChangesAsync() > 0;
+
 		}
 
 
-		public virtual async Task AddRangeAsync(ICollection<T> entities)
+		public virtual async Task<bool> AddRangeAsync(ICollection<T> entities)
 		{
 			await _dbContext.AddRangeAsync(entities);
-			await _dbContext.SaveChangesAsync();
+			return await _dbContext.SaveChangesAsync() > 0;
 		}
 
-		public virtual async Task DeleteAsync(T entity)
+		public virtual async Task<bool> DeleteAsync(T entity)
 		{
 			_dbContext.Set<T>().Remove(entity);
-			await _dbContext.SaveChangesAsync();
+			return await _dbContext.SaveChangesAsync() > 0;
 
 		}
 
-		public virtual async Task DeleteRangeAsync(ICollection<T> entities)
+		public virtual async Task<bool> DeleteRangeAsync(ICollection<T> entities)
 		{
 			foreach (var entity in entities)
 			{
 				_dbContext.Entry(entity).State = EntityState.Deleted;
 			}
-			await _dbContext.SaveChangesAsync();
+			return await _dbContext.SaveChangesAsync() > 0;
 		}
 
-		public virtual async Task UpdateAsync(T entity)
+		public virtual async Task<bool> UpdateAsync(T entity)
 		{
 			_dbContext.Set<T>().Update(entity);
-			await _dbContext.SaveChangesAsync();
+			return await _dbContext.SaveChangesAsync() > 0;
 		}
 
-		public virtual async Task UpdateRangeAsync(ICollection<T> entities)
+		public virtual async Task<bool> UpdateRangeAsync(ICollection<T> entities)
 		{
 			_dbContext.Set<T>().UpdateRange(entities);
-			await _dbContext.SaveChangesAsync();
+			return await _dbContext.SaveChangesAsync() > 0;
 		}
 		public virtual async Task SaveChangesAsync()
 		{
 			await _dbContext.SaveChangesAsync();
 		}
-		public virtual IDbContextTransaction BeginTransaction()
+		public virtual async Task<IDbContextTransaction> BeginTransactionAsync()
 		{
-			return _dbContext.Database.BeginTransaction();
+			return await _dbContext.Database.BeginTransactionAsync();
 		}
 
-		public virtual void Commit()
+		public virtual async void CommitAsync()
 		{
-			_dbContext.Database.CommitTransaction();
+			await _dbContext.Database.CommitTransactionAsync();
 		}
 
-		public virtual void RollBack()
+		public virtual async void RollBackAsync()
 		{
-			_dbContext.Database.RollbackTransaction();
+			await _dbContext.Database.RollbackTransactionAsync();
 		}
 
 

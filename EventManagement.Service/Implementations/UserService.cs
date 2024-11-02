@@ -87,7 +87,7 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<bool> DeleteAsync(User user)
 		{
-			var transaction = _userRepository.BeginTransaction();
+			var transaction = await _userRepository.BeginTransactionAsync();
 			try
 			{
 				await _userRepository.DeleteAsync(user);
