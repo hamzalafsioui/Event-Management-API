@@ -3,6 +3,7 @@ using EventManagement.Data.Helper.Enums;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EventManagement.Service.Implementations
 {
@@ -32,88 +33,42 @@ namespace EventManagement.Service.Implementations
 		}
 
 
-		public async Task<bool> AddAsync(Event @event)
-		{
-			// we can checking DB is already Exist this Event
-			await _eventRepository.AddAsync(@event);
-			return true;
+		public async Task<bool> AddAsync(Event @event) => await _eventRepository.AddAsync(@event);
+		public async Task<bool> EditAsync(Event @event) => await _eventRepository.UpdateAsync(@event);
+		public async Task<bool> DeleteAsync(Event @event) => await _eventRepository.DeleteAsync(@event);
 
-		}
 
-		public async Task<List<Event>> GetEventsListAsync()
-		{
-			return await _eventRepository.GetEventsListAsync();
-		}
-
+		public async Task<List<Event>> GetEventsListAsync() => await _eventRepository.GetEventsListAsync();
+		
 		public IQueryable<Event> FilterEventsPaginatedQueryable(EventOrderingEnum orderingEnum, string search)
 		{
-			var queryable = _eventRepository.GetTableNoTracking().AsQueryable();
+			var queryable = _eventRepository.GetTableNoTracking();
 
 			if (!string.IsNullOrEmpty(search))
 			{
-				queryable = queryable.Where(x => x.Title.Contains(search) || x.Creator.UserName.Contains(search) || x.Location.Contains(search));
+				queryable = queryable.Where(x => x.Title.Contains(search) ||
+												 x.Creator.UserName!.Contains(search) ||
+												 x.Location.Contains(search));
+			}
 
-			}
-			switch (orderingEnum)
+			// Map the ordering enum to a sorting expression
+			Expression<Func<Event, object>> orderExpression = orderingEnum switch
 			{
-				case EventOrderingEnum.EventId:
-					queryable = queryable.OrderBy(x => x.EventId);
-					break;
-				case EventOrderingEnum.Title:
-					queryable = queryable.OrderBy(x => x.Title);
-					break;
-				case EventOrderingEnum.Location:
-					queryable = queryable.OrderBy(x => x.Location);
-					break;
-				case EventOrderingEnum.StartTime:
-					queryable = queryable.OrderBy(x => x.StartTime);
-					break;
-				case EventOrderingEnum.EndTime:
-					queryable = queryable.OrderBy(x => x.EndTime);
-					break;
-				case EventOrderingEnum.CategoryName:
-					queryable = queryable.OrderBy(x => x.Category.Name);
-					break;
-				case EventOrderingEnum.Creator:
-					queryable = queryable.OrderBy(x => x.Creator.UserName);
-					break;
-				case EventOrderingEnum.CreatedAt:
-					queryable = queryable.OrderBy(x => x.CreatedAt);
-					break;
-				default:
-					queryable = queryable.OrderBy(x => x.EventId);
-					break;
-			}
-			return queryable;
+				EventOrderingEnum.EventId => x => x.EventId,
+				EventOrderingEnum.Title => x => x.Title,
+				EventOrderingEnum.Location => x => x.Location,
+				EventOrderingEnum.StartTime => x => x.StartTime,
+				EventOrderingEnum.EndTime => x => x.EndTime,
+				EventOrderingEnum.CategoryName => x => x.Category.Name,
+				EventOrderingEnum.Creator => x => x.Creator.UserName!,
+				EventOrderingEnum.CreatedAt => x => x.CreatedAt,
+				_ => x => x.EventId
+			};
+
+			return queryable.OrderBy(orderExpression);
 		}
 
-		public async Task<bool> EditAsync(Event @event)
-		{
-			try
-			{
-				await _eventRepository.UpdateAsync(@event);
-				await _eventRepository.SaveChangesAsync();
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
-		public async Task<bool> DeleteAsync(Event @event)
-		{
-			try
-			{
-				await _eventRepository.DeleteAsync(@event);
-				await _eventRepository.SaveChangesAsync();
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
+	
 
 		public async Task<bool> CancelAsync(int eventId)
 		{
@@ -121,8 +76,8 @@ namespace EventManagement.Service.Implementations
 			if (@event != null)
 			{
 				@event.Status = EventStatus.Canceled;
-				await _eventRepository.UpdateAsync(@event);
-				return true;
+				return await _eventRepository.UpdateAsync(@event);
+				 
 			}
 			return false;
 		}

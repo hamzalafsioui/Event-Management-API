@@ -17,17 +17,11 @@ namespace EventManagement.Service.Implementations
 			_commentRepository = commentRepository;
 		}
 
-		public async Task<bool> AddAsync(Comment comment)
-		{
-			await _commentRepository.AddAsync(comment);
-			return true;
-		}
+		public async Task<bool> AddAsync(Comment comment) => await _commentRepository.AddAsync(comment);
 
-		public async Task<bool> DeleteAsync(Comment comment)
-		{
-			await _commentRepository.DeleteAsync(comment);
-			return true;
-		}
+		public async Task<bool> UpdateAsync(Comment comment) => await _commentRepository.UpdateAsync(comment);
+
+		public async Task<bool> DeleteAsync(Comment comment) => await _commentRepository.DeleteAsync(comment);
 
 		public async Task<Comment> GetCommentByIdAsync(int commentId)
 		{
@@ -70,15 +64,9 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<bool> IsCommentExistByIdAsync(int commentId)
 		{
-			var result = await _commentRepository.GetTableNoTracking()
-				.FirstOrDefaultAsync(x => x.CommentId.Equals(commentId));
-			return result != null;
-		}
-
-		public async Task<bool> UpdateAsync(Comment comment)
-		{
-			await _commentRepository.UpdateAsync(comment);
-			return true;
+			return await _commentRepository.GetTableNoTracking()
+				.AnyAsync(x => x.CommentId.Equals(commentId));
+			
 		}
 
 		#endregion
