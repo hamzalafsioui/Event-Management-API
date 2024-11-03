@@ -11,7 +11,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 {
 	public class AuthenticationCommandHandler : ResponseHandler,
-		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>
+		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>,
+		IRequestHandler<RefreshTokenCommand,Response<JwtAuthResponse>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -54,6 +55,12 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 			// return token
 
 			return Success<JwtAuthResponse>(result);
+		}
+
+		public async Task<Response<JwtAuthResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authenticationService.GetRefreshToken(request.AccessToken,request.RefreshToken);
+			return Success(result);
 		}
 		#endregion
 
