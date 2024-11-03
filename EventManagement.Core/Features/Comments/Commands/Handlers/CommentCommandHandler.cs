@@ -71,14 +71,16 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 		{
 			// retrieve comment
 			var comment = await _commentService.GetCommentByIdAsync(request.commentId);
+			if (comment == null)
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
 			// call delete service
 			var result = await _commentService.DeleteAsync(comment);
 			// operation failed
-			if (result)
+			if (!result)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success
-			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
 
 		}
 		#endregion
