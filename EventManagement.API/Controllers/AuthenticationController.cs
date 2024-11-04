@@ -17,7 +17,7 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 		[HttpPost(Router.AuthenticationRouting.RefreshToken)]
-		public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
+		public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
