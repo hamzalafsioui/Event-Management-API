@@ -44,6 +44,16 @@
 		public const string NotAttended = "NotAttended";
 
 		public const string Count = "Count";
+		
+		// not implement in Resx
+		public const string Unauthorized = "Unauthorized";
+		public const string AlgorithmIsWrong = "AlgorithmIsWrong";
+		public const string TokenIsNotExpired = "TokenIsNotExpired";
+		public const string RefreshTokenIsNotFound = "RefreshTokenIsNotFound";
+		public const string RefreshTokenIsExpired = "RefreshTokenIsExpired";
+		public const string TokenIsExpired = "TokenIsExpired";
+		public const string InvalidToken = "InvalidToken";
+
 
 
 	}
