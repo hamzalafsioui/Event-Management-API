@@ -12,7 +12,7 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 {
 	public class AuthenticationCommandHandler : ResponseHandler,
 		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>,
-		IRequestHandler<RefreshTokenCommand,Response<JwtAuthResponse>>
+		IRequestHandler<RefreshTokenCommand, Response<JwtAuthResponse>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -59,7 +59,26 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 
 		public async Task<Response<JwtAuthResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
 		{
-			var result = await _authenticationService.GetRefreshToken(request.AccessToken,request.RefreshToken);
+			var jwtToken = _authenticationService.ReadJwtToken(request.AccessToken);
+			var ValidateResult = await _authenticationService.ValidateDetailsAsync(jwtToken, request.AccessToken, request.RefreshToken);
+			switch (ValidateResult)
+			{
+				case ("AlgorithmIsWrong",null):
+					return Unauthorized<JwtAuthResponse>(_stringLocalizer[SharedResourcesKeys.AlgorithmIsWrong]);
+				case ("TokenIsNotExpired",null):
+					return Unauthorized<JwtAuthResponse>(_stringLocalizer[SharedResourcesKeys.TokenIsNotExpired]);
+				case ("RefreshTokenIsNotFound",null):
+					return Unauthorized<JwtAuthResponse>(_stringLocalizer[SharedResourcesKeys.RefreshTokenIsNotFound]);
+				case ("RefreshTokenIsExpired",null):
+					return Unauthorized<JwtAuthResponse>(_stringLocalizer[SharedResourcesKeys.RefreshTokenIsExpired]);
+
+			};
+			
+			var user = await _userManager.FindByIdAsync(ValidateResult.userId);
+			if (user == null)
+				return NotFound<JwtAuthResponse>(_stringLocalizer[SharedResourcesKeys.UserId] + " " + _stringLocalizer[SharedResourcesKeys.NotFound]);
+
+			var result =  _authenticationService.GetRefreshToken(user,jwtToken,ValidateResult.expiredDate, request.RefreshToken);
 			return Success(result);
 		}
 		#endregion
