@@ -29,11 +29,13 @@ namespace EventManagement.Core.Features.Authentication.Queries.Handlers
 
 		public async Task<Response<string>> Handle(AuthorizeUserQuery request, CancellationToken cancellationToken)
 		{
-			var result = await _authenticationService.ValidateToken(request.AccessToken);
-			if(result=="NotExpired")
+			var result = _authenticationService.ValidateToken(request.AccessToken);
+			if (result == "NotExpired")
 				return Success(result);
 
-			return BadRequest<string>(result);
+			if(result == "InvalidToken")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.InvalidToken]);
+			return Unauthorized<string>(_stringLocalizer[SharedResourcesKeys.TokenIsExpired]);
 
 		}
 		#endregion
