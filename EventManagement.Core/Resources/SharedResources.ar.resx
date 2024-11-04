@@ -210,4 +210,34 @@
   <data name="CategoryExist" xml:space="preserve">
     <value>اسم الفئة موجود بالفعل</value>
   </data>
+  <data name="AlreadyRegistered" xml:space="preserve">
+    <value>بالفعل مسجل </value>
+  </data>
+  <data name="NotAttended" xml:space="preserve">
+    <value>لم يحضر</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>العدد</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>غير مرخص </value>
+  </data>
+  <data name="AlgorithmIsWrong" xml:space="preserve">
+    <value>خوارزمية خاطئة</value>
+  </data>
+  <data name="TokenIsNotExpired" xml:space="preserve">
+    <value>الرمز لم ينتهي بعد</value>
+  </data>
+  <data name="RefreshTokenIsNotFound" xml:space="preserve">
+    <value>رمز التحديث غير موجود</value>
+  </data>
+  <data name="RefreshTokenIsExpired" xml:space="preserve">
+    <value>انتهت صلاحية رمز التحديث</value>
+  </data>
+  <data name="TokenIsExpired" xml:space="preserve">
+    <value>الرمز انتهى بالفعل</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>رمز غير صحيح</value>
+  </data>
 </root>
