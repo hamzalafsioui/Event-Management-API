@@ -5,5 +5,5 @@
 		public string AccessToken { get; set; }
 		public RefreshToken RefreshToken { get; set; }
 	}
-	public record RefreshToken(string UserName, string TokenString, DateTime ExpireAt);
+	public record RefreshToken(string UserName, string TokenString, DateTime? ExpireAt);
 }
