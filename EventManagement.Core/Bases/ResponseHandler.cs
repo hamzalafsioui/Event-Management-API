@@ -33,13 +33,13 @@ namespace EventManagement.Core.Bases
 			};
 		}
 
-		public Response<T> Unauthorized<T>()
+		public Response<T> Unauthorized<T>(string message = null!)
 		{
 			return new Response<T>()
 			{
 				StatusCode = System.Net.HttpStatusCode.Unauthorized,
 				Succeded = true,
-				Message = "Unauthorized"
+				Message = message ?? _stringLocalizer[SharedResourcesKeys.Unauthorized]
 			};
 		}
 
