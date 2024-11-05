@@ -9,7 +9,7 @@ namespace EventManagement.API.Controllers
 	//[Authorize]
 	public class AuthorizationController : AppControllerBase
 	{
-		[HttpPost(Router.AuthorizationRouting.Create)]
+		[HttpPost(Router.AuthorizationRouting.CreateRole )]
 		public async Task<IActionResult> Create([FromForm] AddRoleCommand command)
 		{
 			var response = await Mediator.Send(command);

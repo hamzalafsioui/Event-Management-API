@@ -31,11 +31,7 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<bool> IsRoleExistAsync(string roleName)
 		{
-			var IsRoleExist = await _roleManager.RoleExistsAsync(roleName);
-			if (IsRoleExist)
-				return true;
-			else
-				return false;
+			return await _roleManager.RoleExistsAsync(roleName);	
 		}
 
 		#endregion

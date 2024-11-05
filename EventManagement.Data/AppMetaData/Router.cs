@@ -55,7 +55,7 @@
 		public static class AuthorizationRouting
 		{
 			private const string Prefix = Rule + "/Authorization";
-			public const string Create = Prefix + "/Create";
+			public const string CreateRole = Prefix + "/Role/Create";
 		
 
 		}
