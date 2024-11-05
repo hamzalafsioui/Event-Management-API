@@ -240,4 +240,7 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid Token</value>
   </data>
+  <data name="Exist" xml:space="preserve">
+    <value>Already Exist</value>
+  </data>
 </root>

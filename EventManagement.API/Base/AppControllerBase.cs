@@ -29,7 +29,7 @@ namespace EventManagement.API.Base
 				HttpStatusCode.Accepted => new AcceptedResult(string.Empty, response),
 				HttpStatusCode.UnprocessableEntity => new UnprocessableEntityObjectResult(response),
 				HttpStatusCode.TooManyRequests => new ObjectResult(response) { StatusCode = StatusCodes.Status429TooManyRequests},
-				//HttpStatusCode.Forbidden => new ForbidResult(),
+				HttpStatusCode.Forbidden => new ObjectResult(response) { StatusCode = StatusCodes.Status403Forbidden},
 				HttpStatusCode.Conflict => new ConflictObjectResult(response),
 				HttpStatusCode.InternalServerError => new ObjectResult(response) { StatusCode = 500 },
 				_ => new ObjectResult(response) { StatusCode = (int)HttpStatusCode.BadRequest }

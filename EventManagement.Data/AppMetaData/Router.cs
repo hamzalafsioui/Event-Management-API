@@ -52,6 +52,13 @@
 
 
 		}
+		public static class AuthorizationRouting
+		{
+			private const string Prefix = Rule + "/Authorization";
+			public const string Create = Prefix + "/Create";
+		
+
+		}
 		public static class CategoryRouting
 		{
 			private const string Prefix = Rule + "/Category";

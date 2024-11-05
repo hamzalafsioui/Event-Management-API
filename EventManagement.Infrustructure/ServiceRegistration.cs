@@ -15,7 +15,7 @@ namespace EventManagement.Infrustructure
 	{
 		public static IServiceCollection AddServiceRegistration(this IServiceCollection services, IConfiguration configuration)
 		{
-			services.AddIdentity<User, IdentityRole<int>>(opt =>
+			services.AddIdentity<User, Role>(opt =>
 			{
 				// Password settings.
 				opt.Password.RequireDigit = false;

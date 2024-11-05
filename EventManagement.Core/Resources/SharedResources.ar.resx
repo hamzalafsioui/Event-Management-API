@@ -240,4 +240,7 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>رمز غير صحيح</value>
   </data>
+  <data name="Exist" xml:space="preserve">
+    <value>موجود بالفعل</value>
+  </data>
 </root>

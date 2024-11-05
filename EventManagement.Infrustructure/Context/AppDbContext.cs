@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Infrustructure.Context
 {
-	public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+	public class AppDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 	{
 		public AppDbContext()
 		{
@@ -81,7 +81,7 @@ namespace EventManagement.Infrustructure.Context
 			modelBuilder.ApplyConfiguration(new AttendeeConfiguration()); //explicitly applying
 			modelBuilder.ApplyConfiguration(new CategoryConfiguration()); //explicitly applying
 			modelBuilder.ApplyConfiguration(new EventConfiguration()); // explicitly applying
-		//	modelBuilder.ApplyConfiguration(new UserConfiguration()); // explicitly applying
+																	   //	modelBuilder.ApplyConfiguration(new UserConfiguration()); // explicitly applying
 			modelBuilder.ApplyConfiguration(new CommentConfiguration()); // explicitly applying
 
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Attendee).Assembly);

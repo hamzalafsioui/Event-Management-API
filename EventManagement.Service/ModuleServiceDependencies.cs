@@ -14,6 +14,7 @@ namespace EventManagement.Service
 			services.AddTransient<ICommentService, CommentService>();
 			services.AddTransient<ICategoryService, CategoryService>();
 			services.AddTransient<IAuthenticationService, AuthenticationService>();
+			services.AddTransient<IAuthorizationService, AuthorizationService>();
 			return services;
 		}
 	}
