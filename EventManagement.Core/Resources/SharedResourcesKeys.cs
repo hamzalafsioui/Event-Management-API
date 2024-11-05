@@ -54,6 +54,7 @@
 		public const string InvalidToken = "InvalidToken";
 
 		public const string Exist = "Exist";
+		public const string FailedToAssignRole = "FailedToAssignRole"; //
 
 
 

@@ -18,31 +18,35 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 		#region Fields
 		private readonly UserManager<User> _userManager;
+		private readonly RoleManager<Role> _roleManager;
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		#endregion
 		#region Constructors
-		public UserCommandHandler(UserManager<User> userManager, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+		public UserCommandHandler(UserManager<User> userManager, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer,
+			RoleManager<Role> roleManager) : base(stringLocalizer)
 		{
 			this._userManager = userManager;
 			this._mapper = mapper;
 			this._stringLocalizer = stringLocalizer;
+			_roleManager = roleManager;
 		}
 		#endregion
 		#region Handle Function
 
 		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
 		{
-			// if Email is Exist
-			var userByEmail = await _userManager.FindByEmailAsync(request.Email);
-			// email is exist
-			if (userByEmail != null)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.Email]} {_stringLocalizer[SharedResourcesKeys.EmailAlreadyExist]}");
-			// if username  is Exist
-			var userByUserName = await _userManager.FindByNameAsync(request.UserName);
-			// username is exist
-			if (userByUserName != null)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.Username]} {_stringLocalizer[SharedResourcesKeys.UsernameAlreadyExist]}");
+			// Check if Role exists in the database
+			var roleName = request.Role.ToString();
+			var roleExist = await _roleManager.RoleExistsAsync(roleName);
+			if (!roleExist)
+			{
+				// If role does not exist, create it
+				var roleResult = await _roleManager.CreateAsync(new Role { Name = roleName });
+				if (!roleResult.Succeeded)
+					return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAdd]}: {roleResult.Errors?.FirstOrDefault()?.Description}");
+			}
+
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
 			// create
@@ -51,8 +55,11 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			if (!CreateResult.Succeeded)
 				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAdd]} : {CreateResult.Errors?.FirstOrDefault()?.Description}");
 
+			// Assign the role to the user
+			var addToRoleResult = await _userManager.AddToRoleAsync(identityUser, roleName);
+			if (!addToRoleResult.Succeeded)
+				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAssignRole]}: {addToRoleResult.Errors?.FirstOrDefault()?.Description}");
 
-			// Message
 
 			// success
 			return Created($"{_stringLocalizer[SharedResourcesKeys.Created]}");

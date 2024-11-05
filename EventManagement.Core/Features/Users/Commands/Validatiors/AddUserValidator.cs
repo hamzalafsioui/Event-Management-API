@@ -1,4 +1,5 @@
-﻿using EventManagement.Core.Features.Users.Commands.Models;
+﻿using Azure.Core;
+using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Resources;
 using EventManagement.Data.Entities.Identity;
 using FluentValidation;
@@ -62,6 +63,13 @@ public class AddUserValidator : AbstractValidator<AddUserCommand>
 				return user == null;
 			})
 			.WithMessage($"{_stringLocalizer[SharedResourcesKeys.UsernameAlreadyExist]}");
+		RuleFor(x => x.Email)
+			.MustAsync(async (email, cancellationToken) =>
+			{
+				var user = await _userManager.FindByEmailAsync(email);
+				return user == null;
+			})
+			.WithMessage($"{_stringLocalizer[SharedResourcesKeys.EmailAlreadyExist]}");
 	}
 	#endregion
 }
