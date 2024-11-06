@@ -1,8 +1,12 @@
 using EventManagement.Core;
 using EventManagement.Core.Middleware;
+using EventManagement.Data.Entities.Identity;
 using EventManagement.Infrustructure;
 using EventManagement.Infrustructure.Context;
+using EventManagement.Infrustructure.Repositories;
+using EventManagement.Infrustructure.Seeder;
 using EventManagement.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -82,8 +86,32 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+#region Seed
+using (var scope = app.Services.CreateScope())
+{
+	try
+	{
+		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+		var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+		var categorieService = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
+		await Task.WhenAll(
+				 RoleSeeder.SeedAsync(roleManager),
+				 UserSeeder.SeedAsync(userManager),
+				 CategorySeeder.SeedAsync(categorieService)
+			);
+	
+	}
+	catch(Exception ex)
+	{
+		// log error
+	}
+	
+}
+
+	#endregion
+
+	// Configure the HTTP request pipeline.
+	if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
@@ -95,6 +123,10 @@ app.UseRequestLocalization(options!.Value);
 #endregion
 
 
+#region Custom Middleware
+// Middlewares
+app.UseMiddleware<ErrorHandlerMiddleware>();
+#endregion
 
 app.UseHttpsRedirection();
 app.UseCors();
@@ -102,10 +134,7 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-#region Custom Middleware
-// Middlewares
-app.UseMiddleware<ErrorHandlerMiddleware>();
-#endregion
+
 
 
 app.MapControllers();
