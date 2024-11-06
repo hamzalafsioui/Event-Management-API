@@ -36,16 +36,6 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
 		{
-			// Check if Role exists in the database
-			var roleName = request.Role.ToString();
-			var roleExist = await _roleManager.RoleExistsAsync(roleName);
-			if (!roleExist)
-			{
-				// If role does not exist, create it
-				var roleResult = await _roleManager.CreateAsync(new Role { Name = roleName });
-				if (!roleResult.Succeeded)
-					return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAdd]}: {roleResult.Errors?.FirstOrDefault()?.Description}");
-			}
 
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
@@ -56,7 +46,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAdd]} : {CreateResult.Errors?.FirstOrDefault()?.Description}");
 
 			// Assign the role to the user
-			var addToRoleResult = await _userManager.AddToRoleAsync(identityUser, roleName);
+			var addToRoleResult = await _userManager.AddToRoleAsync(identityUser, "User");
 			if (!addToRoleResult.Succeeded)
 				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAssignRole]}: {addToRoleResult.Errors?.FirstOrDefault()?.Description}");
 

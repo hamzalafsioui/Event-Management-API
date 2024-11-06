@@ -13,6 +13,9 @@ namespace EventManagement.Data.Helper.Enums
         Speaker = 2,
         [EnumMember(Value = "Attendee")]
 
-        Attendee = 3
+        Attendee = 3 ,
+        [EnumMember(Value = "User")]
+
+        User = 4
     }
 }
