@@ -13,6 +13,7 @@ namespace EventManagement.API.Controllers
 	{
 
 		#region  Functions
+		[Authorize("Speaker")]
 		[HttpGet(Router.UserRouting.List)]
 		public async Task<IActionResult> GetUserList()
 		{
@@ -25,7 +26,7 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(query);
 			return Ok(response);
 		}
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		[HttpGet(Router.UserRouting.GetById)]
 		public async Task<IActionResult> GetUserById([FromRoute] int id)
 		{

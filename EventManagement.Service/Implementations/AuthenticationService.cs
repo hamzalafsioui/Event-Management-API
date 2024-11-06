@@ -33,14 +33,10 @@ namespace EventManagement.Service.Implementations
 		#region Handle Functions
 		public async Task<JwtAuthResponse> GetJWTTokenAsync(User user)
 		{
+			// retrieve roles
+			var roles = await _userManager.GetRolesAsync(user);
 			// define the claims including in the token
-			var claims = new List<Claim>()
-			{
-				new Claim(nameof(UserClaimModel.Id),user.Id.ToString()),
-				new Claim(nameof(UserClaimModel.UserName),user.UserName!),
-				new Claim(nameof(UserClaimModel.Email),user.Email!)
-			};
-
+			var claims = GetClaims(user, roles.ToList()); 
 			// create the signing key from appsettings.json
 			if (string.IsNullOrEmpty(_jwtSettings.SigningKey))
 			{
@@ -85,6 +81,20 @@ namespace EventManagement.Service.Implementations
 			return response;
 		}
 
+		private List<Claim> GetClaims(User user,List<string> roles)
+		{
+			var claims =  new List<Claim>()
+			{
+				new Claim(nameof(UserClaimModel.Id),user.Id.ToString()),
+				new Claim(ClaimTypes.Name,user.UserName!),
+				new Claim(ClaimTypes.Email,user.Email!)
+			};
+			foreach(var role in roles)
+			{
+				claims.Add(new Claim(ClaimTypes.Role,role.ToString()));
+			}
+			return claims;
+		}
 		private (JwtSecurityToken, string) GenerateJWTToken(User user)
 		{
 			// define the claims including in the token
