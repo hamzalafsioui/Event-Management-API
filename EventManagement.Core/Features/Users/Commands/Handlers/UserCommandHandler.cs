@@ -36,7 +36,7 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
 		{
-
+			//await using var transaction = await  // using transaction in the future ????????/
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
 			// create

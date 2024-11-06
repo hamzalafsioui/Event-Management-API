@@ -94,24 +94,23 @@ using (var scope = app.Services.CreateScope())
 		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 		var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
 		var categorieService = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
-		await Task.WhenAll(
-				 RoleSeeder.SeedAsync(roleManager),
-				 UserSeeder.SeedAsync(userManager),
-				 CategorySeeder.SeedAsync(categorieService)
-			);
-	
+
+		await RoleSeeder.SeedAsync(roleManager);
+		await UserSeeder.SeedAsync(userManager);
+		await CategorySeeder.SeedAsync(categorieService);
+
 	}
-	catch(Exception ex)
+	catch (Exception ex)
 	{
 		// log error
 	}
-	
+
 }
 
-	#endregion
+#endregion
 
-	// Configure the HTTP request pipeline.
-	if (app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
