@@ -3,15 +3,15 @@ using EventManagement.Core.Features.Authorization.Commands.Models;
 using EventManagement.Core.Resources;
 using EventManagement.Service.Abstracts;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Authorization.Commands.Handlers
 {
 	public class RoleCommandHandler : ResponseHandler,
 		IRequestHandler<AddRoleCommand, Response<string>>,
-		IRequestHandler<EditRoleCommand,Response<string>>,
-		IRequestHandler<DeleteRoleCommand,Response<string>>
+		IRequestHandler<EditRoleCommand, Response<string>>,
+		IRequestHandler<DeleteRoleCommand, Response<string>>,
+		IRequestHandler<UpdateUserRoleCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -40,7 +40,7 @@ namespace EventManagement.Core.Features.Authorization.Commands.Handlers
 			var result = await _authorizationService.EditRoleAsync(request.Id, request.Name);
 			if (result == "NotFound")
 				return NotFound<string>();
-			else if(result == "Success")
+			else if (result == "Success")
 				return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 			else
 				return BadRequest<string>(result);
@@ -57,6 +57,21 @@ namespace EventManagement.Core.Features.Authorization.Commands.Handlers
 				return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
 			else
 				return BadRequest<string>(result);
+		}
+
+		public async Task<Response<string>> Handle(UpdateUserRoleCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authorizationService.UpdateUserRoles(request);
+			return result switch
+			{
+				"UserNotFound" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]),
+				"FailedToRemoveOldRoles" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToRemoveOldRoles]),
+				"FailedToAddNewRoles" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToAddNewRoles]),
+				"FailedToUpdateUserRoles" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRoles]),
+				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]),
+				_ => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRoles]),
+
+			};
 		}
 		#endregion
 

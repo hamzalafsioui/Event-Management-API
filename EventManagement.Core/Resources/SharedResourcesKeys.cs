@@ -57,6 +57,9 @@
 		public const string FailedToAssignRole = "FailedToAssignRole"; //
 		public const string RoleId = "RoleId"; //
 		public const string RoleIsUsed = "RoleIsUsed"; //
+		public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles"; //
+		public const string FailedToAddNewRoles = "FailedToAddNewRoles"; //
+		public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles"; //
 
 
 

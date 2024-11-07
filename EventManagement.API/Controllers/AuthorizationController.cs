@@ -46,5 +46,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new ManageUserRolesQuery(userId));
 			return NewResult(response);
 		}
+		[HttpPut(Router.AuthorizationRouting.UpdateUserRoles)]
+		public async Task<IActionResult> UpdateUserRoles([FromBody] UpdateUserRoleCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 	}
 }

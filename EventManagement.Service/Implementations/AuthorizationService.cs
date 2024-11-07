@@ -1,5 +1,6 @@
 ﻿using EventManagement.Data.DTOs.Roles;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Infrustructure.Context;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +12,15 @@ namespace EventManagement.Service.Implementations
 		#region Fields
 		private readonly RoleManager<Role> _roleManager;
 		private readonly UserManager<User> _userManager;
+		private readonly AppDbContext _dbContext;
 
 		#endregion
 		#region Constructors
-		public AuthorizationService(RoleManager<Role> roleManager, UserManager<User> userManager)
+		public AuthorizationService(RoleManager<Role> roleManager, UserManager<User> userManager, AppDbContext dbContext)
 		{
 			_roleManager = roleManager;
 			_userManager = userManager;
+			_dbContext = dbContext;
 		}
 		#endregion
 		#region Handle Functions
@@ -111,6 +114,42 @@ namespace EventManagement.Service.Implementations
 		{
 			var role = await _roleManager.FindByIdAsync(Id.ToString());
 			return role != null;
+		}
+
+		public async Task<string> UpdateUserRoles(ManageUserRolesRequest request)
+		{
+			using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+			{
+				try
+				{
+					// get user with old roles
+					var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+					if (user == null)
+						return "UserNotFound";
+					// get old roles
+					var userRoles = await _userManager.GetRolesAsync(user);
+					// delete Old Roles
+					var removeResult = await _userManager.RemoveFromRolesAsync(user, userRoles);
+					// Add Roles
+					if (!removeResult.Succeeded)
+						return "FailedToRemoveOldRoles";
+					var selectedRoles = request.Roles.Where(x => x.HasRole == true).Select(x => x.Name);
+					var addRoleResult = await _userManager.AddToRolesAsync(user, selectedRoles);
+					// return result
+					if (!addRoleResult.Succeeded)
+						return "FailedToAddNewRoles";
+					await transaction.CommitAsync();
+					return "Success";
+
+				}
+				catch (Exception ex)
+				{
+					await transaction.RollbackAsync();
+					return "FailedToUpdateUserRoles";
+				}
+
+			}
+
 		}
 
 		#endregion
