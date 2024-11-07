@@ -8,12 +8,14 @@ namespace EventManagement.Service.Implementations
 	{
 		#region Fields
 		private readonly RoleManager<Role> _roleManager;
+		private readonly UserManager<User> _userManager;
 
 		#endregion
 		#region Constructors
-		public AuthorizationService(RoleManager<Role> roleManager)
+		public AuthorizationService(RoleManager<Role> roleManager, UserManager<User> userManager)
 		{
 			_roleManager = roleManager;
+			_userManager = userManager;
 		}
 		#endregion
 		#region Handle Functions
@@ -26,6 +28,21 @@ namespace EventManagement.Service.Implementations
 			if (result.Succeeded)
 				return "Success";
 			return "Failed";
+
+		}
+
+		public async Task<string> DeleteRoleAsync(int Id)
+		{
+			var role = await _roleManager.FindByIdAsync(Id.ToString());
+			if (role == null) return "NotFound";
+			// is role exist in any user
+			var users = await _userManager.GetUsersInRoleAsync(role.Name!);
+			// return exception
+			if (users.Any()) return "Used";
+			//delete
+			var result = await _roleManager.DeleteAsync(role);
+			//success
+			return result.Succeeded ? "Success" : string.Join("|-|", result.Errors.Select(x => x.Description).ToString() ?? "Failed");
 
 		}
 
@@ -42,15 +59,13 @@ namespace EventManagement.Service.Implementations
 			role.Name = roleName;
 			var result = await _roleManager.UpdateAsync(role);
 			// operation success
-			if (result.Succeeded)
-				return "Success";
-			else
-				return string.Join("|-|", result.Errors.ToString()?? "Failed");
+			return result.Succeeded ? "Success" : string.Join("|-|", result.Errors.Select(x => x.Description).ToString() ?? "Failed");
+
 		}
 
 		public async Task<bool> IsRoleExistAsync(string roleName)
 		{
-			return await _roleManager.RoleExistsAsync(roleName);	
+			return await _roleManager.RoleExistsAsync(roleName);
 		}
 
 		public async Task<bool> IsRoleExistByIdAsync(int Id)
