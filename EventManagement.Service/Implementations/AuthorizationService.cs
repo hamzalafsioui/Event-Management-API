@@ -1,6 +1,7 @@
 ﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Service.Implementations
 {
@@ -52,15 +53,20 @@ namespace EventManagement.Service.Implementations
 			var role = await _roleManager.FindByIdAsync(Id.ToString());
 			// return not found
 			if (role == null)
-			{
 				return "NotFound";
-			}
+
 			// edit 
 			role.Name = roleName;
 			var result = await _roleManager.UpdateAsync(role);
 			// operation success
 			return result.Succeeded ? "Success" : string.Join("|-|", result.Errors.Select(x => x.Description).ToString() ?? "Failed");
 
+		}
+
+		public async Task<List<Role>> GetRolesListAsync()
+		{
+			var roles = await _roleManager.Roles.ToListAsync();
+			return roles;
 		}
 
 		public async Task<bool> IsRoleExistAsync(string roleName)
