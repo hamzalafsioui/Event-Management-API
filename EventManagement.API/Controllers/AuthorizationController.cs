@@ -10,7 +10,7 @@ namespace EventManagement.API.Controllers
 	//[Authorize]
 	public class AuthorizationController : AppControllerBase
 	{
-		[HttpPost(Router.AuthorizationRouting.CreateRole )]
+		[HttpPost(Router.AuthorizationRouting.CreateRole)]
 		public async Task<IActionResult> Create([FromForm] AddRoleCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -32,6 +32,12 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> GetRoleList()
 		{
 			var response = await Mediator.Send(new GetRolesListQuery());
+			return NewResult(response);
+		}
+		[HttpGet(Router.AuthorizationRouting.GetById)]
+		public async Task<IActionResult> GetRoleById([FromRoute] int id)
+		{
+			var response = await Mediator.Send(new GetRoleByIdQuery(id));
 			return NewResult(response);
 		}
 	}

@@ -7,7 +7,8 @@ namespace EventManagement.Core.Mapping.Roles
         public RoleProfile()
         {
 			GetRolesListMapping();
+			GetRoleByIdMapping();
 
 		}
-    }
+	}
 }

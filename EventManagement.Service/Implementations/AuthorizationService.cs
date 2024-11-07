@@ -63,6 +63,12 @@ namespace EventManagement.Service.Implementations
 
 		}
 
+		public async Task<Role> GetRoleByIdAsync(int id)
+		{
+			var role = await _roleManager.FindByIdAsync(id.ToString());
+			return role;
+		}
+
 		public async Task<List<Role>> GetRolesListAsync()
 		{
 			var roles = await _roleManager.Roles.ToListAsync();

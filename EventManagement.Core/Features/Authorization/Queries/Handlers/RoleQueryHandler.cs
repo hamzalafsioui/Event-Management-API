@@ -10,7 +10,9 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Authorization.Queries.Handlers
 {
 	public class RoleQueryHandler : ResponseHandler,
-		IRequestHandler<GetRolesListQuery, Response<List<GetRolesListResponse>>>
+		IRequestHandler<GetRolesListQuery, Response<List<GetRolesListResponse>>>,
+		IRequestHandler<GetRoleByIdQuery, Response<GetRoleByIdResponse>>
+
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -37,6 +39,18 @@ namespace EventManagement.Core.Features.Authorization.Queries.Handlers
 
 			return Success<List<GetRolesListResponse>>(result);
 		}
+
+		public async Task<Response<GetRoleByIdResponse>> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
+		{
+			var role = await _authorizationService.GetRoleByIdAsync(request.Id);
+			if (role == null)
+				return NotFound<GetRoleByIdResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			var roleMapping = _mapper.Map<GetRoleByIdResponse>(role);
+
+			return Success<GetRoleByIdResponse>(roleMapping);
+		}
+
+
 		#endregion
 
 

@@ -10,5 +10,6 @@ namespace EventManagement.Service.Abstracts
 		public Task<bool> IsRoleExistAsync(string roleName);
 		public Task<bool> IsRoleExistByIdAsync(int Id);
 		public Task<List<Role>> GetRolesListAsync();
+		public Task<Role> GetRoleByIdAsync(int id);
 	}
 }
