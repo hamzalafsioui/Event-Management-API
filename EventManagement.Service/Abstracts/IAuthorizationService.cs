@@ -1,4 +1,5 @@
-﻿using EventManagement.Data.Entities.Identity;
+﻿using EventManagement.Data.DTOs.Roles;
+using EventManagement.Data.Entities.Identity;
 
 namespace EventManagement.Service.Abstracts
 {
@@ -11,5 +12,6 @@ namespace EventManagement.Service.Abstracts
 		public Task<bool> IsRoleExistByIdAsync(int Id);
 		public Task<List<Role>> GetRolesListAsync();
 		public Task<Role> GetRoleByIdAsync(int id);
+		public Task<ManageUserRolesResponse> GetUserRolesListAsync(User user);
 	}
 }

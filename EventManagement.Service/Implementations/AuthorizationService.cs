@@ -1,4 +1,5 @@
-﻿using EventManagement.Data.Entities.Identity;
+﻿using EventManagement.Data.DTOs.Roles;
+using EventManagement.Data.Entities.Identity;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,32 @@ namespace EventManagement.Service.Implementations
 		{
 			var roles = await _roleManager.Roles.ToListAsync();
 			return roles;
+		}
+
+		public async Task<ManageUserRolesResponse> GetUserRolesListAsync(User user)
+		{
+			var response = new ManageUserRolesResponse();
+			var rolesList = new List<UserRoles>();
+			// user roles
+			var userRoles = await _userManager.GetRolesAsync(user);
+			var Roles = new List<UserRoles>();
+			// roles
+			var roles = await _roleManager.Roles.ToListAsync();
+			response.UserId = user.Id;
+			foreach (var role in roles)
+			{
+				var userRole = new UserRoles()
+				{
+					Id = role.Id,
+					Name = role.Name!,
+					HasRole = userRoles.Contains(role.Name!) ? true : false
+				};
+				rolesList.Add(userRole);
+			}
+
+			response.Roles = rolesList;
+			return response;
+
 		}
 
 		public async Task<bool> IsRoleExistAsync(string roleName)

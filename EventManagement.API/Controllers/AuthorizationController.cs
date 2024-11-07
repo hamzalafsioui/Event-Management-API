@@ -34,10 +34,16 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetRolesListQuery());
 			return NewResult(response);
 		}
-		[HttpGet(Router.AuthorizationRouting.GetById)]
+		[HttpGet(Router.AuthorizationRouting.GetRoleById)]
 		public async Task<IActionResult> GetRoleById([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new GetRoleByIdQuery(id));
+			return NewResult(response);
+		}
+		[HttpGet(Router.AuthorizationRouting.GetUserRolesById)]
+		public async Task<IActionResult> GetUserRolesById([FromRoute] int userId)
+		{
+			var response = await Mediator.Send(new ManageUserRolesQuery(userId));
 			return NewResult(response);
 		}
 	}
