@@ -56,6 +56,7 @@
 		{
 			private const string Prefix = Rule + "/Authorization";
 			public const string CreateRole = Prefix + "/Role/Create";
+			public const string EditRole = Prefix + "/Role/Edit";
 		
 
 		}

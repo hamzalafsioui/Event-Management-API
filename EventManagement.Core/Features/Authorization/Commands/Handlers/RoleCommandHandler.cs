@@ -9,7 +9,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Authorization.Commands.Handlers
 {
 	public class RoleCommandHandler : ResponseHandler,
-		IRequestHandler<AddRoleCommand, Response<string>>
+		IRequestHandler<AddRoleCommand, Response<string>>,
+		IRequestHandler<EditRoleCommand,Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -31,6 +32,17 @@ namespace EventManagement.Core.Features.Authorization.Commands.Handlers
 				return Success<string>(_stringLocalizer[SharedResourcesKeys.Created]);
 
 			return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
+		}
+
+		public async Task<Response<string>> Handle(EditRoleCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authorizationService.EditRoleAsync(request.Id, request.Name);
+			if (result == "NotFound")
+				return NotFound<string>();
+			else if(result == "Success")
+				return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+			else
+				return BadRequest<string>(result);
 		}
 		#endregion
 

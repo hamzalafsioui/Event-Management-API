@@ -15,5 +15,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		[HttpPost(Router.AuthorizationRouting.EditRole)]
+		public async Task<IActionResult> Edit([FromForm] EditRoleCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 	}
 }

@@ -29,9 +29,34 @@ namespace EventManagement.Service.Implementations
 
 		}
 
+		public async Task<string> EditRoleAsync(int Id, string roleName)
+		{
+			// check role is exist 
+			var role = await _roleManager.FindByIdAsync(Id.ToString());
+			// return not found
+			if (role == null)
+			{
+				return "NotFound";
+			}
+			// edit 
+			role.Name = roleName;
+			var result = await _roleManager.UpdateAsync(role);
+			// operation success
+			if (result.Succeeded)
+				return "Success";
+			else
+				return string.Join("|-|", result.Errors.ToString()?? "Failed");
+		}
+
 		public async Task<bool> IsRoleExistAsync(string roleName)
 		{
 			return await _roleManager.RoleExistsAsync(roleName);	
+		}
+
+		public async Task<bool> IsRoleExistByIdAsync(int Id)
+		{
+			var role = await _roleManager.FindByIdAsync(Id.ToString());
+			return role != null;
 		}
 
 		#endregion

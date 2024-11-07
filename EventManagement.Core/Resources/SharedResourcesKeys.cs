@@ -55,6 +55,7 @@
 
 		public const string Exist = "Exist";
 		public const string FailedToAssignRole = "FailedToAssignRole"; //
+		public const string RoleId = "RoleId"; //
 
 
 
