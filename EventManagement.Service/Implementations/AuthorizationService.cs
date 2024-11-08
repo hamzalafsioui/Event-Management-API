@@ -1,5 +1,9 @@
-﻿using EventManagement.Data.DTOs.Roles;
+﻿using Azure.Core;
+using EventManagement.Data.DTOs.Roles;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Helper.Authorization;
+using EventManagement.Data.Requests;
+using EventManagement.Data.Responses;
 using EventManagement.Infrustructure.Context;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventManagement.Service.Implementations
 {
-	public class AuthorizationService : IAuthorizationService
+    public class AuthorizationService : IAuthorizationService
 	{
 		#region Fields
 		private readonly RoleManager<Role> _roleManager;
@@ -23,7 +27,8 @@ namespace EventManagement.Service.Implementations
 			_dbContext = dbContext;
 		}
 		#endregion
-		#region Handle Functions
+
+		#region Handle Functions Roles
 
 		public async Task<string> AddRoleAsync(string roleName)
 		{
@@ -79,7 +84,7 @@ namespace EventManagement.Service.Implementations
 			return roles;
 		}
 
-		public async Task<ManageUserRolesResponse> GetUserRolesListAsync(User user)
+		public async Task<ManageUserRolesResponse> ManageUserRolesDate(User user)
 		{
 			var response = new ManageUserRolesResponse();
 			var rolesList = new List<UserRoles>();
@@ -152,6 +157,33 @@ namespace EventManagement.Service.Implementations
 
 		}
 
+		#endregion
+		#region Handle Functions Claims
+		public async Task<ManageUserClaimsResponse> ManageUserClaimsData(User user)
+		{
+			var response = new ManageUserClaimsResponse();
+			var userClaimsList = new List<UserClaims>();
+			response.UserId = user.Id;
+			// get user claims
+			var ExistingUserClaims = await _userManager.GetClaimsAsync(user);
+			// checking claims is Exist for user
+			foreach(var claim in ClaimsStore.claims)
+			{
+				var userClaim = new UserClaims();
+				userClaim.Type = claim.Type;
+				if (ExistingUserClaims.Any(x => x.Type == claim.Type))
+					userClaim.Value = true;
+				else
+					userClaim.Value = false;
+
+				userClaimsList.Add(userClaim);
+			}
+			// assign user claims to response
+			response.Claims = userClaimsList;
+
+			// return response
+			return response;
+		} 
 		#endregion
 	}
 }

@@ -63,7 +63,7 @@ namespace EventManagement.Core.Features.Authorization.Queries.Handlers
 			var user = await _userManager.FindByIdAsync(request.UserId.ToString());
 			if (user == null)
 				return NotFound<ManageUserRolesResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
-			var result = await _authorizationService.GetUserRolesListAsync(user);
+			var result = await _authorizationService.ManageUserRolesDate(user);
 
 			return Success<ManageUserRolesResponse>(result);
 

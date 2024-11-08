@@ -10,6 +10,7 @@ namespace EventManagement.API.Controllers
 	//[Authorize]
 	public class AuthorizationController : AppControllerBase
 	{
+		#region Roles
 		[HttpPost(Router.AuthorizationRouting.CreateRole)]
 		public async Task<IActionResult> Create([FromForm] AddRoleCommand command)
 		{
@@ -40,8 +41,8 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetRoleByIdQuery(id));
 			return NewResult(response);
 		}
-		[HttpGet(Router.AuthorizationRouting.GetUserRolesById)]
-		public async Task<IActionResult> GetUserRolesById([FromRoute] int userId)
+		[HttpGet(Router.AuthorizationRouting.ManageUserRolesById)]
+		public async Task<IActionResult> ManageUserRoles([FromRoute] int userId)
 		{
 			var response = await Mediator.Send(new ManageUserRolesQuery(userId));
 			return NewResult(response);
@@ -52,5 +53,15 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		#endregion
+
+		#region Claims
+		[HttpGet(Router.AuthorizationRouting.ManageUserClaimsById)]
+		public async Task<IActionResult> ManageUserClaims([FromRoute] int userId)
+		{
+			var response = await Mediator.Send(new ManageUserClaimsQuery(userId));
+			return NewResult(response);
+		}
+		#endregion
 	}
 }

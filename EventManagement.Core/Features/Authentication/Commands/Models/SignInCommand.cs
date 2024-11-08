@@ -1,9 +1,9 @@
 ﻿using EventManagement.Core.Bases;
-using EventManagement.Data.Helper.Authentication;
+using EventManagement.Data.Responses;
 using MediatR;
 
 namespace EventManagement.Core.Features.Authentication.Commands.Models
 {
-	public record SignInCommand(string UserName, string Password) : IRequest<Response<JwtAuthResponse>>;
+    public record SignInCommand(string UserName, string Password) : IRequest<Response<JwtAuthResponse>>;
 
 }

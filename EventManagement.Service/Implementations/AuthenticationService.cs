@@ -1,6 +1,7 @@
 ﻿using EventManagement.Data.Entities.Identity;
-using EventManagement.Data.Helper;
 using EventManagement.Data.Helper.Authentication;
+using EventManagement.Data.Helper.Models;
+using EventManagement.Data.Responses;
 using EventManagement.Infrustructure.Abstracts;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +14,7 @@ using System.Text;
 
 namespace EventManagement.Service.Implementations
 {
-	public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
 	{
 		#region Fields
 		private readonly JwtSettings _jwtSettings;

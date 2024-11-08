@@ -2,7 +2,7 @@
 using EventManagement.Core.Features.Authentication.Commands.Models;
 using EventManagement.Core.Resources;
 using EventManagement.Data.Entities.Identity;
-using EventManagement.Data.Helper.Authentication;
+using EventManagement.Data.Responses;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Localization;
 
 namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 {
-	public class AuthenticationCommandHandler : ResponseHandler,
+    public class AuthenticationCommandHandler : ResponseHandler,
 		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>,
 		IRequestHandler<RefreshTokenCommand, Response<JwtAuthResponse>>
 	{

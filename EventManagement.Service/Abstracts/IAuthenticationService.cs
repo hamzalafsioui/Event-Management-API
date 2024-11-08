@@ -1,10 +1,10 @@
 ﻿using EventManagement.Data.Entities.Identity;
-using EventManagement.Data.Helper.Authentication;
+using EventManagement.Data.Responses;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace EventManagement.Service.Abstracts
 {
-	public interface IAuthenticationService
+    public interface IAuthenticationService
 	{
 		public Task<JwtAuthResponse> GetJWTTokenAsync(User user);
 		public JwtAuthResponse GetRefreshToken(User user, JwtSecurityToken jwtToken, DateTime? expiredDate, string refreshToken);
