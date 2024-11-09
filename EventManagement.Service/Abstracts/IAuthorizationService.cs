@@ -16,12 +16,14 @@ namespace EventManagement.Service.Abstracts
 		public Task<List<Role>> GetRolesListAsync();
 		public Task<Role> GetRoleByIdAsync(int id);
 		public Task<ManageUserRolesResponse> ManageUserRolesDate(User user);
-		public Task<string> UpdateUserRoles(ManageUserRolesRequest request);
+		public Task<string> UpdateUserRoles(UpdateUserRolesRequest request);
 
 		#endregion
 
 		#region Claims
 		public Task<ManageUserClaimsResponse> ManageUserClaimsData(User user);
+		public Task<string> UpdateUserClaims(UpdateUserClaimsRequest request);
+
 		#endregion
 
 	}

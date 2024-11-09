@@ -61,6 +61,10 @@
 		public const string FailedToAddNewRoles = "FailedToAddNewRoles"; //
 		public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles"; //
 
+		public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims"; //
+		public const string FailedToRemoveOldClaims = "FailedToRemoveOldClaims"; //
+		public const string FailedToAddNewClaims = "FailedToAddNewClaims"; //
+
 
 
 

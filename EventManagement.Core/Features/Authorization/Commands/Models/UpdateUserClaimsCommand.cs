@@ -4,7 +4,7 @@ using MediatR;
 
 namespace EventManagement.Core.Features.Authorization.Commands.Models
 {
-    public class UpdateUserRoleCommand() : UpdateUserRolesRequest, IRequest<Response<string>>
+	public class UpdateUserClaimsCommand : UpdateUserClaimsRequest, IRequest<Response<string>>
 	{
 
 	}

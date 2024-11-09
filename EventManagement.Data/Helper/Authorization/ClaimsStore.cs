@@ -6,6 +6,7 @@ namespace EventManagement.Data.Helper.Authorization
 	{
 		public static List<Claim> claims = new List<Claim>()
 		{
+			new Claim("Get Event","false"),
 			new Claim("Create Event","false"),
 			new Claim("Edit Event","false"),
 			new Claim("Delete Event","false"),

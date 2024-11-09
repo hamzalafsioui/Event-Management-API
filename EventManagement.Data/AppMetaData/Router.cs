@@ -67,6 +67,7 @@
 			public const string UpdateUserRoles = Prefix +Roles+ "/Update-User-Roles";
 
 			public const string ManageUserClaimsById = Claims + "/Manage-User-Claims/{userId}";
+			public const string UpdateUserClaims = Prefix +Claims+ "/Update-User-Claims";
 
 		}
 		public static class CategoryRouting

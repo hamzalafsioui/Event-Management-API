@@ -2,7 +2,7 @@
 
 namespace EventManagement.Data.Requests
 {
-    public class ManageUserRolesRequest : ManageUserRolesResponse
-    {
-    }
+	public class UpdateUserRolesRequest : ManageUserRolesResponse
+	{
+	}
 }

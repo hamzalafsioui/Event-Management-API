@@ -8,6 +8,7 @@ using EventManagement.Infrustructure.Context;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EventManagement.Service.Implementations
 {
@@ -121,7 +122,7 @@ namespace EventManagement.Service.Implementations
 			return role != null;
 		}
 
-		public async Task<string> UpdateUserRoles(ManageUserRolesRequest request)
+		public async Task<string> UpdateUserRoles(UpdateUserRolesRequest request)
 		{
 			using (var transaction = await _dbContext.Database.BeginTransactionAsync())
 			{
@@ -183,7 +184,42 @@ namespace EventManagement.Service.Implementations
 
 			// return response
 			return response;
-		} 
+		}
+
+		public async Task<string> UpdateUserClaims(UpdateUserClaimsRequest request)
+		{
+			using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+			{
+				try
+				{
+					// get user with old roles
+					var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+					if (user == null)
+						return "UserNotFound";
+					// get old claims
+					var userClaims = await _userManager.GetClaimsAsync(user);
+					// delete Old claims
+					var removedResult = await _userManager.RemoveClaimsAsync(user, userClaims);
+					// Add Claims
+					if (!removedResult.Succeeded)
+						return "FailedToRemoveOldClaims";
+					var selectedClaims = request.Claims.Where(x => x.Value == true).Select(x=>new Claim(type:x.Type,x.Value.ToString()));
+					var addClaimsResult = await _userManager.AddClaimsAsync(user, selectedClaims);
+					// return result
+					if (!addClaimsResult.Succeeded)
+						return "FailedToAddNewClaims";
+					await transaction.CommitAsync();
+					return "Success";
+
+				}
+				catch (Exception ex)
+				{
+					await transaction.RollbackAsync();
+					return "FailedToUpdateUserClaims";
+				}
+
+			}
+		}
 		#endregion
 	}
 }

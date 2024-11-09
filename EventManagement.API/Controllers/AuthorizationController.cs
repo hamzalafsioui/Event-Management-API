@@ -62,6 +62,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new ManageUserClaimsQuery(userId));
 			return NewResult(response);
 		}
+		[HttpPut(Router.AuthorizationRouting.UpdateUserClaims)]
+		public async Task<IActionResult> UpdateUserClaims([FromBody] UpdateUserClaimsCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 		#endregion
 	}
 }
