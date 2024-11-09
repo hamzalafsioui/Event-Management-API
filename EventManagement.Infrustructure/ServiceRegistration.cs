@@ -93,7 +93,17 @@ namespace EventManagement.Infrustructure
 		   });
 			});
 
-
+			services.AddAuthorization(option =>
+			{
+				option.AddPolicy("CeateEvent", policy =>
+				{
+					policy.RequireClaim("Create Event", "True");
+				});
+				option.AddPolicy("GetEvent", policy =>
+				{
+					policy.RequireClaim("Get Event", "True");
+				});
+			});
 			return services;
 
 		}

@@ -14,7 +14,7 @@ using System.Text;
 
 namespace EventManagement.Service.Implementations
 {
-    public class AuthenticationService : IAuthenticationService
+	public class AuthenticationService : IAuthenticationService
 	{
 		#region Fields
 		private readonly JwtSettings _jwtSettings;
@@ -34,10 +34,8 @@ namespace EventManagement.Service.Implementations
 		#region Handle Functions
 		public async Task<JwtAuthResponse> GetJWTTokenAsync(User user)
 		{
-			// retrieve roles
-			var roles = await _userManager.GetRolesAsync(user);
 			// define the claims including in the token
-			var claims = GetClaims(user, roles.ToList()); 
+			var claims = await GetClaims(user);
 			// create the signing key from appsettings.json
 			if (string.IsNullOrEmpty(_jwtSettings.SigningKey))
 			{
@@ -82,29 +80,30 @@ namespace EventManagement.Service.Implementations
 			return response;
 		}
 
-		private List<Claim> GetClaims(User user,List<string> roles)
+		private async Task<List<Claim>> GetClaims(User user)
 		{
-			var claims =  new List<Claim>()
+			// retrieve user roles
+			var userRoles = await _userManager.GetRolesAsync(user);
+			var userClaims = await _userManager.GetClaimsAsync(user);
+
+			var claims = new List<Claim>()
 			{
 				new Claim(nameof(UserClaimModel.Id),user.Id.ToString()),
 				new Claim(ClaimTypes.Name,user.UserName!),
 				new Claim(ClaimTypes.Email,user.Email!)
 			};
-			foreach(var role in roles)
+			foreach (var role in userRoles)
 			{
-				claims.Add(new Claim(ClaimTypes.Role,role.ToString()));
+				claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 			}
+			claims.AddRange(userClaims);
 			return claims;
 		}
-		private (JwtSecurityToken, string) GenerateJWTToken(User user)
+		private async Task<(JwtSecurityToken, string)> GenerateJWTTokenAsync(User user)
 		{
+
 			// define the claims including in the token
-			var claims = new List<Claim>()
-			{
-				new Claim(nameof(UserClaimModel.Id),user.Id.ToString()),
-				new Claim(nameof(UserClaimModel.UserName),user.UserName!),
-				new Claim(nameof(UserClaimModel.Email),user.Email!)
-			};
+			var claims = await GetClaims(user);
 
 			// create the signing key from appsettings.json
 			if (string.IsNullOrEmpty(_jwtSettings.SigningKey))
@@ -123,11 +122,11 @@ namespace EventManagement.Service.Implementations
 			var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 			return (jwtToken, accessToken);
 		}
-		public JwtAuthResponse GetRefreshToken(User user, JwtSecurityToken jwtToken, DateTime? expiredDate, string refreshToken)
+		public async Task<JwtAuthResponse> GetRefreshTokenAsync(User user, JwtSecurityToken jwtToken, DateTime? expiredDate, string refreshToken)
 		{
 
 			// Generate Refresh Token
-			var (jwtSecurityToken, newToken) = GenerateJWTToken(user);
+			var (jwtSecurityToken, newToken) = await GenerateJWTTokenAsync(user);
 			var response = new JwtAuthResponse();
 			response.AccessToken = newToken;
 			var RefreshTokenResult = new RefreshToken(user.UserName!, refreshToken, expiredDate);

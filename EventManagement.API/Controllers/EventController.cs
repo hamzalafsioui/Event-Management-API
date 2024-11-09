@@ -4,15 +4,18 @@ using EventManagement.Core.Features.Events.Commands.Models;
 using EventManagement.Core.Features.Events.Queries.Models;
 using EventManagement.Data.AppMetaData;
 using EventManagement.Data.Helper.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
 {
 	//[Route("api/[controller]")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class EventController : AppControllerBase
 	{
 		#region  Functions
+		[Authorize(Policy = "GetEvent")] // policy apply for sensitive data  !!!!!!!!!!!!!!!
 		[HttpGet(Router.EventRouting.List)]
 		public async Task<IActionResult> GetEventList()
 		{
@@ -31,6 +34,8 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(query);
 			return Ok(response);
 		}
+
+		[Authorize(Policy = "CreateEvent")]
 		[HttpPost(Router.EventRouting.Create)]
 		public async Task<IActionResult> Create([FromBody] AddEventCommand command)
 		{

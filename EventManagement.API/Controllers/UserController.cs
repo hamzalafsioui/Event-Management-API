@@ -13,7 +13,7 @@ namespace EventManagement.API.Controllers
 	{
 
 		#region  Functions
-		[Authorize("Speaker")]
+		[Authorize(Roles = "Admin,Speaker")]
 		[HttpGet(Router.UserRouting.List)]
 		public async Task<IActionResult> GetUserList()
 		{
