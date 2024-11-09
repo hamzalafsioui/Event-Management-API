@@ -89,9 +89,7 @@ namespace EventManagement.Service.Implementations
 		{
 			var response = new ManageUserRolesResponse();
 			var rolesList = new List<UserRoles>();
-			// user roles
-			var userRoles = await _userManager.GetRolesAsync(user);
-			var Roles = new List<UserRoles>();
+
 			// roles
 			var roles = await _roleManager.Roles.ToListAsync();
 			response.UserId = user.Id;
@@ -101,7 +99,7 @@ namespace EventManagement.Service.Implementations
 				{
 					Id = role.Id,
 					Name = role.Name!,
-					HasRole = userRoles.Contains(role.Name!) ? true : false
+					HasRole = (await _userManager.IsInRoleAsync(user,role.Name!)) ? true : false
 				};
 				rolesList.Add(userRole);
 			}
