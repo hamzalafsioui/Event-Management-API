@@ -206,6 +206,15 @@ namespace EventManagement.Service.Implementations
 			var expiredDate = userRefreshToken.ExpiredAt;
 			return (userId!, expiredDate);
 		}
+
+		public async Task<string> ConfirmEmailAsync(int userId, string code)
+		{
+			var user = await _userManager.FindByIdAsync(userId.ToString());
+			var confirmEmail = await _userManager.ConfirmEmailAsync(user!, code);
+			if (!confirmEmail.Succeeded)
+				return "ErrorWhenConfirmEmail";
+			return "Success";
+		}
 		#endregion
 
 	}
