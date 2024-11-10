@@ -18,7 +18,7 @@ namespace EventManagement.Service.Implementations
 		}
 		#endregion
 		#region Handle Functions 
-		public async Task<string> SendEmailAsync(string toEmail, string message)
+		public async Task<string> SendEmailAsync(string toEmail, string message, string subject)
 		{
 			try
 			{
@@ -35,7 +35,7 @@ namespace EventManagement.Service.Implementations
 					};
 					SMS.From.Add(new MailboxAddress(_smtpSettings.SenderName, _smtpSettings.SenderEmail));
 					SMS.To.Add(MailboxAddress.Parse(toEmail));
-					SMS.Subject = "Confirm Email";
+					SMS.Subject = subject;
 					await client.SendAsync(SMS);
 					await client.DisconnectAsync(true);
 				}
