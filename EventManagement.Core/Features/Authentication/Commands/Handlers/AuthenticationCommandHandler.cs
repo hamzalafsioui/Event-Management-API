@@ -50,6 +50,12 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 				return BadRequest<JwtAuthResponse>($"{_stringLocalizer[SharedResourcesKeys.IncrorrectData]}");
 
 			}
+			// Is Email Confirmed
+			if (!user.EmailConfirmed)
+			{
+				return BadRequest<JwtAuthResponse>($"{_stringLocalizer[SharedResourcesKeys.EmailNotConfirmed]}");
+
+			}
 			// generate Token 
 			var result = await _authenticationService.GetJWTTokenAsync(user);
 			// return token
