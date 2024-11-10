@@ -243,4 +243,43 @@
   <data name="Exist" xml:space="preserve">
     <value>Already Exist</value>
   </data>
+  <data name="FailedToAssignRole" xml:space="preserve">
+    <value>Failed To Assign Role</value>
+  </data>
+  <data name="RoleId" xml:space="preserve">
+    <value>Role Id</value>
+  </data>
+  <data name="RoleIsUsed" xml:space="preserve">
+    <value>role is already used</value>
+  </data>
+  <data name="FailedToRemoveOldRoles" xml:space="preserve">
+    <value>Failed To Remove Old Roles</value>
+  </data>
+  <data name="FailedToAddNewRoles" xml:space="preserve">
+    <value>Failed To Add New Roles</value>
+  </data>
+  <data name="FailedToUpdateUserRoles" xml:space="preserve">
+    <value>Failed To Update User Roles</value>
+  </data>
+  <data name="FailedToUpdateUserClaims" xml:space="preserve">
+    <value>Failed To Update The User Claims</value>
+  </data>
+  <data name="FailedToRemoveOldClaims" xml:space="preserve">
+    <value>Failed To Remove Old Claims</value>
+  </data>
+  <data name="FailedToAddNewClaims" xml:space="preserve">
+    <value>Failed To Add New Claims</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>Email Not Confirmed Yet</value>
+  </data>
+  <data name="FailedToConfirmEmail" xml:space="preserve">
+    <value>Failed To Confirm Email</value>
+  </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>Email Confirmed</value>
+  </data>
+  <data name="FailedWhenSendEmail" xml:space="preserve">
+    <value>Failed When Send To Email</value>
+  </data>
 </root>

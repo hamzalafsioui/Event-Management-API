@@ -7,7 +7,7 @@
 		public const string Deleted = "Deleted";
 		public const string Created = "Created";
 		public const string Updated = "Updated";
-		public const string Operation = "Operation";
+		public const string OperationSucceed = "OperationSucceed";
 		public const string PasswordChanged = "PasswordChanged";
 		public const string TooManyRequest = "TooManyRequest";
 		public const string UnprocessableEntity = "UnprocessableEntity";
@@ -54,16 +54,21 @@
 		public const string InvalidToken = "InvalidToken";
 
 		public const string Exist = "Exist";
-		public const string FailedToAssignRole = "FailedToAssignRole"; //
-		public const string RoleId = "RoleId"; //
-		public const string RoleIsUsed = "RoleIsUsed"; //
-		public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles"; //
-		public const string FailedToAddNewRoles = "FailedToAddNewRoles"; //
-		public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles"; //
+		public const string FailedToAssignRole = "FailedToAssignRole";
+		public const string RoleId = "RoleId";
+		public const string RoleIsUsed = "RoleIsUsed";
+		public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles";
+		public const string FailedToAddNewRoles = "FailedToAddNewRoles";
+		public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles";
 
-		public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims"; //
-		public const string FailedToRemoveOldClaims = "FailedToRemoveOldClaims"; //
-		public const string FailedToAddNewClaims = "FailedToAddNewClaims"; //
+		public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims";
+		public const string FailedToRemoveOldClaims = "FailedToRemoveOldClaims";
+		public const string FailedToAddNewClaims = "FailedToAddNewClaims";
+
+		public const string EmailNotConfirmed = "EmailNotConfirmed";
+		public const string FailedToConfirmEmail = "FailedToConfirmEmail";
+		public const string EmailConfirmed = "EmailConfirmed";
+		public const string FailedWhenSendEmail = "FailedWhenSendEmail";
 
 
 

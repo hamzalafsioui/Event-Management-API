@@ -243,4 +243,43 @@
   <data name="Exist" xml:space="preserve">
     <value>موجود بالفعل</value>
   </data>
+  <data name="FailedToAssignRole" xml:space="preserve">
+    <value>فشل في تعيين الدور</value>
+  </data>
+  <data name="RoleId" xml:space="preserve">
+    <value>معرف الدور </value>
+  </data>
+  <data name="RoleIsUsed" xml:space="preserve">
+    <value>الدور مستخدم بالفعل</value>
+  </data>
+  <data name="FailedToRemoveOldRoles" xml:space="preserve">
+    <value>فشل في إزالة الأدوار القديمة</value>
+  </data>
+  <data name="FailedToAddNewRoles" xml:space="preserve">
+    <value>فشل في إضافة الأدوار الجديدة</value>
+  </data>
+  <data name="FailedToUpdateUserRoles" xml:space="preserve">
+    <value>فشل في تحديث أدوار المستخدم</value>
+  </data>
+  <data name="FailedToUpdateUserClaims" xml:space="preserve">
+    <value>فشل في تحديث مطالبات المستخدم</value>
+  </data>
+  <data name="FailedToRemoveOldClaims" xml:space="preserve">
+    <value>فشل في إزالة مطالبات القديمة</value>
+  </data>
+  <data name="FailedToAddNewClaims" xml:space="preserve">
+    <value>فشل في إضافة مطالبات الجديدة</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>لم يتم تأكيد البريد الإلكتروني بعد </value>
+  </data>
+  <data name="FailedToConfirmEmail" xml:space="preserve">
+    <value>فشل في تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>تم تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="FailedWhenSendEmail" xml:space="preserve">
+    <value>فشل أثناء ارسال الرسالة الى البريد الإلكتروني</value>
+  </data>
 </root>
