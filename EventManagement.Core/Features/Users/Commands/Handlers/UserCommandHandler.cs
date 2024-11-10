@@ -3,6 +3,7 @@ using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Resources;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
@@ -21,38 +22,41 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 		private readonly RoleManager<Role> _roleManager;
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+		private readonly IUserService _userService;
 		#endregion
 		#region Constructors
 		public UserCommandHandler(UserManager<User> userManager, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer,
-			RoleManager<Role> roleManager) : base(stringLocalizer)
+			RoleManager<Role> roleManager,
+			IUserService userService) : base(stringLocalizer)
 		{
 			this._userManager = userManager;
 			this._mapper = mapper;
 			this._stringLocalizer = stringLocalizer;
 			_roleManager = roleManager;
+
+			_userService = userService;
 		}
 		#endregion
 		#region Handle Function
 
 		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
 		{
-			//await using var transaction = await  // using transaction in the future ????????/
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
 			// create
-			var CreateResult = await _userManager.CreateAsync(identityUser, request.Password);
-			// Failed
-			if (!CreateResult.Succeeded)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAdd]} : {CreateResult.Errors?.FirstOrDefault()?.Description}");
+			var CreateResult = await _userService.AddAsync(identityUser, request.Password);
 
-			// Assign the role to the user
-			var addToRoleResult = await _userManager.AddToRoleAsync(identityUser, "User");
-			if (!addToRoleResult.Succeeded)
-				return BadRequest<string>($"{_stringLocalizer[SharedResourcesKeys.FailedToAssignRole]}: {addToRoleResult.Errors?.FirstOrDefault()?.Description}");
+			return CreateResult switch
+			{
+				"Success" => Created<string>(),
+				"ErrorInCreateUser" => BadRequest<string>(),
+				"ErrorInAddRole" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAddNewRoles]),
+				"FailedWhenSendEmail" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedWhenSendEmail]),
+				"Failed" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]),
+				_ => BadRequest<string>(CreateResult)
+			};
 
 
-			// success
-			return Created($"{_stringLocalizer[SharedResourcesKeys.Created]}");
 		}
 
 		public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
