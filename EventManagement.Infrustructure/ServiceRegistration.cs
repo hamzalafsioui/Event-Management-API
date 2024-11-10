@@ -35,7 +35,7 @@ namespace EventManagement.Infrustructure
 				opt.User.AllowedUserNameCharacters =
 				"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 				opt.User.RequireUniqueEmail = true;
-				opt.SignIn.RequireConfirmedEmail = false;
+				opt.SignIn.RequireConfirmedEmail = true;
 			}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 			// Authentication : JwtOptions
