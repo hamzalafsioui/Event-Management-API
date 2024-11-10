@@ -30,9 +30,9 @@ namespace EventManagement.Core.Features.Emails.Commands.Handlers
 
 		public async Task<Response<string>> Handle(SendEmailCommand request, CancellationToken cancellationToken)
 		{
-			var response = await _emailService.SendEmailAsync(request.Email, request.Message);
+			var response = await _emailService.SendEmailAsync(request.Email, request.Message, "Confirm Email");
 			if (response == "Success")
-				return Success<string>(_stringLocalizer[SharedResourcesKeys.Created]);
+				return Success<string>(_stringLocalizer[SharedResourcesKeys.OperationSucceed]);
 			else
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 		}
