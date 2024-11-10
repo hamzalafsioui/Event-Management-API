@@ -28,7 +28,7 @@ namespace EventManagement.Core.Bases
 				Data = entity,
 				StatusCode = System.Net.HttpStatusCode.OK,
 				Succeded = true,
-				Message = _stringLocalizer[SharedResourcesKeys.Operation],
+				Message = _stringLocalizer[SharedResourcesKeys.OperationSucceed],
 				Meta = meta
 			};
 		}
@@ -74,7 +74,7 @@ namespace EventManagement.Core.Bases
 		}
 
 
-		public Response<T> Created<T>(T entity, object meta = null!)
+		public Response<T> Created<T>(T entity=default!, object meta = null!)
 		{
 			return new Response<T>()
 			{
