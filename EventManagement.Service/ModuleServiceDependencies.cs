@@ -15,6 +15,7 @@ namespace EventManagement.Service
 			services.AddTransient<ICategoryService, CategoryService>();
 			services.AddTransient<IAuthenticationService, AuthenticationService>();
 			services.AddTransient<IAuthorizationService, AuthorizationService>();
+			services.AddTransient<IEmailService, EmailService>();
 			return services;
 		}
 	}

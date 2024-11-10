@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EventManagement.Data\EventManagement.Data.csproj" />
     <ProjectReference Include="..\EventManagement.Infrustructure\EventManagement.Infrustructure.csproj" />
   </ItemGroup>

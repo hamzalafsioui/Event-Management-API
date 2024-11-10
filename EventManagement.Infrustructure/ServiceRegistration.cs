@@ -1,5 +1,6 @@
 ﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Helper.Authentication;
+using EventManagement.Data.Helper.Email;
 using EventManagement.Infrustructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -104,6 +105,11 @@ namespace EventManagement.Infrustructure
 					policy.RequireClaim("Get Event", "True");
 				});
 			});
+
+			// Email Sender: SmtpSettings
+			var SmtpSettings = new SmtpSettings();
+			configuration.GetSection(nameof(SmtpSettings)).Bind(SmtpSettings);
+			services.AddSingleton(SmtpSettings);
 			return services;
 
 		}

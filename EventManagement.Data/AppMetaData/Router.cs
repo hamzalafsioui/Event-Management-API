@@ -58,16 +58,16 @@
 			private const string Roles = Prefix + "/Role";
 			private const string Claims = Prefix + "/Claims";
 
-			public const string CreateRole = Roles +"/Create";
+			public const string CreateRole = Roles + "/Create";
 			public const string EditRole = Roles + "/Edit";
 			public const string DeleteRole = Roles + "/Delete" + SingleRoute;
-			public const string RoleList = Roles + Roles +"/Role-List";
-			public const string GetRoleById = Roles + Roles  + SingleRoute;
-			public const string ManageUserRolesById = Roles+ "/Manage-User-Roles/{userId}";
-			public const string UpdateUserRoles = Prefix +Roles+ "/Update-User-Roles";
+			public const string RoleList = Roles + Roles + "/Role-List";
+			public const string GetRoleById = Roles + Roles + SingleRoute;
+			public const string ManageUserRolesById = Roles + "/Manage-User-Roles/{userId}";
+			public const string UpdateUserRoles = Prefix + Roles + "/Update-User-Roles";
 
 			public const string ManageUserClaimsById = Claims + "/Manage-User-Claims/{userId}";
-			public const string UpdateUserClaims = Prefix +Claims+ "/Update-User-Claims";
+			public const string UpdateUserClaims = Prefix + Claims + "/Update-User-Claims";
 
 		}
 		public static class CategoryRouting
@@ -98,6 +98,13 @@
 			public const string GetById = Prefix + "/{commentId}";
 			public const string Edit = Prefix;
 			public const string Delete = Prefix + SingleRoute;
+
+		};
+		public static class EmailRouting
+		{
+			private const string Prefix = Rule + "/Email";
+			public const string SendEmail = Prefix + "/SendEmail";
+
 
 		};
 
