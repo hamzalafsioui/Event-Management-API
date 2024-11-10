@@ -8,7 +8,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Authentication.Queries.Handlers
 {
 	public class AuthenticationQueryHandler : ResponseHandler,
-		IRequestHandler<AuthorizeUserQuery, Response<string>>
+		IRequestHandler<AuthorizeUserQuery, Response<string>>,
+		IRequestHandler<ConfirmEmailQuery, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -33,10 +34,22 @@ namespace EventManagement.Core.Features.Authentication.Queries.Handlers
 			if (result == "NotExpired")
 				return Success(result);
 
-			if(result == "InvalidToken")
+			if (result == "InvalidToken")
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.InvalidToken]);
 			return Unauthorized<string>(_stringLocalizer[SharedResourcesKeys.TokenIsExpired]);
 
+		}
+
+		public async Task<Response<string>> Handle(ConfirmEmailQuery request, CancellationToken cancellationToken)
+		{
+			var confirmEmail = await _authenticationService.ConfirmEmailAsync(request.UserId, request.Code);
+
+			return confirmEmail switch
+			{
+				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.EmailConfirmed]),
+				"ErrorWhenConfirmEmail" => BadRequest<string>(),
+				_ => BadRequest<string>(),
+			};
 		}
 		#endregion
 
