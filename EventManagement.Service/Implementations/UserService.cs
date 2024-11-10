@@ -2,7 +2,9 @@
 using EventManagement.Data.Helper.Enums;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -14,6 +16,10 @@ namespace EventManagement.Service.Implementations
 	{
 		#region Fields
 		private IUserRepository _userRepository;
+		private readonly UserManager<User> _userManager;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly IEmailService _emailService;
+		private readonly IUrlHelper _urlHelper;
 		#endregion
 
 		#region Constructors
@@ -26,10 +32,17 @@ namespace EventManagement.Service.Implementations
 				   ILookupNormalizer keyNormalizer,
 				   IdentityErrorDescriber errors,
 				   IServiceProvider services,
-				   ILogger<UserManager<User>> logger)
+				   ILogger<UserManager<User>> logger, UserManager<User> userManager,
+				   IHttpContextAccessor httpContextAccessor,
+				   IEmailService emailService,
+				   IUrlHelper urlHelper)
 	: base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 		{
 			_userRepository = userRepository;
+			_userManager = userManager;
+			_httpContextAccessor = httpContextAccessor;
+			_emailService = emailService;
+			_urlHelper = urlHelper;
 		}
 
 
@@ -44,21 +57,50 @@ namespace EventManagement.Service.Implementations
 		public async Task<User> GetByIdWithIncludeAsync(int id)
 		{
 			return await _userRepository.GetTableNoTracking()
-										.Include(x=>x.Role)
+										.Include(x => x.Role)
 									   .Where(x => x.Id == id)
-									   .FirstOrDefaultAsync()?? throw new Exception("User not found.");
-			;  
+									   .FirstOrDefaultAsync() ?? throw new Exception("User not found.");
+			;
 		}
 
-		public async Task<bool> AddAsync(User user)
+		public async Task<string> AddAsync(User user, string password)
 		{
-			var result = await IsUserNameExist(user.UserName!);
-			if (!result)
+			using (var transaction = await _userRepository.BeginTransactionAsync())
 			{
-				await _userRepository.AddAsync(user);
-				return true;
+				try
+				{
+
+					// create
+					var CreateResult = await _userManager.CreateAsync(user, password);
+					// Failed
+					if (!CreateResult.Succeeded)
+						return "ErrorInCreateUser";
+
+					// Assign the role to the user
+					var addToRoleResult = await _userManager.AddToRoleAsync(user, "User");
+					if (!addToRoleResult.Succeeded)
+						return "ErrorInAddRole";
+
+					// confirm Emal
+					var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+					var requestAccessor = _httpContextAccessor.HttpContext?.Request;
+					//var url = requestAccessor!.Scheme + "://" + requestAccessor.Host + $"/Api/V1/Authentication/ConfirmEmail?userId={user.Id}&code={code}";
+					var url = requestAccessor!.Scheme + "://" + requestAccessor.Host + _urlHelper.Action("ConfirmEmail", "Authentication", new { userId = user.Id, code = code });
+					// message body
+					var emailResult = await _emailService.SendEmailAsync(user.Email!, url, "Confirm Email");
+					// success
+					if (emailResult != "Success")
+						return "FailedWhenSendEmail";
+					await transaction.CommitAsync();
+					return "Success";
+				}
+				catch (Exception ex)
+				{
+					await transaction.RollbackAsync();
+					return ex.Message.ToString();
+				}
 			}
-			return false;
+
 
 		}
 
@@ -73,7 +115,7 @@ namespace EventManagement.Service.Implementations
 			return true;
 		}
 
-		public async Task<bool> DeleteAsync(User user)
+		public async Task<bool> CustomDeleteAsync(User user)
 		{
 			var transaction = await _userRepository.BeginTransactionAsync();
 			try

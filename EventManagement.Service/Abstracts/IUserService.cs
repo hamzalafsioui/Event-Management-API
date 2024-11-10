@@ -11,10 +11,10 @@ namespace EventManagement.Service.Abstracts
 		public Task<User> GetByIdWithIncludeAsync(int id);
 		public Task<User> GetByIdAsync(int id);
 
-		public Task<bool> AddAsync(User user);
+		public Task<string> AddAsync(User user, string password);
 		public Task<bool> IsUserNameExist(string name);
 		public Task<bool> IsUserNameExistExcludeSelf(string username, int id);
 		Task<bool> EditAsync(User userMapper);
-		Task<bool> DeleteAsync(User user);
+		Task<bool> CustomDeleteAsync(User user);
 	}
 }
