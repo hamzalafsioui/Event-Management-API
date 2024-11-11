@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventManagement.Data.Entities.Identity
 {
-    public class User : IdentityUser<int>, IHasCreatedAt, IHasUpdatedAt, IHasDeletedAt
+	public class User : IdentityUser<int>, IHasCreatedAt, IHasUpdatedAt, IHasDeletedAt
 	{
 
 		public required string FirstName { get; set; }
@@ -16,6 +16,7 @@ namespace EventManagement.Data.Entities.Identity
 		public DateTime CreatedAt { get; set; }
 		public DateTime UpdatedAt { get; set; }
 		public DateTime LastLoginDate { get; set; }
+		public string? Code { get; set; }
 		public bool IsDeleted { get; set; }
 		public DateTime? DeletedAt { get; set; }
 		public virtual ICollection<Event> CreatedEvents { get; set; } = new HashSet<Event>();

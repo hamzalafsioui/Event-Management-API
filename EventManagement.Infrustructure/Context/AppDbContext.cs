@@ -11,6 +11,7 @@ namespace EventManagement.Infrustructure.Context
 {
 	public class AppDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 	{
+
 		public AppDbContext()
 		{
 
@@ -85,7 +86,6 @@ namespace EventManagement.Infrustructure.Context
 			modelBuilder.ApplyConfiguration(new CommentConfiguration()); // explicitly applying
 
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Attendee).Assembly);
-
 		}
 
 

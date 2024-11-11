@@ -11,7 +11,7 @@ namespace EventManagement.API.Controllers
 	public class AuthenticationController : AppControllerBase
 	{
 		[HttpPost(Router.AuthenticationRouting.SignIn)]
-		public async  Task<IActionResult> Create([FromBody] SignInCommand command)
+		public async Task<IActionResult> Create([FromBody] SignInCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
@@ -32,6 +32,12 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
 		{
 			var response = await Mediator.Send(query);
+			return NewResult(response);
+		}
+		[HttpPost(Router.AuthenticationRouting.SendResetPassword)]
+		public async Task<IActionResult> SendResetPassword([FromQuery] SendResetPasswordCommand command)
+		{
+			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
 	}

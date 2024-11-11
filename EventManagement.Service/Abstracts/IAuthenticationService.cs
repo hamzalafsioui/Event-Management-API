@@ -12,5 +12,6 @@ namespace EventManagement.Service.Abstracts
 		public JwtSecurityToken ReadJwtToken(string accessToken);
 		public Task<(string userId, DateTime? expiredDate)> ValidateDetailsAsync(JwtSecurityToken jwtToken, string accessToken, string refreshToken);
 		public Task<string> ConfirmEmailAsync(int userId, string code);
+		public Task<string> SendResetPasswordCodeAsync(string email);
 	}
 }

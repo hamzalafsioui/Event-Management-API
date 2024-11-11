@@ -87,6 +87,7 @@ namespace EventManagement.Service.Implementations
 					//var url = requestAccessor!.Scheme + "://" + requestAccessor.Host + $"/Api/V1/Authentication/ConfirmEmail?userId={user.Id}&code={code}";
 					var url = requestAccessor!.Scheme + "://" + requestAccessor.Host + _urlHelper.Action("ConfirmEmail", "Authentication", new { userId = user.Id, code = code });
 					// message body
+					var message = $"<p>To Confirm Your Email Please Click This Link: </p> <a href = '{url}'>Click Here</a>";
 					var emailResult = await _emailService.SendEmailAsync(user.Email!, url, "Confirm Email");
 					// success
 					if (emailResult != "Success")

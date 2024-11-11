@@ -3,6 +3,7 @@ using EventManagement.Data.Helper.Authentication;
 using EventManagement.Data.Helper.Models;
 using EventManagement.Data.Responses;
 using EventManagement.Infrustructure.Abstracts;
+using EventManagement.Infrustructure.Context;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,15 +21,21 @@ namespace EventManagement.Service.Implementations
 		private readonly JwtSettings _jwtSettings;
 		private readonly IRefreshTokenRepository _refreshTokenRepository;
 		private readonly UserManager<User> _userManager;
+		private readonly IEmailService _emailService;
+		private readonly AppDbContext _appDbContext;
 		#endregion
 		#region Constructors
 		public AuthenticationService(JwtSettings jwtSettings,
 			IRefreshTokenRepository refreshTokenRepository,
-			UserManager<User> userManager)
+			UserManager<User> userManager,
+			IEmailService emailService,
+			AppDbContext appDbContext)
 		{
 			_jwtSettings = jwtSettings;
 			_refreshTokenRepository = refreshTokenRepository;
 			_userManager = userManager;
+			this._emailService = emailService;
+			this._appDbContext = appDbContext;
 		}
 		#endregion
 		#region Handle Functions
@@ -214,6 +221,39 @@ namespace EventManagement.Service.Implementations
 			if (!confirmEmail.Succeeded)
 				return "ErrorWhenConfirmEmail";
 			return "Success";
+		}
+
+		public async Task<string> SendResetPasswordCodeAsync(string email)
+		{
+			using (var transaction = await _appDbContext.Database.BeginTransactionAsync())
+			{
+				try
+				{
+					// get user directly because we already check it in validator 
+					var user = await _userManager.FindByEmailAsync(email);
+					// generate random
+					string random = new Random().Next(100000, 999999).ToString();
+					// replace generate random to user code
+					user!.Code = random;
+					// update 
+					var updatedUser = await _userManager.UpdateAsync(user);
+					if (!updatedUser.Succeeded)
+						return "ErrorInUpdatedUser";
+					// Send Code To user email
+					var message = $"This Code Is For Reset Your Password: {user.Code}";
+					var sendingToEmailResult = await _emailService.SendEmailAsync(user.Email!, message, "Reset Password");
+					if (sendingToEmailResult != "Success")
+						return "FailedWhenSendingToEmail";
+
+					await transaction.CommitAsync();
+					return "Success";
+				}
+				catch (Exception ex)
+				{
+					await transaction.RollbackAsync();
+					return ex.Message.ToString();
+				}
+			}
 		}
 		#endregion
 

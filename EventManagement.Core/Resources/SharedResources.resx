@@ -132,8 +132,8 @@
   <data name="Updated" xml:space="preserve">
     <value />
   </data>
-  <data name="Operation" xml:space="preserve">
-    <value />
+  <data name="OperationSucceed" xml:space="preserve">
+    <value>Operation Succeed</value>
   </data>
   <data name="TooManyRequest" xml:space="preserve">
     <value />

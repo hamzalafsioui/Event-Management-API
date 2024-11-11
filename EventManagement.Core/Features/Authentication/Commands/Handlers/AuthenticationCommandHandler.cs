@@ -12,7 +12,8 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 {
 	public class AuthenticationCommandHandler : ResponseHandler,
 		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>,
-		IRequestHandler<RefreshTokenCommand, Response<JwtAuthResponse>>
+		IRequestHandler<RefreshTokenCommand, Response<JwtAuthResponse>>,
+		IRequestHandler<SendResetPasswordCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -86,6 +87,18 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 
 			var result = await _authenticationService.GetRefreshTokenAsync(user, jwtToken, ValidateResult.expiredDate, request.RefreshToken);
 			return Success(result);
+		}
+
+		public async Task<Response<string>> Handle(SendResetPasswordCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authenticationService.SendResetPasswordCodeAsync(request.Email);
+			return result switch
+			{
+				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.OperationSucceed]),
+				"ErrorInUpdatedUser" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]),
+				"FailedWhenSendingToEmail" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedWhenSendEmail]),
+				_ => BadRequest<string>(result),
+			};
 		}
 		#endregion
 
