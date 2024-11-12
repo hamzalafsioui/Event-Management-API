@@ -1,5 +1,6 @@
 ﻿using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Helper.Authentication;
+using EventManagement.Data.Helper.Encryption;
 using EventManagement.Data.Helper.Models;
 using EventManagement.Data.Responses;
 using EventManagement.Infrustructure.Abstracts;
@@ -234,7 +235,8 @@ namespace EventManagement.Service.Implementations
 					// generate random
 					string random = new Random().Next(100000, 999999).ToString();
 					// replace generate random to user code
-					user!.Code = random;
+					user!.Code = EncryptionHelper.HashCode(random);
+
 					// update 
 					var updatedUser = await _userManager.UpdateAsync(user);
 					if (!updatedUser.Succeeded)
