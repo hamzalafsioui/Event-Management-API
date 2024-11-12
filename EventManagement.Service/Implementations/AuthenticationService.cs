@@ -242,7 +242,7 @@ namespace EventManagement.Service.Implementations
 					if (!updatedUser.Succeeded)
 						return "ErrorInUpdatedUser";
 					// Send Code To user email
-					var message = $"This Code Is For Reset Your Password: {user.Code}";
+					var message = $"This Code Is For Resetting Your Password: {random}";
 					var sendingToEmailResult = await _emailService.SendEmailAsync(user.Email!, message, "Reset Password");
 					if (sendingToEmailResult != "Success")
 						return "FailedWhenSendingToEmail";
@@ -258,18 +258,42 @@ namespace EventManagement.Service.Implementations
 			}
 		}
 
-		public async Task<string> ResetPasswordAsync(string email,string code)
+		public async Task<string> ConfirmResetPasswordAsync(string email, string code)
 		{
 			// get user
 			var user = await _userManager.FindByEmailAsync(email);
 			if (user == null)
 				return "UserNotFound";
 			// get user code
-			var isUserCodeMatch = EncryptionHelper.VerifyCode(code,user.Code!);
+			var isUserCodeMatch = EncryptionHelper.VerifyCode(code, user.Code!);
 			if (!isUserCodeMatch)
 				return "CodeIsNotCorrect";
 
 			return "Success";
+		}
+
+		public async Task<string> ResetPasswordAsync(string email, string password)
+		{
+			using(var transaction = await _appDbContext.Database.BeginTransactionAsync())
+			{
+				try
+				{
+
+
+					// get user
+					var user = await _userManager.FindByEmailAsync(email);
+					if (user == null) return "UserNotFound";
+					await _userManager.RemovePasswordAsync(user);
+					await _userManager.AddPasswordAsync(user, password);
+					await transaction.CommitAsync();
+					return "Success";
+				}catch (Exception ex)
+				{
+					return ex.Message.ToString();
+				}
+			}
+			
+
 		}
 		#endregion
 
