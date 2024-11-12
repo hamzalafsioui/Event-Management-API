@@ -40,5 +40,11 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+		[HttpGet(Router.AuthenticationRouting.ConfirmResetPassword)]
+		public async Task<IActionResult> ConfirmResetPassword([FromQuery] ConfirmResetPasswordQuery query)
+		{
+			var response = await Mediator.Send(query);
+			return NewResult(response);
+		}
 	}
 }

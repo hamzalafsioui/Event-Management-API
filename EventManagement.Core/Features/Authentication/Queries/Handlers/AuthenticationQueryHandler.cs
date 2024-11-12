@@ -9,7 +9,8 @@ namespace EventManagement.Core.Features.Authentication.Queries.Handlers
 {
 	public class AuthenticationQueryHandler : ResponseHandler,
 		IRequestHandler<AuthorizeUserQuery, Response<string>>,
-		IRequestHandler<ConfirmEmailQuery, Response<string>>
+		IRequestHandler<ConfirmEmailQuery, Response<string>>,
+		IRequestHandler<ConfirmResetPasswordQuery, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -49,6 +50,18 @@ namespace EventManagement.Core.Features.Authentication.Queries.Handlers
 				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.EmailConfirmed]),
 				"ErrorWhenConfirmEmail" => BadRequest<string>(),
 				_ => BadRequest<string>(),
+			};
+		}
+
+		public async Task<Response<string>> Handle(ConfirmResetPasswordQuery request, CancellationToken cancellationToken)
+		{
+			var resetPasswordResult = await _authenticationService.ResetPasswordAsync(request.Email, request.Code);
+
+			return resetPasswordResult switch
+			{
+				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.OperationSucceed]),
+				"CodeIsNotCorrect" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.InvalidCode]),
+				_ => BadRequest<string>(resetPasswordResult),
 			};
 		}
 		#endregion

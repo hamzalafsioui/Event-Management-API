@@ -51,6 +51,7 @@
 			public const string ValidateToken = Prefix + "/Validate-Token";
 			public const string ConfirmEmail = "Api/Authentication/ConfirmEmail";
 			public const string SendResetPassword = "Api/Authentication/SendResetPassword";
+			public const string ConfirmResetPassword = "Api/Authentication/ConfirmResetPassword";
 
 
 		}

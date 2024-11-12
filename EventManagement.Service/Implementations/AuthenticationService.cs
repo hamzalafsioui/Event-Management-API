@@ -257,6 +257,20 @@ namespace EventManagement.Service.Implementations
 				}
 			}
 		}
+
+		public async Task<string> ResetPasswordAsync(string email,string code)
+		{
+			// get user
+			var user = await _userManager.FindByEmailAsync(email);
+			if (user == null)
+				return "UserNotFound";
+			// get user code
+			var isUserCodeMatch = EncryptionHelper.VerifyCode(code,user.Code!);
+			if (!isUserCodeMatch)
+				return "CodeIsNotCorrect";
+
+			return "Success";
+		}
 		#endregion
 
 	}

@@ -71,6 +71,7 @@
 		public const string FailedWhenSendEmail = "FailedWhenSendEmail";
 
 
+		public const string InvalidCode = "InvalidCode";//
 
 
 
