@@ -55,7 +55,7 @@ namespace EventManagement.Core.Features.Authentication.Queries.Handlers
 
 		public async Task<Response<string>> Handle(ConfirmResetPasswordQuery request, CancellationToken cancellationToken)
 		{
-			var resetPasswordResult = await _authenticationService.ResetPasswordAsync(request.Email, request.Code);
+			var resetPasswordResult = await _authenticationService.ConfirmResetPasswordAsync(request.Email, request.Code);
 
 			return resetPasswordResult switch
 			{

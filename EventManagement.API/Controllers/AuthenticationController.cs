@@ -46,5 +46,12 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(query);
 			return NewResult(response);
 		}
+
+		[HttpPost(Router.AuthenticationRouting.ResetPassword)]
+		public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
 	}
 }
