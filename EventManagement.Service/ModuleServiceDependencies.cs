@@ -1,4 +1,6 @@
 ﻿using EventManagement.Service.Abstracts;
+using EventManagement.Service.AuthService.Implementations;
+using EventManagement.Service.AuthService.Interfaces;
 using EventManagement.Service.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,7 @@ namespace EventManagement.Service
 			services.AddTransient<IAuthenticationService, AuthenticationService>();
 			services.AddTransient<IAuthorizationService, AuthorizationService>();
 			services.AddTransient<IEmailService, EmailService>();
+			services.AddTransient<ICurrentUserService, CurrentUserService>();
 			return services;
 		}
 	}
