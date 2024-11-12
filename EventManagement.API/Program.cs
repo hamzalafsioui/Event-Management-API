@@ -1,4 +1,5 @@
 using EventManagement.Core;
+using EventManagement.Core.Filters;
 using EventManagement.Core.Middleware;
 using EventManagement.Data.Entities.Identity;
 using EventManagement.Infrustructure;
@@ -94,6 +95,10 @@ builder.Services.AddTransient<IUrlHelper>(x =>
 	var factory = x.GetRequiredService<IUrlHelperFactory>();
 	return factory.GetUrlHelper(actionContext!);
 });
+#endregion
+
+#region Filter
+builder.Services.AddTransient<AuthFilter>();
 #endregion
 var app = builder.Build();
 
