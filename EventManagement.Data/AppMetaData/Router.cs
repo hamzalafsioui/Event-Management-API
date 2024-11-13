@@ -18,6 +18,7 @@
 			public const string Edit = Prefix;
 			public const string Delete = Prefix + SingleRoute;
 			public const string ChangePassword = Prefix + "/Change-Password";
+			public const string GetUserEventEngagementSummary = Prefix + "/Get-User-Event-Engagement-Summary";
 
 		}
 		public static class EventRouting
