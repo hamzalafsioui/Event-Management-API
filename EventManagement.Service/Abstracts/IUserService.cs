@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.Views;
 using EventManagement.Data.Helper.Enums;
 
 namespace EventManagement.Service.Abstracts
@@ -16,5 +17,6 @@ namespace EventManagement.Service.Abstracts
 		public Task<bool> IsUserNameExistExcludeSelf(string username, int id);
 		Task<bool> EditAsync(User userMapper);
 		Task<bool> CustomDeleteAsync(User user);
+		public Task<List<ViewUserEventEngagementSummary>> GetViewUserEventEngagementSummaryAsync();
 	}
 }

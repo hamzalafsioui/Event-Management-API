@@ -1,5 +1,7 @@
 ﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.Views;
 using EventManagement.Data.Helper.Enums;
+using EventManagement.Infrustructure.Abstracts.IViewRepository;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +22,7 @@ namespace EventManagement.Service.Implementations
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IEmailService _emailService;
 		private readonly IUrlHelper _urlHelper;
+		private readonly IViewRepository<ViewUserEventEngagementSummary> _viewUserEventEngagementSummaryRepository;
 		#endregion
 
 		#region Constructors
@@ -35,7 +38,8 @@ namespace EventManagement.Service.Implementations
 				   ILogger<UserManager<User>> logger, UserManager<User> userManager,
 				   IHttpContextAccessor httpContextAccessor,
 				   IEmailService emailService,
-				   IUrlHelper urlHelper)
+				   IUrlHelper urlHelper,
+				   IViewRepository<ViewUserEventEngagementSummary> viewRepository)
 	: base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 		{
 			_userRepository = userRepository;
@@ -43,6 +47,7 @@ namespace EventManagement.Service.Implementations
 			_httpContextAccessor = httpContextAccessor;
 			_emailService = emailService;
 			_urlHelper = urlHelper;
+			_viewUserEventEngagementSummaryRepository = viewRepository;
 		}
 
 
@@ -166,6 +171,14 @@ namespace EventManagement.Service.Implementations
 			return queryable.OrderBy(orderExpression);
 
 
+		}
+
+
+		public async Task<List<ViewUserEventEngagementSummary>> GetViewUserEventEngagementSummaryAsync()
+		{
+			var viewUserEventEngagementSummaries = await _viewUserEventEngagementSummaryRepository.GetTableNoTracking()
+			.ToListAsync();
+			return viewUserEventEngagementSummaries;
 		}
 		#endregion
 	}
