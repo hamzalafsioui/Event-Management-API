@@ -1,22 +1,20 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Features.Users.Queries.Models;
-using EventManagement.Core.Filters;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventManagement.API.Controllers
 {
-	//[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "Admin")]
+	//[Authorize(Roles = "Admin")]
 	public class UserController : AppControllerBase
 	{
 
 		#region  Functions
-		[Authorize(Roles = "User")]
-		[ServiceFilter(typeof(AuthFilter))]
+		//[Authorize(Roles = "User")]
+		//[ServiceFilter(typeof(AuthFilter))]
 		[HttpGet(Router.UserRouting.List)]
 		public async Task<IActionResult> GetUserList()
 		{
@@ -71,6 +69,12 @@ namespace EventManagement.API.Controllers
 			return NewResult(response);
 		}
 
+		[HttpGet(Router.UserRouting.GetUserEventEngagementSummary)]
+		public async Task<IActionResult> GetUserEventEngagementSummary()
+		{
+			var response = await Mediator.Send(new GetUserEventEngagementSummaryQuery());
+			return NewResult(response);
+		}
 		#endregion
 
 
