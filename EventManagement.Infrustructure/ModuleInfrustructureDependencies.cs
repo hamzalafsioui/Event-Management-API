@@ -1,6 +1,9 @@
-﻿using EventManagement.Infrustructure.Abstracts;
+﻿using EventManagement.Data.Entities.Views;
+using EventManagement.Infrustructure.Abstracts;
+using EventManagement.Infrustructure.Abstracts.IViewRepository;
 using EventManagement.Infrustructure.InfrustructureBase;
 using EventManagement.Infrustructure.Repositories;
+using EventManagement.Infrustructure.Repositories.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventManagement.Infrustructure
@@ -17,6 +20,7 @@ namespace EventManagement.Infrustructure
 			services.AddTransient<ICommentRepository, CommentRepository>();
 			services.AddTransient<ICategoryRepository, CategoryRepository>();
 			services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+			services.AddTransient<IViewRepository<ViewUserEventEngagementSummary>, ViewUserEventEngagementSummaryRepository>();
 
 			return services;
 		}
