@@ -1,6 +1,7 @@
 ﻿using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.Views;
 using EventManagement.Infrustructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace EventManagement.Infrustructure.Context
 		public DbSet<Attendee> Attendees { get; set; }
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+		public DbSet<ViewUserEventEngagementSummary> ViewUserEventEngagementSummaries { get; set; }
 
 
 		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -86,6 +88,8 @@ namespace EventManagement.Infrustructure.Context
 			modelBuilder.ApplyConfiguration(new CommentConfiguration()); // explicitly applying
 
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Attendee).Assembly);
+			modelBuilder.Entity<ViewUserEventEngagementSummary>()
+					    .ToView("ViewUserEventEngagementSummary");
 		}
 
 
