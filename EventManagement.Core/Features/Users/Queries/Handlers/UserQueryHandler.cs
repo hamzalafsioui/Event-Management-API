@@ -17,7 +17,8 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		IRequestHandler<GetUserListQuery, Response<List<GetUserListResponse>>>,
 		IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>,
 		IRequestHandler<GetUserPaginatedListQuery, PaginatedResult<GetUserPaginatedListResponse>>,
-		IRequestHandler<GetUserCommentsQuery, Response<List<GetUserCommentsResponse>>>
+		IRequestHandler<GetUserCommentsQuery, Response<List<GetUserCommentsResponse>>>,
+		IRequestHandler<GetUserEventEngagementSummaryQuery, Response<List<GetUserEventEngagementSummaryResponse>>>
 
 	{
 		#region Fields
@@ -25,18 +26,21 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly ICommentService _commentService;
+		private readonly IUserService _userService;
 
 		#endregion
 
 		#region Constructors
 		public UserQueryHandler(UserManager<User> userManager, IMapper mapper,
 			IStringLocalizer<SharedResources> stringLocalizer,
-			ICommentService commentService) : base(stringLocalizer)
+			ICommentService commentService,
+			IUserService userService) : base(stringLocalizer)
 		{
 			this._userManager = userManager;
 			this._mapper = mapper;
 			_stringLocalizer = stringLocalizer;
 			this._commentService = commentService;
+			_userService = userService;
 		}
 		#endregion
 
@@ -95,6 +99,15 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 			// mapping
 			var commentListMapping = _mapper.Map<List<GetUserCommentsResponse>>(commentsList);
 			return Success(commentListMapping);
+		}
+
+		public async Task<Response<List<GetUserEventEngagementSummaryResponse>>> Handle(GetUserEventEngagementSummaryQuery request, CancellationToken cancellationToken)
+		{
+			// fetch data
+			var viewResult = await _userService.GetViewUserEventEngagementSummaryAsync();
+			// auto mapper to map result to response
+			var resultMapping = _mapper.Map<List<GetUserEventEngagementSummaryResponse>>(viewResult);
+			return Success(resultMapping);
 		}
 
 		#endregion
