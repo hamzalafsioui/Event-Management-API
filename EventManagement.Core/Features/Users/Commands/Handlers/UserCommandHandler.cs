@@ -19,21 +19,20 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 		#region Fields
 		private readonly UserManager<User> _userManager;
-		private readonly RoleManager<Role> _roleManager;
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly IUserService _userService;
+		private readonly IFileService _fileService;
 		#endregion
 		#region Constructors
 		public UserCommandHandler(UserManager<User> userManager, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer,
-			RoleManager<Role> roleManager,
-			IUserService userService) : base(stringLocalizer)
+			IUserService userService,
+			IFileService fileService) : base(stringLocalizer)
 		{
 			this._userManager = userManager;
 			this._mapper = mapper;
 			this._stringLocalizer = stringLocalizer;
-			_roleManager = roleManager;
-
+			_fileService = fileService;
 			_userService = userService;
 		}
 		#endregion
@@ -41,8 +40,15 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 
 		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
 		{
+			string? imageFileName = null;
+			if (request.Image != null && request.Image.Length != 0)
+			{
+				imageFileName = await _fileService.UploadImageAsync("UserImages", request.Image);
+			}
+
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
+			identityUser.Image =  imageFileName;
 			// create
 			var CreateResult = await _userService.AddAsync(identityUser, request.Password);
 

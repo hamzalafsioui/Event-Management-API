@@ -7,7 +7,8 @@ namespace EventManagement.Core.Mapping.Users
 	{
 		public void AddUserCommandMapping()
 		{
-			CreateMap<AddUserCommand, User>();
+			CreateMap<AddUserCommand, User>()
+				.ForMember(dest=>dest.Image,opt=>opt.Ignore());
 		}
 	}
 }
