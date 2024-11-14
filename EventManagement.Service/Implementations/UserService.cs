@@ -79,7 +79,6 @@ namespace EventManagement.Service.Implementations
 			{
 				try
 				{
-
 					// create
 					var CreateResult = await _userManager.CreateAsync(user, password);
 					// Failed

@@ -2,6 +2,7 @@
 using EventManagement.Data.Entities.SPs;
 using EventManagement.Data.Entities.Views;
 using EventManagement.Data.Helper.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace EventManagement.Service.Abstracts
 {
