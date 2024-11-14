@@ -19,4 +19,8 @@
     <ProjectReference Include="..\EventManagement.Core\EventManagement.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
