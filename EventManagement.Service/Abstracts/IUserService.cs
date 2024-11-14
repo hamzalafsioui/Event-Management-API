@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.SPs;
 using EventManagement.Data.Entities.Views;
 using EventManagement.Data.Helper.Enums;
 
@@ -18,5 +19,7 @@ namespace EventManagement.Service.Abstracts
 		Task<bool> EditAsync(User userMapper);
 		Task<bool> CustomDeleteAsync(User user);
 		public Task<List<ViewUserEventEngagementSummary>> GetViewUserEventEngagementSummaryAsync();
+
+		public Task<SP_GetUserEventEngagementDetails> GetUserEventEngagementDetailsAsync(SP_GetUserEventEngagementDetailsParameters parameters);
 	}
 }

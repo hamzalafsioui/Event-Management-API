@@ -1,7 +1,9 @@
 ﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.SPs;
 using EventManagement.Data.Entities.Views;
 using EventManagement.Data.Helper.Enums;
 using EventManagement.Infrustructure.Abstracts.IViewRepository;
+using EventManagement.Infrustructure.Abstracts.SPs;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +25,7 @@ namespace EventManagement.Service.Implementations
 		private readonly IEmailService _emailService;
 		private readonly IUrlHelper _urlHelper;
 		private readonly IViewRepository<ViewUserEventEngagementSummary> _viewUserEventEngagementSummaryRepository;
+		private readonly ISP_GetUserEventEngagementDetailsRepository _sP_GetUserEventEngagementDetailsRepository;
 		#endregion
 
 		#region Constructors
@@ -39,7 +42,8 @@ namespace EventManagement.Service.Implementations
 				   IHttpContextAccessor httpContextAccessor,
 				   IEmailService emailService,
 				   IUrlHelper urlHelper,
-				   IViewRepository<ViewUserEventEngagementSummary> viewRepository)
+				   IViewRepository<ViewUserEventEngagementSummary> viewRepository,
+				   ISP_GetUserEventEngagementDetailsRepository sP_GetUserEventEngagementDetailsRepository)
 	: base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 		{
 			_userRepository = userRepository;
@@ -48,6 +52,7 @@ namespace EventManagement.Service.Implementations
 			_emailService = emailService;
 			_urlHelper = urlHelper;
 			_viewUserEventEngagementSummaryRepository = viewRepository;
+			_sP_GetUserEventEngagementDetailsRepository = sP_GetUserEventEngagementDetailsRepository;
 		}
 
 
@@ -179,6 +184,11 @@ namespace EventManagement.Service.Implementations
 			var viewUserEventEngagementSummaries = await _viewUserEventEngagementSummaryRepository.GetTableNoTracking()
 			.ToListAsync();
 			return viewUserEventEngagementSummaries;
+		}
+
+		public async Task<SP_GetUserEventEngagementDetails> GetUserEventEngagementDetailsAsync(SP_GetUserEventEngagementDetailsParameters parameters)
+		{
+			return await _sP_GetUserEventEngagementDetailsRepository.GetUserEventEngagementDetailsAsync(parameters);
 		}
 		#endregion
 	}
