@@ -5,6 +5,7 @@ using EventManagement.Core.Features.Users.Queries.Results;
 using EventManagement.Core.Resources;
 using EventManagement.Core.Wrappers;
 using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.SPs;
 using EventManagement.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +19,8 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 		IRequestHandler<GetUserByIdQuery, Response<GetSingleUserResponse>>,
 		IRequestHandler<GetUserPaginatedListQuery, PaginatedResult<GetUserPaginatedListResponse>>,
 		IRequestHandler<GetUserCommentsQuery, Response<List<GetUserCommentsResponse>>>,
-		IRequestHandler<GetUserEventEngagementSummaryQuery, Response<List<GetUserEventEngagementSummaryResponse>>>
+		IRequestHandler<GetUserEventEngagementSummaryQuery, Response<List<GetUserEventEngagementSummaryResponse>>>,
+		IRequestHandler<GetUserEventEngagementDetailsQuery, Response<GetUserEventEngagementDetailsResponse>>
 
 	{
 		#region Fields
@@ -108,6 +110,18 @@ namespace EventManagement.Core.Features.Users.Queries.Handlers
 			// auto mapper to map result to response
 			var resultMapping = _mapper.Map<List<GetUserEventEngagementSummaryResponse>>(viewResult);
 			return Success(resultMapping);
+		}
+
+		public async Task<Response<GetUserEventEngagementDetailsResponse>> Handle(GetUserEventEngagementDetailsQuery request, CancellationToken cancellationToken)
+		{
+			var parameters = _mapper.Map<SP_GetUserEventEngagementDetailsParameters>(request);
+			var sp_Result = await _userService.GetUserEventEngagementDetailsAsync(parameters);
+			if (sp_Result == null)
+			{
+				return BadRequest<GetUserEventEngagementDetailsResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			}
+			var result = _mapper.Map<GetUserEventEngagementDetailsResponse>(sp_Result);
+			return Success(result);
 		}
 
 		#endregion
