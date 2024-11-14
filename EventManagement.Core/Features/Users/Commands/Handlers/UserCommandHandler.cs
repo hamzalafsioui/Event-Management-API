@@ -43,12 +43,12 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			string? imageFileName = null;
 			if (request.Image != null && request.Image.Length != 0)
 			{
-				imageFileName = await _fileService.UploadImageAsync("UserImages", request.Image);
+				imageFileName = await _fileService.UploadImageAsync("UserImages", request.Image, null);
 			}
 
 			// mapping
 			var identityUser = _mapper.Map<User>(request);
-			identityUser.Image =  imageFileName;
+			identityUser.Image = imageFileName;
 			// create
 			var CreateResult = await _userService.AddAsync(identityUser, request.Password);
 
@@ -73,8 +73,16 @@ namespace EventManagement.Core.Features.Users.Commands.Handlers
 			if (OldUser == null)
 				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.UserId]} {request.Id} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 
+			// handle Image
+			string? imageFileName = null;
+			if ((request.Image != null && request.Image.Length != 0) || OldUser.Image != null)
+			{
+				imageFileName = await _fileService.UploadImageAsync("UserImages", request.Image!, OldUser.Image);
+			}
+
 			// mapping between user and Request
 			var newUser = _mapper.Map(request, OldUser);
+			newUser.Image = imageFileName;
 			// Call update service
 			var result = await _userManager.UpdateAsync(newUser);
 

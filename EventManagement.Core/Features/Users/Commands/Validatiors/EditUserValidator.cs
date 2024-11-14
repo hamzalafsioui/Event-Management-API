@@ -17,10 +17,10 @@ namespace EventManagement.Core.Features.Users.Commands.Validatiors
 		#region Constructors
 		public EditUserValidator(UserManager<User> userManger, IStringLocalizer<SharedResources> stringLocalizer)
 		{
-			ApplyValidationsRules();
-			ApplyCustomValidationsRules();
 			this._userManager = userManger;
 			this._stringLocalizer = stringLocalizer;
+			ApplyValidationsRules();
+			ApplyCustomValidationsRules();
 		}
 		#endregion
 		#region Actions
