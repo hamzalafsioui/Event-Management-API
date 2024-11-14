@@ -18,10 +18,24 @@ namespace EventManagement.Service.Implementations
 		}
 		#endregion
 		#region Actions
-		public async Task<string> UploadImageAsync(string folderName, IFormFile file)
+		public async Task<string> UploadImageAsync(string folderName, IFormFile file, string? oldUrlImage)
 		{
+
+			// dealing with oldUrlImage
+			if (!string.IsNullOrEmpty(oldUrlImage))
+			{
+				var oldFileName = Path.GetFileName(oldUrlImage);
+				var oldFullPath = Path.Combine(_webHostEnvironment.WebRootPath, folderName, oldFileName);
+
+				if (File.Exists(oldFullPath))
+				{
+					File.Delete(oldFullPath);
+				}
+			}
+
+			// dealing with newImage
 			if (file == null || file.Length == 0)
-				throw new ArgumentException("File cannot be empty", nameof(file));
+				return null!;
 
 			var context = _httpContextAccessor?.HttpContext?.Request;
 			var baseURL = context?.Scheme + "://" + context?.Host;
