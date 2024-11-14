@@ -2,6 +2,7 @@
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Data.AppMetaData;
+using EventManagement.Data.Entities.SPs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,6 +74,12 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> GetUserEventEngagementSummary()
 		{
 			var response = await Mediator.Send(new GetUserEventEngagementSummaryQuery());
+			return NewResult(response);
+		}	
+		[HttpGet(Router.UserRouting.GetUserEventEngagementDetailsByUserId)]
+		public async Task<IActionResult> GetUserEventEngagementDetailsByUserId([FromRoute] int userId)
+		{
+			var response = await Mediator.Send(new GetUserEventEngagementDetailsQuery(userId));
 			return NewResult(response);
 		}
 		#endregion
