@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Linq.Expressions;
 
 namespace EventManagement.Service.Implementations
@@ -107,6 +108,7 @@ namespace EventManagement.Service.Implementations
 				catch (Exception ex)
 				{
 					await transaction.RollbackAsync();
+					Log.Error($"Add User: {ex.Message}");
 					return ex.Message.ToString();
 				}
 			}

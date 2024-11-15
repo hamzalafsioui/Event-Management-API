@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +39,7 @@ builder.Services.AddSwaggerGen();
 // connect to sql
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnectionString"));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
 });
 
 
@@ -99,6 +100,12 @@ builder.Services.AddTransient<IUrlHelper>(x =>
 
 #region Filter
 builder.Services.AddTransient<AuthFilter>();
+#endregion
+
+#region Serilog
+Log.Logger = new LoggerConfiguration()
+	.ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Services.AddSerilog();
 #endregion
 var app = builder.Build();
 

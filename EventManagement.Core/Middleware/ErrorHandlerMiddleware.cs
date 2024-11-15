@@ -1,6 +1,7 @@
 ﻿using EventManagement.Core.Bases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
@@ -30,6 +31,8 @@ namespace EventManagement.Core.Middleware
 					Succeded = false,
 					Message = error?.Message!
 				};
+				Log.Error(error,error!.Message, context.Request, "");
+				// in the future will cover all validation errors
 				switch (error)
 				{
 					case UnauthorizedAccessException exception:
@@ -59,7 +62,7 @@ namespace EventManagement.Core.Middleware
 						response.StatusCode = (int)HttpStatusCode.BadRequest;
 						break;
 					case Exception exception:
-						if(exception.GetType().ToString() == "ApiException")
+						if (exception.GetType().ToString() == "ApiException")
 						{
 							responseModel.Message = exception.Message;
 							responseModel.Message += exception.InnerException == null ? "" : "\n" + exception.InnerException.Message; ;
