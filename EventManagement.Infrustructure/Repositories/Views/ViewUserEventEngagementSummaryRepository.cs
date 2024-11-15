@@ -9,7 +9,7 @@ namespace EventManagement.Infrustructure.Repositories.Views
 	public class ViewUserEventEngagementSummaryRepository : GenericRepositoryAsync<ViewUserEventEngagementSummary>,IViewRepository<ViewUserEventEngagementSummary>
 	{
         #region Fields
-        private DbSet<ViewUserEventEngagementSummary> _viewUserEventEngagementSummary;
+        private readonly DbSet<ViewUserEventEngagementSummary> _viewUserEventEngagementSummary;
         #endregion
         #region Constructors
         public ViewUserEventEngagementSummaryRepository(AppDbContext appDbContext):base(appDbContext) 
