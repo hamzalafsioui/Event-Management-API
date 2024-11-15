@@ -8,8 +8,8 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 		Task<T> GetByIdAsync(int id);
 		Task SaveChangesAsync();
 		Task<IDbContextTransaction> BeginTransactionAsync();
-		void CommitAsync();
-		void RollBackAsync();
+		Task CommitAsync();
+		Task RollBackAsync();
 		IQueryable<T> GetTableNoTracking();
 		IQueryable<T> GetTableAsTracking();
 		Task<bool> AddAsync(T entity);

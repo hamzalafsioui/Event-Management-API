@@ -88,12 +88,12 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 			return await _dbContext.Database.BeginTransactionAsync();
 		}
 
-		public virtual async void CommitAsync()
+		public virtual async Task CommitAsync()
 		{
 			await _dbContext.Database.CommitTransactionAsync();
 		}
 
-		public virtual async void RollBackAsync()
+		public virtual async Task RollBackAsync()
 		{
 			await _dbContext.Database.RollbackTransactionAsync();
 		}
