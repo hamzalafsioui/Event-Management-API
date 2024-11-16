@@ -32,11 +32,7 @@ namespace EventManagement.Service.Implementations
 			return result;
 		}
 
-		public async Task<Category> GetCategoryByIdAsync(int categoryId)
-		{
-			var category = await _categoryRepository.GetTableNoTracking().Where(x => x.CategoryId.Equals(categoryId)).FirstOrDefaultAsync();
-			return category!;
-		}
+		public async Task<Category?> GetCategoryByIdAsync(int categoryId) => await _categoryRepository.GetTableNoTracking().Where(x => x.CategoryId.Equals(categoryId)).FirstOrDefaultAsync();
 		public async Task<bool> IsCategoryNameExistAsync(string categoryName)
 		{
 			return await _categoryRepository.GetTableNoTracking()

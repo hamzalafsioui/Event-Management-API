@@ -80,7 +80,7 @@ namespace EventManagement.Core.Features.Categories.Command.Handlers
 
 			// call delete service
 			var result = await _categoryService.DeleteAsync(category);
-			if (result)
+			if (!result)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToDelete]);
 
 			return Deleted<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
