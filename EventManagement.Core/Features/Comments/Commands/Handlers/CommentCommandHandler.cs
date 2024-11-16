@@ -43,7 +43,7 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 			// call service 
 			var result = await _commentService.AddAsync(comment);
 			// operation failed
-			if (result)
+			if (result == null)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success
@@ -59,7 +59,7 @@ namespace EventManagement.Core.Features.Comments.Commands.Handlers
 			// call service 
 			var result = await _commentService.UpdateAsync(comment);
 			// operation failed
-			if (result)
+			if (result == null)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
 			// success

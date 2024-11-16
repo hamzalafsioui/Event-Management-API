@@ -36,7 +36,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			var newEvent = _mapper.Map<Event>(request);
 			// call add event service
 			var result = await _eventService.AddAsync(newEvent);
-			if (result)
+			if (result != null)
 				return Success("Added Successfully");
 			else
 				return BadRequest<string>();
@@ -54,7 +54,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			_mapper.Map(request, @event);
 			// call update service
 			var result = await _eventService.EditAsync(@event);
-			if (result)
+			if (result != null)
 				return Success($"Edit Successfully In Id {@event.EventId}");
 			else
 				return BadRequest<string>();

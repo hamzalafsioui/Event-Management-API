@@ -41,7 +41,7 @@ namespace EventManagement.Core.Features.Categories.Command.Handlers
 			var categoryMapping = _mapper.Map<Category>(request);
 			// save data
 			var result = await _categoryService.AddAsync(categoryMapping);
-			if (result)
+			if (result != null)
 				return Created<string>(_stringLocalizer[SharedResourcesKeys.Created]);
 			else
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
@@ -63,7 +63,7 @@ namespace EventManagement.Core.Features.Categories.Command.Handlers
 			var categoryMapping = _mapper.Map<Category>(request);
 			// call Edit service
 			var result = await _categoryService.EditAsync(categoryMapping);
-			if (result)
+			if (result != null)
 				BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
