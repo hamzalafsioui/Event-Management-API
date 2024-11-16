@@ -37,9 +37,10 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 			// mapping 
 			var attendeeMapping = _mapper.Map<Attendee>(request);
 			// call add attendee service
-			var result = await _attendeeService.AddAsync(attendeeMapping);
-			if (result)
+			var newAttendee = await _attendeeService.AddAsync(attendeeMapping);
+			if (newAttendee == null)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
+
 			return Created<string>(_stringLocalizer[SharedResourcesKeys.Created]);
 		}
 
@@ -50,13 +51,13 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 			// mapping 
 			var attendeeMapping = _mapper.Map<Attendee>(request);
 			// handle RSVPDate
-			if (attendeeMapping.Status != attendee.Status)
+			if (attendeeMapping.Status != attendee!.Status)
 				attendeeMapping.RSVPDate = DateTime.UtcNow;
 			else
 				attendeeMapping.RSVPDate = attendee.RSVPDate;
 			// call add attendee service
 			var result = await _attendeeService.UpdateAsyc(attendeeMapping);
-			if (result)
+			if (result == null)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
@@ -80,6 +81,9 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 		public async Task<Response<string>> Handle(ChangeRSVPStatusCommand request, CancellationToken cancellationToken)
 		{
 			var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(request.userId, request.eventId);
+			// If the attendee doesn't exist, return NotFound
+			if (attendee == null)
+				return NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
 
 			// handle RSVPDate
 			if (Enum.TryParse(typeof(RSVPStatus), request.status, true, out var statusParsing))
@@ -94,7 +98,7 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 
 			// call update attendee service
 			var result = await _attendeeService.UpdateAsyc(attendee);
-			if (result)
+			if (result == null)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
@@ -104,11 +108,14 @@ namespace EventManagement.Core.Features.Attendees.Command.Handlers
 		public async Task<Response<string>> Handle(MarkAttendanceCommand request, CancellationToken cancellationToken)
 		{
 			var attendee = await _attendeeService.GetAttendeeByUserIdEventIdAsync(request.userId, request.eventId);
+			// If the attendee doesn't exist, return NotFound
+			if (attendee == null)
+				return NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
 			// Mark as attended
 			attendee.HasAttended = true;
 			// call update attendee service
 			var result = await _attendeeService.UpdateAsyc(attendee);
-			if (result)
+			if (result == null)
 				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
