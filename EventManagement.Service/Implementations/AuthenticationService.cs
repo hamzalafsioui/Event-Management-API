@@ -9,6 +9,7 @@ using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -182,7 +183,7 @@ namespace EventManagement.Service.Implementations
 			}
 			catch (Exception ex)
 			{
-
+				Log.Error($"Error In ValidateToken: {ex.Message}");
 				return ex.Message;
 			}
 		}
@@ -243,8 +244,8 @@ namespace EventManagement.Service.Implementations
 						return "ErrorInUpdatedUser";
 					// Send Code To user email
 					var message = $"This Code Is For Resetting Your Password: {random}";
-					var sendingToEmailResult = await _emailService.SendEmailAsync(user.Email!, message, "Reset Password");
-					if (sendingToEmailResult != "Success")
+					var emailResult = await _emailService.SendEmailAsync(user.Email!, message, "Reset Password");
+					if (emailResult != "Success")
 						return "FailedWhenSendingToEmail";
 
 					await transaction.CommitAsync();
@@ -253,6 +254,7 @@ namespace EventManagement.Service.Implementations
 				catch (Exception ex)
 				{
 					await transaction.RollbackAsync();
+					Log.Error($"Error In SendResetPasswordCodeAsync: {ex.Message}");
 					return ex.Message.ToString();
 				}
 			}
@@ -278,8 +280,6 @@ namespace EventManagement.Service.Implementations
 			{
 				try
 				{
-
-
 					// get user
 					var user = await _userManager.FindByEmailAsync(email);
 					if (user == null) return "UserNotFound";
@@ -289,6 +289,7 @@ namespace EventManagement.Service.Implementations
 					return "Success";
 				}catch (Exception ex)
 				{
+					Log.Error($"Error In ResetPasswordAsync: {ex.Message}");
 					return ex.Message.ToString();
 				}
 			}

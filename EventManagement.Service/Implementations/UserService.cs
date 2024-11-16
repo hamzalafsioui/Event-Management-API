@@ -121,11 +121,9 @@ namespace EventManagement.Service.Implementations
 		public async Task<bool> IsUserNameExistExcludeSelf(string username, int id) => await _userRepository.GetTableNoTracking().AnyAsync(x => x.UserName!.Equals(username) & !(x.Id.Equals(id))); // !& x.UserId.Equals(id) => && x.UserId != id
 
 
-		public async Task<bool> EditAsync(User userMapper)
-		{
-			await _userRepository.UpdateAsync(userMapper);
-			return true;
-		}
+		public async Task<User> EditAsync(User userMapper) => await _userRepository.UpdateAsync(userMapper);
+
+
 
 		public async Task<bool> CustomDeleteAsync(User user)
 		{
@@ -144,11 +142,9 @@ namespace EventManagement.Service.Implementations
 
 		}
 
-		public async Task<User> GetByIdAsync(int id)
-		{
-			var user = await _userRepository.GetByIdAsync(id);
-			return user;
-		}
+		public async Task<User?> GetByIdAsync(int id) => await _userRepository.GetByIdAsync(id);
+
+
 
 		public IQueryable<User> GetUsersListQueryable()
 		{

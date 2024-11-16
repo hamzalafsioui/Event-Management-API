@@ -2,6 +2,7 @@
 using EventManagement.Service.Abstracts;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Serilog;
 
 namespace EventManagement.Service.Implementations
 {
@@ -43,6 +44,7 @@ namespace EventManagement.Service.Implementations
 			}
 			catch (Exception ex)
 			{
+				Log.Error($"Error In SendEmailAsync: {ex.Message}");
 				return "Failed";
 			}
 		}

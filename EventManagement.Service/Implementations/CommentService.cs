@@ -17,9 +17,9 @@ namespace EventManagement.Service.Implementations
 			_commentRepository = commentRepository;
 		}
 
-		public async Task<bool> AddAsync(Comment comment) => await _commentRepository.AddAsync(comment);
+		public async Task<Comment> AddAsync(Comment comment) => await _commentRepository.AddAsync(comment);
 
-		public async Task<bool> UpdateAsync(Comment comment) => await _commentRepository.UpdateAsync(comment);
+		public async Task<Comment> UpdateAsync(Comment comment) => await _commentRepository.UpdateAsync(comment);
 
 		public async Task<bool> DeleteAsync(Comment comment) => await _commentRepository.DeleteAsync(comment);
 
@@ -66,7 +66,7 @@ namespace EventManagement.Service.Implementations
 		{
 			return await _commentRepository.GetTableNoTracking()
 				.AnyAsync(x => x.CommentId.Equals(commentId));
-			
+
 		}
 
 		#endregion

@@ -33,13 +33,13 @@ namespace EventManagement.Service.Implementations
 		}
 
 
-		public async Task<bool> AddAsync(Event @event) => await _eventRepository.AddAsync(@event);
-		public async Task<bool> EditAsync(Event @event) => await _eventRepository.UpdateAsync(@event);
+		public async Task<Event> AddAsync(Event @event) => await _eventRepository.AddAsync(@event);
+		public async Task<Event> EditAsync(Event @event) => await _eventRepository.UpdateAsync(@event);
 		public async Task<bool> DeleteAsync(Event @event) => await _eventRepository.DeleteAsync(@event);
 
 
 		public async Task<List<Event>> GetEventsListAsync() => await _eventRepository.GetEventsListAsync();
-		
+
 		public IQueryable<Event> FilterEventsPaginatedQueryable(EventOrderingEnum orderingEnum, string search)
 		{
 			var queryable = _eventRepository.GetTableNoTracking();
@@ -68,7 +68,7 @@ namespace EventManagement.Service.Implementations
 			return queryable.OrderBy(orderExpression);
 		}
 
-	
+
 
 		public async Task<bool> CancelAsync(int eventId)
 		{
@@ -76,8 +76,8 @@ namespace EventManagement.Service.Implementations
 			if (@event != null)
 			{
 				@event.Status = EventStatus.Canceled;
-				return await _eventRepository.UpdateAsync(@event);
-				 
+				return await _eventRepository.UpdateAsync(@event) != @event;
+
 			}
 			return false;
 		}

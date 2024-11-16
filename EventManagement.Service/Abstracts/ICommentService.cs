@@ -6,8 +6,8 @@ namespace EventManagement.Service.Abstracts
 	{
 		public IQueryable<Comment> GetCommentsByEventIdQueryable(int eventId);
 		public Task<List<Comment>> GetCommentsListByEventId(int eventId);
-		public Task<bool> AddAsync(Comment comment);
-		public Task<bool> UpdateAsync(Comment comment);
+		public Task<Comment> AddAsync(Comment comment);
+		public Task<Comment> UpdateAsync(Comment comment);
 		Task<Comment> GetCommentByIdAsync(int commentId);
 		Task<List<Comment>> GetUserCommentsListByUserIdAsync(int userId);
 		Task<bool> IsCommentExistByIdAsync(int commentId);

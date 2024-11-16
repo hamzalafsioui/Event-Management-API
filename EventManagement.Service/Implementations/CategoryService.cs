@@ -50,8 +50,8 @@ namespace EventManagement.Service.Implementations
 
 
 		}
-		public async Task<bool> AddAsync(Category category) => await _categoryRepository.AddAsync(category);
-		public async Task<bool> EditAsync(Category category) => await _categoryRepository.UpdateAsync(category);
+		public async Task<Category> AddAsync(Category category) => await _categoryRepository.AddAsync(category);
+		public async Task<Category> EditAsync(Category category) => await _categoryRepository.UpdateAsync(category);
 		public async Task<bool> DeleteAsync(Category category) => await _categoryRepository.DeleteAsync(category);
 
 		#endregion
