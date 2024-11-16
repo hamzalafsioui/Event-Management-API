@@ -22,6 +22,8 @@ namespace EventManagement.Infrustructure.Abstracts
 		#endregion
 
 		#region Handl Functions
+
+		// Get all events with their related entities (Category and Creator)
 		public async Task<List<Event>> GetEventsListAsync()
 		{
 			var @events = await _events.AsNoTracking()
@@ -32,11 +34,38 @@ namespace EventManagement.Infrustructure.Abstracts
 			return events;
 		}
 
+		// Override GetTableNoTracking to include related entities by default
 		public override IQueryable<Event> GetTableNoTracking()
 		{
 			return base.GetTableNoTracking().Include(e => e.Category).Include(e => e.Creator);
 		}
 
+		// paginated Event
+		public async Task<List<Event>> GetEventsPagedAsync(int pageIndex, int pageSize)
+		{
+			return await _events.Skip(pageIndex * pageSize)
+				.Take(pageSize)
+				.Include(e => e.Category)
+				.Include(e => e.Creator)
+				.ToListAsync();
+		}
+		// Get events by creator id
+		public async Task<List<Event>> GetEventsByCreatorIdAsync(int creatorId)
+		{
+			return await _events.Where(e => e.CreatorId == creatorId)
+				.AsNoTracking()
+				.Include(e => e.Category)
+				.Include(e => e.Creator)
+				.ToListAsync();
+		}
+		// Get events by category id
+		public async Task<List<Event>> GetEventsByCategoryIdAsync(int categoryId)
+		{
+			return await _events.Where(e => e.CategoryId == categoryId)
+				.Include(e => e.Category)
+				.Include(e => e.Creator)
+				.ToListAsync();
+		}
 		#endregion
 
 	}
