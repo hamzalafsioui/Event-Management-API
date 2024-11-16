@@ -1,6 +1,7 @@
 ﻿using EventManagement.Infrustructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Linq.Expressions;
 
 namespace EventManagement.Infrustructure.InfrustructureBase
 {
@@ -24,7 +25,7 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 
 		#region Actions
 
-		public virtual async Task<T> GetByIdAsync(int id)
+		public virtual async Task<T?> GetByIdAsync(int id)
 		{
 			return await _dbContext.Set<T>().FindAsync(id);
 		}
@@ -38,22 +39,24 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 			return _dbContext.Set<T>().AsNoTracking().AsQueryable();
 		}
 
-		public virtual async Task<bool> AddAsync(T entity)
+		public virtual async Task<T> AddAsync(T entity)
 		{
 			await _dbContext.Set<T>().AddAsync(entity);
-			return await _dbContext.SaveChangesAsync() > 0;
-
+			await _dbContext.SaveChangesAsync();
+			return entity;
 		}
 
 
-		public virtual async Task<bool> AddRangeAsync(ICollection<T> entities)
+		public virtual async Task<IEnumerable<T>> AddRangeAsync(ICollection<T> entities)
 		{
-			await _dbContext.AddRangeAsync(entities);
-			return await _dbContext.SaveChangesAsync() > 0;
+			await _dbContext.Set<T>().AddRangeAsync(entities);
+			await _dbContext.SaveChangesAsync();
+			return entities;
 		}
 
 		public virtual async Task<bool> DeleteAsync(T entity)
 		{
+			if (entity == null) return false;
 			_dbContext.Set<T>().Remove(entity);
 			return await _dbContext.SaveChangesAsync() > 0;
 
@@ -61,17 +64,15 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 
 		public virtual async Task<bool> DeleteRangeAsync(ICollection<T> entities)
 		{
-			foreach (var entity in entities)
-			{
-				_dbContext.Entry(entity).State = EntityState.Deleted;
-			}
+			_dbContext.RemoveRange(entities);
 			return await _dbContext.SaveChangesAsync() > 0;
 		}
 
-		public virtual async Task<bool> UpdateAsync(T entity)
+		public virtual async Task<T> UpdateAsync(T entity)
 		{
 			_dbContext.Set<T>().Update(entity);
-			return await _dbContext.SaveChangesAsync() > 0;
+			await _dbContext.SaveChangesAsync();
+			return entity;
 		}
 
 		public virtual async Task<bool> UpdateRangeAsync(ICollection<T> entities)
@@ -79,10 +80,7 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 			_dbContext.Set<T>().UpdateRange(entities);
 			return await _dbContext.SaveChangesAsync() > 0;
 		}
-		public virtual async Task SaveChangesAsync()
-		{
-			await _dbContext.SaveChangesAsync();
-		}
+		
 		public virtual async Task<IDbContextTransaction> BeginTransactionAsync()
 		{
 			return await _dbContext.Database.BeginTransactionAsync();
@@ -98,8 +96,15 @@ namespace EventManagement.Infrustructure.InfrustructureBase
 			await _dbContext.Database.RollbackTransactionAsync();
 		}
 
+		public async Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression)
+		{
+			return await _dbContext.Set<T>().Where(expression).AsNoTracking().ToListAsync();
+		}
 
-
+		public async Task<IEnumerable<T>> GetAllAsync()
+		{
+			return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
+		}
 
 		#endregion
 
