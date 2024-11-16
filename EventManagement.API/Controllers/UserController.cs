@@ -2,14 +2,15 @@
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Data.AppMetaData;
-using EventManagement.Data.Entities.SPs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace EventManagement.API.Controllers
 {
 	[ApiController]
 	//[Authorize(Roles = "Admin")]
+	//[ApiExplorerSettings(GroupName ="Users")]
 	public class UserController : AppControllerBase
 	{
 
@@ -17,6 +18,8 @@ namespace EventManagement.API.Controllers
 		//[Authorize(Roles = "User")]
 		//[ServiceFilter(typeof(AuthFilter))]
 		[HttpGet(Router.UserRouting.List)]
+		[SwaggerOperation(Summary = "List Of Users",OperationId = "GetUserList",Description ="<h3>Details</h3> <p>Users EndPoints</p>")] // use static class and call it here ---!!! , Tags = new[]{"User"})
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		public async Task<IActionResult> GetUserList()
 		{
 			var response = await Mediator.Send(new GetUserListQuery());
@@ -75,7 +78,7 @@ namespace EventManagement.API.Controllers
 		{
 			var response = await Mediator.Send(new GetUserEventEngagementSummaryQuery());
 			return NewResult(response);
-		}	
+		}
 		[HttpGet(Router.UserRouting.GetUserEventEngagementDetailsByUserId)]
 		public async Task<IActionResult> GetUserEventEngagementDetailsByUserId([FromRoute] int userId)
 		{

@@ -63,7 +63,7 @@ namespace EventManagement.Infrustructure
 					};
 				});
 
-			// swagger Gen 
+			#region Swagger Gen 
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Event Managment", Version = "v1" });
@@ -94,6 +94,7 @@ namespace EventManagement.Infrustructure
 		   });
 			});
 
+			#endregion
 			services.AddAuthorization(option =>
 			{
 				option.AddPolicy("CeateEvent", policy =>

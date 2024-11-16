@@ -36,12 +36,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-// connect to sql
+
+#region Connect to Sql
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
 });
-
+#endregion
 
 
 #region Dependency Injections
