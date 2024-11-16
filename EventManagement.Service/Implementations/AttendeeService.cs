@@ -24,19 +24,19 @@ namespace EventManagement.Service.Implementations
 		{
 			return _attendeeRepository.GetTableNoTracking().Where(x => x.EventId.Equals(eventId)).AsQueryable();
 		}
-		public async Task<bool> AddAsync(Attendee attendee) => await _attendeeRepository.AddAsync(attendee);
-
-		public async Task<bool> UpdateAsyc(Attendee attendee) => await _attendeeRepository.UpdateAsync(attendee);
+		public async Task<Attendee> AddAsync(Attendee attendee) =>	 await _attendeeRepository.AddAsync(attendee);
+			
+		public async Task<Attendee> UpdateAsyc(Attendee attendee) => await _attendeeRepository.UpdateAsync(attendee);
 		public async Task<bool> DeleteAsync(Attendee attendee) => await _attendeeRepository.DeleteAsync(attendee);
 
 
 
-		public async Task<Attendee> GetAttendeeByUserIdEventIdAsync(int userId, int eventId)
+		public async Task<Attendee?> GetAttendeeByUserIdEventIdAsync(int userId, int eventId)
 		{
 			var attendee = await _attendeeRepository.GetTableNoTracking()
 				.Where(a => a.UserId.Equals(userId) && a.EventId.Equals(eventId))
 				.FirstOrDefaultAsync();
-			return attendee!;
+			return attendee;
 		}
 
 
