@@ -52,10 +52,10 @@ namespace EventManagement.Infrustructure
 				{
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
-						ValidateIssuer = true,
-						ValidateAudience = true,
-						ValidateLifetime = true,
-						ValidateIssuerSigningKey = true,
+						ValidateIssuer = JwtSettings.validateIssuer,
+						ValidateAudience = JwtSettings.validateAudience,
+						ValidateLifetime = JwtSettings.validateLifetime,
+						ValidateIssuerSigningKey = JwtSettings.validateIssuerSigningKey,
 						ValidIssuer = JwtSettings.Issuer,
 						ValidAudience = JwtSettings.Audience,
 						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.SigningKey)),
