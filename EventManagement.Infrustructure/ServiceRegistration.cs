@@ -66,16 +66,28 @@ namespace EventManagement.Infrustructure
 			#region Swagger Gen 
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Event Managment", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo
+				{
+					Title = "Event Managment API",
+					Version = "v1",
+					Description = "API for managing events, attendees, and more.",
+					Contact = new OpenApiContact
+					{
+						Name = "Hamza LAFSIOUI",
+						Email = "hamza.lafsioui@gmail.com"
+					}
+
+				});
 				c.EnableAnnotations();
 
 				c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
 				{
-					Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer hGgKiRcJh4362hSAQOs')",
 					Name = "Authorization",
+					Type = SecuritySchemeType.Http,
+					BearerFormat = "JWT",
 					In = ParameterLocation.Header,
-					Type = SecuritySchemeType.ApiKey,
-					Scheme = JwtBearerDefaults.AuthenticationScheme
+					Description = "JWT Authorization header using the Bearer scheme (Example: \"Bearer {token}\"",
+					Scheme = "bearer"
 				});
 
 				c.AddSecurityRequirement(new OpenApiSecurityRequirement
