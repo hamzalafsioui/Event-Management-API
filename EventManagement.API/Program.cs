@@ -126,7 +126,7 @@ using (var scope = app.Services.CreateScope())
 	}
 	catch (Exception ex)
 	{
-		// log error
+		Log.Error(ex, "An error occurred during database seeding");
 	}
 
 }
@@ -137,7 +137,11 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI();
+	app.UseSwaggerUI(c =>
+	{
+		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event Management API v1");
+	});
+
 }
 
 #region Localization Middleware
