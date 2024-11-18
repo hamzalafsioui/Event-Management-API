@@ -21,7 +21,7 @@ namespace EventManagement.Service.Implementations
 
 		#endregion
 		#region Handle Functions
-		public async Task<Event> GetEventByIdAsync(int id)
+		public async Task<Event?> GetEventByIdAsync(int id)
 		{
 			var result = await _eventRepository.GetTableNoTracking().Where(x => x.EventId.Equals(id))
 															  .Include(e => e.Creator)
