@@ -22,11 +22,14 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[AllowAnonymous]
 		public async Task<IActionResult> Create([FromBody] SignInCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
+
 		[HttpPost(Router.AuthenticationRouting.RefreshToken)]
 		[SwaggerOperation(
 			Summary = "Refresh the authentication token",
@@ -42,6 +45,8 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
+
 		[HttpGet(Router.AuthenticationRouting.ValidateToken)]
 		[SwaggerOperation(
 			Summary = "Validate the authentication token",
@@ -57,6 +62,25 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(query);
 			return NewResult(response);
 		}
+
+		[HttpPost(Router.AuthenticationRouting.SendConfirmEmail)]
+		[SwaggerOperation(
+			Summary = "Send confirm email",
+			OperationId = "SendConfirmEmail",
+			Description = "<h3>Details</h3><p>Send a confirm email to the user with a link to confirm their email.</p>"
+		)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[AllowAnonymous]
+		public async Task<IActionResult> SendConfirmEmail([FromQuery] SendConfirmEmailCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
+
+
 		[HttpGet(Router.AuthenticationRouting.ConfirmEmail)]
 		[SwaggerOperation(
 			Summary = "Confirm the user's email address",
@@ -68,11 +92,14 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[AllowAnonymous]
 		public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
 		{
 			var response = await Mediator.Send(query);
 			return NewResult(response);
 		}
+
+
 		[HttpPost(Router.AuthenticationRouting.SendResetPassword)]
 		[SwaggerOperation(
 			Summary = "Send reset password email",
@@ -88,6 +115,8 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
+
 		[HttpGet(Router.AuthenticationRouting.ConfirmResetPassword)]
 		[SwaggerOperation(
 			Summary = "Confirm password reset",
@@ -104,6 +133,7 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(query);
 			return NewResult(response);
 		}
+
 
 		[HttpPost(Router.AuthenticationRouting.ResetPassword)]
 		[SwaggerOperation(

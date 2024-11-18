@@ -127,5 +127,8 @@ namespace EventManagement.Service.Abstracts
 		/// </list>
 		/// </returns>
 		public Task<string> ResetPasswordAsync(string email, string password);
+
+		public Task<string> SendConfirmEmailAsync(User user);
+
 	}
 }

@@ -54,7 +54,8 @@
 			public const string ConfirmEmail = Prefix + "/ConfirmEmail";
 			public const string SendResetPassword = Prefix + "/SendResetPassword";
 			public const string ConfirmResetPassword = Prefix + "/ConfirmResetPassword";
-			public const string ResetPassword = Prefix +"/ResetPassword";
+			public const string ResetPassword = Prefix + "/ResetPassword";
+			public const string SendConfirmEmail = Prefix + "/Send-Confirm-Email";
 
 
 		}

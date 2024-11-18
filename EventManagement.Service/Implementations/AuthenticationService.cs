@@ -6,7 +6,9 @@ using EventManagement.Data.Responses;
 using EventManagement.Infrustructure.Abstracts;
 using EventManagement.Infrustructure.Context;
 using EventManagement.Service.Abstracts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -25,19 +27,25 @@ namespace EventManagement.Service.Implementations
 		private readonly UserManager<User> _userManager;
 		private readonly IEmailService _emailService;
 		private readonly AppDbContext _appDbContext;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly IUrlHelper _urlHelper;
 		#endregion
 		#region Constructors
 		public AuthenticationService(JwtSettings jwtSettings,
 			IRefreshTokenRepository refreshTokenRepository,
 			UserManager<User> userManager,
 			IEmailService emailService,
-			AppDbContext appDbContext)
+			AppDbContext appDbContext,
+			IHttpContextAccessor httpContextAccessor,
+			IUrlHelper urlHelper)
 		{
 			_jwtSettings = jwtSettings;
 			_refreshTokenRepository = refreshTokenRepository;
 			_userManager = userManager;
 			this._emailService = emailService;
 			this._appDbContext = appDbContext;
+			_httpContextAccessor = httpContextAccessor;
+			_urlHelper = urlHelper;
 		}
 		#endregion
 		#region Handle Functions
@@ -276,7 +284,7 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<string> ResetPasswordAsync(string email, string password)
 		{
-			using(var transaction = await _appDbContext.Database.BeginTransactionAsync())
+			using (var transaction = await _appDbContext.Database.BeginTransactionAsync())
 			{
 				try
 				{
@@ -287,15 +295,35 @@ namespace EventManagement.Service.Implementations
 					await _userManager.AddPasswordAsync(user, password);
 					await transaction.CommitAsync();
 					return "Success";
-				}catch (Exception ex)
+				}
+				catch (Exception ex)
 				{
 					Log.Error($"Error In ResetPasswordAsync: {ex.Message}");
 					return ex.Message.ToString();
 				}
 			}
-			
+
 
 		}
+
+
+		public async Task<string> SendConfirmEmailAsync(User user)
+		{
+			// confirm Emal
+			var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+			var requestAccessor = _httpContextAccessor.HttpContext?.Request;
+			//var url = requestAccessor!.Scheme + "://" + requestAccessor.Host + $"/Api/V1/Authentication/ConfirmEmail?userId={user.Id}&code={code}";
+			var url = requestAccessor!.Scheme + "://" + requestAccessor.Host + _urlHelper.Action("ConfirmEmail", "Authentication", new { userId = user.Id, code = code });
+			// message body
+			var message = $"<p>To Confirm Your Email Please Click This Link: </p> <a href = '{url}'>Click Here</a>";
+			var emailResult = await _emailService.SendEmailAsync(user.Email!, url, "Confirm Email");
+			// success
+			if (emailResult != "Success")
+				return "FailedWhenSendEmail";
+
+			return "Success";
+		}
+
 		#endregion
 
 	}

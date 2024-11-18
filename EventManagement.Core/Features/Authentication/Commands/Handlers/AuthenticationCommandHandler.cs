@@ -14,7 +14,8 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 		IRequestHandler<SignInCommand, Response<JwtAuthResponse>>,
 		IRequestHandler<RefreshTokenCommand, Response<JwtAuthResponse>>,
 		IRequestHandler<SendResetPasswordCommand, Response<string>>,
-		IRequestHandler<ResetPasswordCommand, Response<string>>
+		IRequestHandler<ResetPasswordCommand, Response<string>>,
+		IRequestHandler<SendConfirmEmailCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -104,13 +105,30 @@ namespace EventManagement.Core.Features.Authentication.Commands.Handlers
 
 		public async Task<Response<string>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
 		{
-			var result = await _authenticationService.ResetPasswordAsync(request.Email,request.Password);
+			var result = await _authenticationService.ResetPasswordAsync(request.Email, request.Password);
 			return result switch
 			{
 				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]),
 				"UserNotFound" => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NotFound]),
 				_ => BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]),
 			};
+		}
+
+		public async Task<Response<string>> Handle(SendConfirmEmailCommand request, CancellationToken cancellationToken)
+		{
+			// get user
+			var user = await _userManager.FindByEmailAsync(request.email);
+			// checking 
+			if (user == null)
+				return NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			if (user.EmailConfirmed)
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.EmailConfirmed]);
+
+			var result = await _authenticationService.SendConfirmEmailAsync(user);
+			if (result != "Success")
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToSendEmailConfirmed]);
+
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.OperationSucceed]);
 		}
 		#endregion
 
