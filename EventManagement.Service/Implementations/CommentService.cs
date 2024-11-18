@@ -23,7 +23,7 @@ namespace EventManagement.Service.Implementations
 
 		public async Task<bool> DeleteAsync(Comment comment) => await _commentRepository.DeleteAsync(comment);
 
-		public async Task<Comment> GetCommentByIdAsync(int commentId)
+		public async Task<Comment?> GetCommentByIdAsync(int commentId)
 		{
 			var result = await _commentRepository.GetTableNoTracking()
 				.Where(x => x.CommentId.Equals(commentId))
