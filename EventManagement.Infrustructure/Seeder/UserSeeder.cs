@@ -24,7 +24,7 @@ namespace EventManagement.Infrustructure.Seeder
 					Role = Data.Helper.Enums.UserRoleEnum.Admin,
 
 				};
-				await _userManager.CreateAsync(defaultUser, "Mr@Lafsioui");
+				await _userManager.CreateAsync(defaultUser, "Mr@Lafsioui2024");
 				await _userManager.AddToRoleAsync(defaultUser, "Admin");
 			}
 		}
