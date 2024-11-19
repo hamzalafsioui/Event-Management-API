@@ -153,6 +153,7 @@ app.UseRequestLocalization(options!.Value);
 #region Custom Middleware
 // Middlewares
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
 #endregion
 
 app.UseHttpsRedirection();
@@ -161,6 +162,9 @@ app.UseCors();
 app.UseStaticFiles();
 
 app.UseAuthentication();
+#region Custom Middleware
+app.UseMiddleware<UpdateLastLoginMiddleware>();
+#endregion
 app.UseAuthorization();
 
 
