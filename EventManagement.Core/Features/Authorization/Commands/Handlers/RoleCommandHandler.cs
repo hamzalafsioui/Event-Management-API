@@ -68,6 +68,7 @@ namespace EventManagement.Core.Features.Authorization.Commands.Handlers
 				"FailedToRemoveOldRoles" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToRemoveOldRoles]),
 				"FailedToAddNewRoles" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToAddNewRoles]),
 				"FailedToUpdateUserRoles" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRoles]),
+				"FailedToUpdateUserRole" => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRole]),
 				"Success" => Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]),
 				_ => NotFound<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRoles]),
 
