@@ -108,7 +108,7 @@ namespace EventManagement.Service.Implementations
 				catch (Exception ex)
 				{
 					await transaction.RollbackAsync();
-					Log.Error($"Add User: {ex.Message}");
+					Log.Error($"Error In Add User: {ex.Message}");
 					return ex.Message.ToString();
 				}
 			}
@@ -137,6 +137,7 @@ namespace EventManagement.Service.Implementations
 			catch (Exception ex)
 			{
 				await transaction.RollbackAsync();
+				Log.Error($"Error In Custom Delete User Async: {ex.Message}");
 				return false;
 			}
 
