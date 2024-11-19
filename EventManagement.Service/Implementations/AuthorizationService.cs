@@ -1,18 +1,19 @@
-﻿using Azure.Core;
-using EventManagement.Data.DTOs.Roles;
+﻿using EventManagement.Data.DTOs.Roles;
 using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Helper.Authorization;
+using EventManagement.Data.Helper.Enums;
 using EventManagement.Data.Requests;
 using EventManagement.Data.Responses;
 using EventManagement.Infrustructure.Context;
 using EventManagement.Service.Abstracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Security.Claims;
 
 namespace EventManagement.Service.Implementations
 {
-    public class AuthorizationService : IAuthorizationService
+	public class AuthorizationService : IAuthorizationService
 	{
 		#region Fields
 		private readonly RoleManager<Role> _roleManager;
@@ -99,7 +100,7 @@ namespace EventManagement.Service.Implementations
 				{
 					Id = role.Id,
 					Name = role.Name!,
-					HasRole = (await _userManager.IsInRoleAsync(user,role.Name!)) ? true : false
+					HasRole = (await _userManager.IsInRoleAsync(user, role.Name!)) ? true : false
 				};
 				rolesList.Add(userRole);
 			}
@@ -142,6 +143,16 @@ namespace EventManagement.Service.Implementations
 					// return result
 					if (!addRoleResult.Succeeded)
 						return "FailedToAddNewRoles";
+					var role = selectedRoles.Contains(UserRoleEnum.Admin.ToString()) ? UserRoleEnum.Admin :
+					  selectedRoles.Contains(UserRoleEnum.Speaker.ToString()) ? UserRoleEnum.Speaker :
+					  selectedRoles.Contains(UserRoleEnum.Attendee.ToString()) ? UserRoleEnum.Attendee :
+					  UserRoleEnum.User;
+
+					// update role in user
+					user.Role = role;
+					var result = await _userManager.UpdateAsync(user);
+					if (!result.Succeeded)
+						return "FailedToUpdateUserRole";
 					await transaction.CommitAsync();
 					return "Success";
 
@@ -149,6 +160,7 @@ namespace EventManagement.Service.Implementations
 				catch (Exception ex)
 				{
 					await transaction.RollbackAsync();
+					Log.Error($"Error In UpdateUserRoles: {ex.Message}");
 					return "FailedToUpdateUserRoles";
 				}
 
@@ -166,7 +178,7 @@ namespace EventManagement.Service.Implementations
 			// get user claims
 			var ExistingUserClaims = await _userManager.GetClaimsAsync(user);
 			// checking claims is Exist for user
-			foreach(var claim in ClaimsStore.claims)
+			foreach (var claim in ClaimsStore.claims)
 			{
 				var userClaim = new UserClaims();
 				userClaim.Type = claim.Type;
@@ -201,7 +213,7 @@ namespace EventManagement.Service.Implementations
 					// Add Claims
 					if (!removedResult.Succeeded)
 						return "FailedToRemoveOldClaims";
-					var selectedClaims = request.Claims.Where(x => x.Value == true).Select(x=>new Claim(type:x.Type,x.Value.ToString()));
+					var selectedClaims = request.Claims.Where(x => x.Value == true).Select(x => new Claim(type: x.Type, x.Value.ToString()));
 					var addClaimsResult = await _userManager.AddClaimsAsync(user, selectedClaims);
 					// return result
 					if (!addClaimsResult.Succeeded)
@@ -213,6 +225,7 @@ namespace EventManagement.Service.Implementations
 				catch (Exception ex)
 				{
 					await transaction.RollbackAsync();
+					Log.Error($"Error In UpdateUserClaims: {ex.Message}");
 					return "FailedToUpdateUserClaims";
 				}
 
