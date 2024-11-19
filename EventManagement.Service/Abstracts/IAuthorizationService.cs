@@ -99,7 +99,8 @@ namespace EventManagement.Service.Abstracts
 		/// <item><description><c>"UserNotFound"</c>: The specified user was not found.</description></item>
 		/// <item><description><c>"FailedToRemoveOldRoles"</c>: Failed to remove the user's old roles.</description></item>
 		/// <item><description><c>"FailedToAddNewRoles"</c>: Failed to add the new roles.</description></item>
-		/// <item><description><c>"FailedToUpdateUserRoles"</c>: A general failure during the update process.</description></item>
+		/// <item><description><c>"FailedToUpdateUserRoles"</c>: A general failure during the update Roles process.</description></item>
+		/// <item><description><c>"FailedToUpdateUserRole"</c>: A general failure during the update Role process.</description></item>
 		/// </list>
 		/// </returns>
 		public Task<string> UpdateUserRoles(UpdateUserRolesRequest request);
