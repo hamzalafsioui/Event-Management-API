@@ -40,7 +40,11 @@ namespace EventManagement.Infrustructure
 			.AddDefaultTokenProviders();
 
 			// Add JWT Authentication Configuration
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			services.AddAuthentication(x =>
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
 				.AddJwtBearer(options =>
 				{
 					ConfigureJwtBearerOptions(options, configuration);
@@ -92,6 +96,8 @@ namespace EventManagement.Infrustructure
 		private static void ConfigureJwtBearerOptions(JwtBearerOptions options, IConfiguration configuration)
 		{
 			var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
+			options.RequireHttpsMetadata = false;
+			options.SaveToken = true;
 			options.TokenValidationParameters = new TokenValidationParameters
 			{
 				ValidateIssuer = jwtSettings!.ValidateIssuer,
