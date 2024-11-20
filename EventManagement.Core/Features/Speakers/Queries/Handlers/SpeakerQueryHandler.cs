@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Speakers.Queries.Handlers
 {
 	public class SpeakerQueryHandler : ResponseHandler,
-		IRequestHandler<GetSpeakerListQuery, Response<List<GetSpeakerListResponse>>>
+		IRequestHandler<GetSpeakerListQuery, Response<List<GetSpeakerListResponse>>>,
+		IRequestHandler<GetSpeakerByIdQuery, Response<GetSpeakerByIdQueryResponse>>
 	{
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		private readonly ISpeakerService _speakerService;
@@ -37,6 +38,19 @@ namespace EventManagement.Core.Features.Speakers.Queries.Handlers
 			// mapping
 			var speakersMapping = _mapper.Map<List<GetSpeakerListResponse>>(speakers);
 			return Success(speakersMapping);
+		}
+
+		public async Task<Response<GetSpeakerByIdQueryResponse>> Handle(GetSpeakerByIdQuery request, CancellationToken cancellationToken)
+		{
+			if (request.speakerId < 0)
+				return BadRequest<GetSpeakerByIdQueryResponse>(_stringLocalizer[SharedResourcesKeys.InvalidId]);
+			var speaker = await _speakerService.GetByIdAsync(request.speakerId);
+			if (speaker == null)
+				return BadRequest<GetSpeakerByIdQueryResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+
+			var speakerMapping = _mapper.Map<GetSpeakerByIdQueryResponse>(speaker);
+			return Success(speakerMapping);
+
 		}
 		#endregion
 
