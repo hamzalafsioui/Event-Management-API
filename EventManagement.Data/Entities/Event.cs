@@ -24,7 +24,7 @@ namespace EventManagement.Data.Entities
 		public User Creator { get; set; }
 		public virtual ICollection<Attendee> Attendees { get; set; } = new HashSet<Attendee>();
 		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
-		public ICollection<SpeakerEvent> SpeakerEvents { get; set; } = new List<SpeakerEvent>();
+		public ICollection<SpeakerEvent> SpeakerEvents { get; set; } = new HashSet<SpeakerEvent>();
 
 
 		public Event(int eventId, string title, string? description, string location, DateTime startTime, DateTime endTime, int categoryId, int createdBy, int capacity)

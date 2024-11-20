@@ -11,7 +11,7 @@ namespace EventManagement.Data.Entities
 
 		public string Bio { get; set; }
 
-		public ICollection<SpeakerEvent> SpeakerEvents { get; set; } = new List<SpeakerEvent>();
+		public ICollection<SpeakerEvent> SpeakerEvents { get; set; } = new HashSet<SpeakerEvent>();
 
 	}
 }
