@@ -65,6 +65,8 @@ namespace EventManagement.Core.Features.Speakers.Commands.Handlers
 			// update speaker Info
 			speaker!.Bio = request.Bio;
 			var result = await _speakerService.UpdateAsyc(speaker);
+			if (!result.IsSuccess)
+				BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 			// return Success
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 

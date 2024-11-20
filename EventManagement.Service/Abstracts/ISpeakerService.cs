@@ -35,7 +35,7 @@ namespace EventManagement.Service.Abstracts
 		/// <returns>
 		/// A task representing the asynchronous operation, with a Result of the updated <see cref="Speaker"/>.
 		/// </returns>
-		Task<Speaker> UpdateAsyc(Speaker speaker);
+		Task<Result> UpdateAsyc(Speaker speaker);
 
 		/// <summary>
 		/// Deletes the specified speaker from the speakers.

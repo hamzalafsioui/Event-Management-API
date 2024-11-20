@@ -80,7 +80,13 @@ namespace EventManagement.Service.Implementations
 				return Result.Failure("An unexpected error occurred.");
 			}
 		}
-		public async Task<Speaker> UpdateAsyc(Speaker speaker) => await _speakerRepository.UpdateAsync(speaker);
+		public async Task<Result> UpdateAsyc(Speaker speaker)
+		{
+			var result = await _speakerRepository.UpdateAsync(speaker);
+			if (result == null)
+				return Result.Failure("FailedToUpdateTheSpeaker");
+			return Result.Success();
+		}
 		public async Task<Result> DeleteAsync(Speaker speaker)
 		{
 			using var transaction = await _speakerRepository.BeginTransactionAsync();
