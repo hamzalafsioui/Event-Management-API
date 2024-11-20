@@ -20,6 +20,7 @@ namespace EventManagement.Service
 			services.AddTransient<IEmailService, EmailService>();
 			services.AddTransient<ICurrentUserService, CurrentUserService>();
 			services.AddTransient<IFileService, FileService>();
+			services.AddTransient<ISpeakerService, SpeakerService>();
 			return services;
 		}
 	}
