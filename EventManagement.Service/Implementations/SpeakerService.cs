@@ -81,7 +81,44 @@ namespace EventManagement.Service.Implementations
 			}
 		}
 		public async Task<Speaker> UpdateAsyc(Speaker speaker) => await _speakerRepository.UpdateAsync(speaker);
-		public async Task<bool> DeleteAsync(Speaker speaker) => await _speakerRepository.DeleteAsync(speaker);
+		public async Task<Result> DeleteAsync(Speaker speaker)
+		{
+			using var transaction = await _speakerRepository.BeginTransactionAsync();
+
+			try
+			{
+				// Delete speaker
+				var deleteResult = await _speakerRepository.DeleteAsync(speaker);
+				if (!deleteResult)
+					return Result.Failure("FailedToDeleteTheSpeaker");
+
+				// Update user role
+				var user = await _userManager.FindByIdAsync(speaker.UserId.ToString());
+				if (user == null)
+					return Result.Failure("UserNotFound");
+
+				user.Role = UserRoleEnum.User;
+				var updateUserRoleResult = await _userManager.UpdateAsync(user);
+				if (!updateUserRoleResult.Succeeded)
+					return Result.Failure("FailedToUpdateTheUser'sRole");
+
+				// Remove "Speaker" role to user's roles
+				var removeSpeakerRoleResult = await _userManager.RemoveFromRoleAsync(user, "Speaker");
+				if (!removeSpeakerRoleResult.Succeeded)
+					return Result.Failure("FailedToRemoveTheSpeakerRole");
+
+				// commit transaction
+				await transaction.CommitAsync();
+				// return success
+				return Result.Success();
+			}
+			catch (Exception ex)
+			{
+				await transaction.RollbackAsync();
+				Log.Error($"Error in Speaker DeleteAsync: {ex.Message}");
+				return Result.Failure("AnUnexpectedErrorOccurred");
+			}
+		}
 
 		public async Task<bool> IsUserExist(int userId)
 		{
