@@ -31,6 +31,8 @@ namespace EventManagement.Infrustructure.Context
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 		public DbSet<ViewUserEventEngagementSummary> ViewUserEventEngagementSummaries { get; set; }
+		public DbSet<Speaker> Speakers { get; set; }
+		public DbSet<SpeakerEvent> SpeakerEvents { get; set; }
 
 
 		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -86,10 +88,12 @@ namespace EventManagement.Infrustructure.Context
 			modelBuilder.ApplyConfiguration(new EventConfiguration()); // explicitly applying
 																	   //	modelBuilder.ApplyConfiguration(new UserConfiguration()); // explicitly applying
 			modelBuilder.ApplyConfiguration(new CommentConfiguration()); // explicitly applying
+			modelBuilder.ApplyConfiguration(new SpeakerConfiguration()); // explicitly applying
+			modelBuilder.ApplyConfiguration(new SpeakerEventConfiguration()); // explicitly applying
 
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Attendee).Assembly);
 			modelBuilder.Entity<ViewUserEventEngagementSummary>()
-					    .ToView("ViewUserEventEngagementSummary");
+						.ToView("ViewUserEventEngagementSummary");
 		}
 
 
