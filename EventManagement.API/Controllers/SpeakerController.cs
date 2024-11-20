@@ -1,7 +1,7 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Speakers.Commands.Models;
 using EventManagement.Core.Features.Speakers.Queries.Models;
-using EventManagement.Core.Features.Users.Queries.Models;
+using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +62,40 @@ namespace EventManagement.API.Controllers
 		public async Task<IActionResult> Create([FromForm] AddSpeakerCommand command)
 		{
 			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
+
+		[HttpPut(Router.SpeakerRouting.Edit)]
+		[SwaggerOperation(
+		Summary = "Edit Speaker",
+		OperationId = "EditSpeaker",
+		Description = "<h3>Details</h3><p>Update the details of an existing Speaker.</p>"
+	)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+
+		public async Task<IActionResult> Edit([FromForm] EditSpeakerCommand command)
+		{
+			var response = await Mediator.Send(command);
+			return NewResult(response);
+		}
+
+		[HttpDelete(Router.SpeakerRouting.Delete)]
+		[SwaggerOperation(
+		Summary = "Delete Speaker",
+		OperationId = "DeleteSpeaker",
+		Description = "<h3>Details</h3><p>Delete a speaker by their unique identifier.</p>"
+	)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		public async Task<IActionResult> Delete([FromRoute] int id)
+		{
+			var response = await Mediator.Send(new DeleteSpeakerCommand(id));
 			return NewResult(response);
 		}
 		#endregion
