@@ -76,6 +76,10 @@
 		public const string FailedToSendEmailConfirmed = "FailedToSendEmailConfirmed";//
 
 
+		public const string UserNotFound = "UserNotFound";//
+		public const string UserNotFoundOrIsAlreadySpeaker = "UserNotFoundOrIsAlreadySpeaker";//
+
+
 
 	}
 }
