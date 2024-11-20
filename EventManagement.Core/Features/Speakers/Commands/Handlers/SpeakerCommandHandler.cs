@@ -12,7 +12,9 @@ using Microsoft.Extensions.Localization;
 namespace EventManagement.Core.Features.Speakers.Commands.Handlers
 {
 	public class SpeakerCommandHandler : ResponseHandler,
-		IRequestHandler<AddSpeakerCommand, Response<string>>
+		IRequestHandler<AddSpeakerCommand, Response<string>>,
+		IRequestHandler<EditSpeakerCommand, Response<string>>,
+		IRequestHandler<DeleteSpeakerCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -52,6 +54,42 @@ namespace EventManagement.Core.Features.Speakers.Commands.Handlers
 				"Failed to update the user's role." => BadRequest<string>(),
 				"Failed to assign the Speaker role." => BadRequest<string>(),
 				"An unexpected error occurred." => BadRequest<string>(),
+				_ => BadRequest<string>()
+			};
+		}
+
+		public async Task<Response<string>> Handle(EditSpeakerCommand request, CancellationToken cancellationToken)
+		{
+			// get speaker
+			var speaker = await _speakerService.GetByIdAsync(request.SpeakerId);
+			// update speaker Info
+			speaker!.Bio = request.Bio;
+			var result = await _speakerService.UpdateAsyc(speaker);
+			// return Success
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+
+		}
+
+		public async Task<Response<string>> Handle(DeleteSpeakerCommand request, CancellationToken cancellationToken)
+		{
+			// get speaker
+			var speaker = await _speakerService.GetByIdAsync(request.SpeakerId);
+			// not exist
+			if (speaker == null)
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			// delete Speaker
+			var Result = await _speakerService.DeleteAsync(speaker!);
+			if (Result.IsSuccess)
+				return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
+
+			return Result.ErrorMessage switch
+			{
+				// we can write an Description In Each BadRequest<string>(here)
+				"FailedToDeleteTheSpeaker" => BadRequest<string>(),
+				"UserNotFound" => BadRequest<string>(),
+				"FailedToUpdateTheUser'sRole" => BadRequest<string>(),
+				"FailedToRemoveTheSpeakerRole" => BadRequest<string>(),
+				"AnUnexpectedErrorOccurred" => BadRequest<string>(),
 				_ => BadRequest<string>()
 			};
 		}
