@@ -1,5 +1,6 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Speakers.Commands.Models;
+using EventManagement.Core.Features.Speakers.Queries.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,23 @@ namespace EventManagement.API.Controllers
 	public class SpeakerController : AppControllerBase
 	{
 		#region Actions
+
+		[HttpGet(Router.SpeakerRouting.List)]
+		[SwaggerOperation(
+		   Summary = "List of Speakers",
+		   OperationId = "GetSpeakerList",
+		   Description = "<h3>Details</h3><p>Retrieve a list of all speakers.</p>"
+	   )]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		//[Authorize(Roles = "Admin,Attendee,User")]
+		public async Task<IActionResult> GetSpeakerList()
+		{
+			var response = await Mediator.Send(new GetSpeakerListQuery());
+			return NewResult(response);
+		}
 
 		[HttpPost(Router.SpeakerRouting.Create)]
 		[AllowAnonymous]
