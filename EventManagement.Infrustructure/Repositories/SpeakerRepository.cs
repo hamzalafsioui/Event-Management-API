@@ -25,7 +25,7 @@ namespace EventManagement.Infrustructure.Repositories
 
 		public async Task<List<Speaker>> GetSpeakersListAsync()
 		{
-			return await _speakers.ToListAsync();
+			return await _speakers.Include(x => x.User).ToListAsync();
 		}
 		#endregion
 	}
