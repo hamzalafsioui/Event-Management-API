@@ -33,7 +33,7 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="speaker">The speaker entity with updated information.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a result of the updated <see cref="Speaker"/>.
+		/// A task representing the asynchronous operation, with a Result of the updated <see cref="Speaker"/>.
 		/// </returns>
 		Task<Speaker> UpdateAsyc(Speaker speaker);
 
@@ -42,9 +42,9 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="speaker">The speaker entity to be deleted.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a boolean indicating whether the deletion was successful.
+		/// A task representing the asynchronous operation, with a Result indicating whether the deletion was successful.
 		/// </returns>
-		Task<bool> DeleteAsync(Speaker speaker);
+		Task<Result> DeleteAsync(Speaker speaker);
 
 
 		/// <summary>
