@@ -7,6 +7,7 @@ namespace EventManagement.Core.Mapping.Speakers
 		public SpeakerProfile()
 		{
 			AddSpeakerCommandMapping();
+			GetSpeakerListQueryMapping();
 		}
 	}
 }
