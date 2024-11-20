@@ -38,7 +38,7 @@ namespace EventManagement.Core.Features.Speakers.Commands.Validations
 			RuleFor(x => x.Bio)
 				.NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
 				.NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required])
-				.MaximumLength(15).WithMessage(_stringLocalizer[SharedResourcesKeys.MaxLengthIs100])
+				.MaximumLength(100).WithMessage(_stringLocalizer[SharedResourcesKeys.MaxLengthIs100])
 				.MinimumLength(4);
 
 		}
@@ -55,7 +55,7 @@ namespace EventManagement.Core.Features.Speakers.Commands.Validations
 				})
 				.WithMessage($"{_stringLocalizer[SharedResourcesKeys.UserNotFoundOrIsAlreadySpeaker]}");
 
-			
+
 
 
 
