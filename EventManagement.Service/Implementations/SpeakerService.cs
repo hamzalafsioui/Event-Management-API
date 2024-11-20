@@ -33,7 +33,7 @@ namespace EventManagement.Service.Implementations
 			return await _speakerRepository.GetSpeakersListAsync();
 		}
 
-		public async Task<Speaker?> GetByIdAsync(int id) => await _speakerRepository.GetByIdAsync(id);
+		public async Task<Speaker?> GetByIdAsync(int id) => await _speakerRepository.GetTableNoTracking().Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
 
 
 		public async Task<Result> AddAsync(Speaker speaker)
