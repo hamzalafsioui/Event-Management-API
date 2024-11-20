@@ -1,6 +1,7 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Speakers.Commands.Models;
 using EventManagement.Core.Features.Speakers.Queries.Models;
+using EventManagement.Core.Features.Users.Queries.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,25 @@ namespace EventManagement.API.Controllers
 			var response = await Mediator.Send(new GetSpeakerListQuery());
 			return NewResult(response);
 		}
+
+
+		[HttpGet(Router.SpeakerRouting.GetById)]
+		[SwaggerOperation(
+		Summary = "Get Speaker by ID",
+		OperationId = "GetSpeakerById",
+		Description = "<h3>Details</h3><p>Retrieve Speaker details by their unique identifier.</p>"
+	)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+
+		public async Task<IActionResult> GetSpeakerById([FromRoute] int id)
+		{
+			var response = await Mediator.Send(new GetSpeakerByIdQuery(id));
+			return NewResult(response);
+		}
+
 
 		[HttpPost(Router.SpeakerRouting.Create)]
 		[AllowAnonymous]
