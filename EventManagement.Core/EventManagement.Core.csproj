@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Emails\Queries\" />
+    <Folder Include="Features\Speakers\Queries\" />
     <Folder Include="Mapping\Comments\CommandMapping\" />
     <Folder Include="Mapping\Roles\Commands\" />
   </ItemGroup>
