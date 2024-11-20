@@ -21,8 +21,9 @@ namespace EventManagement.Infrustructure
 			services.AddTransient<IAttendeeRepository, AttendeeRepository>();
 			services.AddTransient<ICommentRepository, CommentRepository>();
 			services.AddTransient<ICategoryRepository, CategoryRepository>();
+			services.AddTransient<ISpeakerRepository, SpeakerRepository>();
 			services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
-			
+
 			// views
 			services.AddTransient<IViewRepository<ViewUserEventEngagementSummary>, ViewUserEventEngagementSummaryRepository>();
 
