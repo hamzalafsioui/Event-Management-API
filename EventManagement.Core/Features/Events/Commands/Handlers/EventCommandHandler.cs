@@ -53,9 +53,9 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			// mapping between event & request
 			_mapper.Map(request, @event);
 			// call update service
-			var result = await _eventService.EditAsync(@event);
-			if (result != null)
-				return Success($"Edit Successfully In Id {@event.EventId}");
+			var result = await _eventService.EditAsync(@event, request.SpeakerIds);
+			if (result.IsSuccess)
+				return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
 			else
 				return BadRequest<string>();
 
@@ -70,7 +70,7 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 				return NotFound<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {request.EventId} {_stringLocalizer[SharedResourcesKeys.NotFound]}");
 			// call delete service
 			var result = await _eventService.DeleteAsync(@event);
-			if (result)
+			if (result.IsSuccess)
 				return Deleted<string>($"{_stringLocalizer[SharedResourcesKeys.EventId]} {@event.EventId} {_stringLocalizer[SharedResourcesKeys.Deleted]}");
 			else
 				return BadRequest<string>();
