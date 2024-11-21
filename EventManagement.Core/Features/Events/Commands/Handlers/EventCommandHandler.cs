@@ -35,11 +35,11 @@ namespace EventManagement.Core.Features.Events.Commands.Handlers
 			// mapping 
 			var newEvent = _mapper.Map<Event>(request);
 			// call add event service
-			var result = await _eventService.AddAsync(newEvent);
-			if (result != null)
-				return Success("Added Successfully");
+			var result = await _eventService.AddAsync(newEvent, request.SpeakerIds);
+			if (result.IsSuccess)
+				return Created<string>(_stringLocalizer[SharedResourcesKeys.Created]);
 			else
-				return BadRequest<string>();
+				return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
 
 		}
 
