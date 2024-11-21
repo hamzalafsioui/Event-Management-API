@@ -1,8 +1,11 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 using EventManagement.Data.Helper.Enums;
+using EventManagement.Infrustructure.Abstracts;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Linq.Expressions;
 
 namespace EventManagement.Service.Implementations
@@ -11,12 +14,14 @@ namespace EventManagement.Service.Implementations
 	{
 		#region Fields
 		private readonly IEventRepository _eventRepository;
+		private readonly ISpeakerRepository _speakerRepository;
 
 		#endregion
 		#region Constructors
-		public EventService(IEventRepository eventRepository)
+		public EventService(IEventRepository eventRepository, ISpeakerRepository speakerRepository)
 		{
 			_eventRepository = eventRepository;
+			_speakerRepository = speakerRepository;
 		}
 
 		#endregion
@@ -33,7 +38,50 @@ namespace EventManagement.Service.Implementations
 		}
 
 
-		public async Task<Event> AddAsync(Event @event) => await _eventRepository.AddAsync(@event);
+		public async Task<Result> AddAsync(Event @event, List<int>? speakerIds)
+		{
+			using (var transaction = await _eventRepository.BeginTransactionAsync())
+			{
+				try
+				{
+					// Add the event to the database
+					var createdEvent = await _eventRepository.AddAsync(@event);
+					if (createdEvent == null)
+						return Result.Failure("Failed to create the event.");
+
+					// Add speakers if provided
+					if (speakerIds != null && speakerIds.Any())
+					{
+						foreach (var speakerId in speakerIds)
+						{
+							// Ensure the speaker exists options : we validate this in validator
+							var speakerExists = await _speakerRepository.ExistsAsync(speakerId);
+							if (!speakerExists)
+								return Result.Failure($"Speaker with ID {speakerId} does not exist.");
+
+							// Create SpeakerEvent relationship
+							var speakerEvent = new SpeakerEvent
+							{
+								EventId = createdEvent.EventId,
+								SpeakerId = speakerId
+							};
+
+							await _eventRepository.AddSpeakerToEventAsync(speakerEvent);
+						}
+					}
+
+					await transaction.CommitAsync();
+					return Result.Success();
+				}
+				catch (Exception ex)
+				{
+					await transaction.RollbackAsync();
+					Log.Error($"Error adding event with speakers: {ex.Message}");
+					return Result.Failure("An unexpected error occurred.");
+				}
+
+			}
+		}
 		public async Task<Event> EditAsync(Event @event) => await _eventRepository.UpdateAsync(@event);
 		public async Task<bool> DeleteAsync(Event @event) => await _eventRepository.DeleteAsync(@event);
 
