@@ -11,6 +11,8 @@ namespace EventManagement.Infrustructure.Repositories
 		public Task<List<Event>> GetEventsByCategoryIdAsync(int categoryId);
 
 		public Task<bool> AddSpeakerToEventAsync(SpeakerEvent speakerEvent);
+		public Task<List<SpeakerEvent>> GetEventSpeakersAsync(int eventId);
+		public Task<bool> RemoveSpeakerRangeFromEventAsync(List<SpeakerEvent> speakerEvent);
 
 	}
 
