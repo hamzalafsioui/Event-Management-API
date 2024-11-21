@@ -10,6 +10,8 @@ namespace EventManagement.Infrustructure.Repositories
 		public Task<List<Event>> GetEventsByCreatorIdAsync(int creatorId);
 		public Task<List<Event>> GetEventsByCategoryIdAsync(int categoryId);
 
+		public Task<bool> AddSpeakerToEventAsync(SpeakerEvent speakerEvent);
+
 	}
 
 }

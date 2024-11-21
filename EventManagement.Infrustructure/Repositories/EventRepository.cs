@@ -10,12 +10,14 @@ namespace EventManagement.Infrustructure.Abstracts
 	{
 		#region Fields
 		private readonly DbSet<Event> _events;
+		private readonly DbSet<SpeakerEvent> _speakerEvent;
 		#endregion
 
 		#region Constructors
 		public EventRepository(AppDbContext dbContext) : base(dbContext)
 		{
 			_events = dbContext.Set<Event>();
+			_speakerEvent = dbContext.Set<SpeakerEvent>();
 		}
 
 
@@ -65,6 +67,11 @@ namespace EventManagement.Infrustructure.Abstracts
 				.Include(e => e.Category)
 				.Include(e => e.Creator)
 				.ToListAsync();
+		}
+
+		public async Task<bool> AddSpeakerToEventAsync(SpeakerEvent speakerEvent)
+		{
+			return await _speakerEvent.AddAsync(speakerEvent) != null;
 		}
 		#endregion
 
