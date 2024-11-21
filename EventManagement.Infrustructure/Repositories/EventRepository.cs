@@ -10,14 +10,16 @@ namespace EventManagement.Infrustructure.Abstracts
 	{
 		#region Fields
 		private readonly DbSet<Event> _events;
-		private readonly DbSet<SpeakerEvent> _speakerEvent;
+		private readonly ISpeakerEventRepository _speakerEventRepository;
+
 		#endregion
 
 		#region Constructors
-		public EventRepository(AppDbContext dbContext) : base(dbContext)
+		public EventRepository(AppDbContext dbContext,
+			ISpeakerEventRepository speakerEventRepository) : base(dbContext)
 		{
 			_events = dbContext.Set<Event>();
-			_speakerEvent = dbContext.Set<SpeakerEvent>();
+			_speakerEventRepository = speakerEventRepository;
 		}
 
 
@@ -71,8 +73,21 @@ namespace EventManagement.Infrustructure.Abstracts
 
 		public async Task<bool> AddSpeakerToEventAsync(SpeakerEvent speakerEvent)
 		{
-			return await _speakerEvent.AddAsync(speakerEvent) != null;
+			await _speakerEventRepository.AddAsync(speakerEvent);
+			return true;
 		}
+
+		public async Task<List<SpeakerEvent>> GetEventSpeakersAsync(int eventId)
+		{
+			var speakers = await _speakerEventRepository.GetTableNoTracking().Where(x => x.EventId.Equals(eventId)).ToListAsync();
+			return speakers;
+		}
+
+		public async Task<bool> RemoveSpeakerRangeFromEventAsync(List<SpeakerEvent> speakersEvent)
+		{
+			return await _speakerEventRepository.DeleteRangeAsync(speakersEvent);
+		}
+
 		#endregion
 
 	}
