@@ -55,20 +55,13 @@ namespace EventManagement.Service.Implementations
 				user.Role = UserRoleEnum.Speaker;
 				var updateUserRoleResult = await _userManager.UpdateAsync(user);
 				if (!updateUserRoleResult.Succeeded)
-				{
-					// Rollback speaker addition if role update fails
-					await _speakerRepository.DeleteAsync(newSpeaker);
 					return Result.Failure("Failed to update the user's role.");
-				}
 
 				// Add "Speaker" role to user's roles
 				var addToSpeakerRoleResult = await _userManager.AddToRoleAsync(user, "Speaker");
 				if (!addToSpeakerRoleResult.Succeeded)
-				{
-					// Rollback speaker addition if role assignment fails
-					await _speakerRepository.DeleteAsync(newSpeaker);
 					return Result.Failure("Failed to assign the Speaker role.");
-				}
+				
 
 				await transaction.CommitAsync();
 				return Result.Success();
@@ -126,13 +119,17 @@ namespace EventManagement.Service.Implementations
 			}
 		}
 
-		public async Task<bool> IsUserExist(int userId)
+		public async Task<bool> IsUserExistAsync(int userId)
 		{
 			var result = await _speakerRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.UserId.Equals(userId));
 			return result != null;
 		}
 
-
+		public async Task<bool> IsSpeakerExistAsync(int speakerId)
+		{
+			var result = await _speakerRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(speakerId));
+			return result != null;
+		}
 
 
 		#endregion
