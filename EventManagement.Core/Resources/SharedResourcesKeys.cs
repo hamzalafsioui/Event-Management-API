@@ -78,6 +78,7 @@
 
 		public const string UserNotFound = "UserNotFound";//
 		public const string UserNotFoundOrIsAlreadySpeaker = "UserNotFoundOrIsAlreadySpeaker";//
+		public const string SpeakerNotExist = "SpeakerNotExist";//
 
 
 
