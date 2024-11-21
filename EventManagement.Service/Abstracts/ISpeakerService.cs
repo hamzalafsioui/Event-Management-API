@@ -52,6 +52,11 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="userId">The <paramref name="userId"/> to check.</param>
 		/// <returns>A task that represents the asynchronous operation. The task result contains <see langword="true"/> if the user exists by userId; otherwise, <see langword="false"/>.</returns>
-		Task<bool> IsUserExist(int userId);
+		Task<bool> IsUserExistAsync(int userId);
+
+
+		Task<bool> IsSpeakerExistAsync(int speakerId);
+
+
 	}
 }
