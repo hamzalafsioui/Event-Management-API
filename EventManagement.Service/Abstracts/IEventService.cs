@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Helper;
 using EventManagement.Data.Helper.Enums;
 
 namespace EventManagement.Service.Abstracts
@@ -16,11 +17,11 @@ namespace EventManagement.Service.Abstracts
 		public Task<Event?> GetEventByIdAsync(int id);
 
 		/// <summary>
-		/// Adds a new <paramref name="event"/> to the system asynchronously.
+		/// Adds a new <paramref name="@event"/> to the system asynchronously.
 		/// </summary>
-		/// <param name="event">The <see cref="Event"/> entity to add.</param>
-		/// <returns>The added <see cref="Event"/> entity.</returns>
-		public Task<Event> AddAsync(Event @event);
+		/// <param name="@event">The <see cref="Event"/> entity to add.</param>
+		/// <returns><see cref="Result"/> class with values IsSuccess and ErrorMessage.</returns>
+		public Task<Result> AddAsync(Event @event, List<int>? speakerIds);
 
 		/// <summary>
 		/// Retrieves a list of all events asynchronously.
