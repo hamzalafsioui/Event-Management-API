@@ -42,14 +42,14 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="event">The updated <see cref="Event"/> entity.</param>
 		/// <returns>The updated <see cref="Event"/> entity.</returns>
-		public Task<Event> EditAsync(Event @event);
+		public Task<Result> EditAsync(Event @event, List<int> speakerIds);
 
 		/// <summary>
 		/// Deletes the specified <paramref name="event"/> from the system asynchronously.
 		/// </summary>
 		/// <param name="event">The <see cref="Event"/> entity to delete.</param>
 		/// <returns><see langword="true"/> if the operation succeeded; otherwise, <see langword="false"/>.</returns>
-		public Task<bool> DeleteAsync(Event @event);
+		public Task<Result> DeleteAsync(Event @event);
 
 		/// <summary>
 		/// Cancels the event with the specified <paramref name="eventId"/> asynchronously.

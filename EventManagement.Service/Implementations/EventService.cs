@@ -82,9 +82,83 @@ namespace EventManagement.Service.Implementations
 
 			}
 		}
-		public async Task<Event> EditAsync(Event @event) => await _eventRepository.UpdateAsync(@event);
-		public async Task<bool> DeleteAsync(Event @event) => await _eventRepository.DeleteAsync(@event);
+		public async Task<Result> EditAsync(Event @event, List<int>? speakerIds)
+		{
+			using var transaction = await _eventRepository.BeginTransactionAsync();
 
+			try
+			{
+				// Update the event details
+				var updatedEvent = await _eventRepository.UpdateAsync(@event);
+				if (updatedEvent == null)
+					return Result.Failure("Failed to update the event.");
+
+				// Update speakers if provided
+				if (speakerIds != null)
+				{
+					// Get the current speaker associations for the event
+					var currentSpeakers = await _eventRepository.GetEventSpeakersAsync(@event.EventId);
+
+					// Determine speakers to add and remove
+					var speakersToAdd = speakerIds.Except(currentSpeakers.Select(s => s.SpeakerId)).ToList();
+					var speakersToRemove = currentSpeakers.Where(s => !speakerIds.Contains(s.SpeakerId)).ToList();
+
+					// Remove speakers no longer associated
+					await _eventRepository.RemoveSpeakerRangeFromEventAsync(speakersToRemove);
+
+
+					// Add new speakers
+					foreach (var speakerId in speakersToAdd)
+					{
+						// Ensure the speaker exists
+						var speakerExists = await _speakerRepository.ExistsAsync(speakerId);
+						if (!speakerExists)
+							return Result.Failure($"Speaker with ID {speakerId} does not exist.");
+
+						// Add speaker to the event
+						var speakerEvent = new SpeakerEvent
+						{
+							EventId = @event.EventId,
+							SpeakerId = speakerId
+						};
+						await _eventRepository.AddSpeakerToEventAsync(speakerEvent);
+					}
+				}
+
+				await transaction.CommitAsync();
+				return Result.Success();
+			}
+			catch (Exception ex)
+			{
+				await transaction.RollbackAsync();
+				Log.Error($"Error in EditAsync: {ex.Message}");
+				return Result.Failure("An unexpected error occurred while updating the event.");
+			}
+		}
+		public async Task<Result> DeleteAsync(Event @event)
+		{
+			try
+			{
+				using var transaction = await _eventRepository.BeginTransactionAsync();
+				// Perform delete
+				var deleteEventResult = await _eventRepository.DeleteAsync(@event);
+
+				if (!deleteEventResult)
+					return Result.Failure("Failed to delete the event.");
+
+				// Delete Speakers related with event { will be deleted automatically coz relation is onCascade }
+
+				// Commit transaction
+				await transaction.CommitAsync();
+
+				return Result.Success();
+			}
+			catch (Exception ex)
+			{
+				Log.Error($"Error in DeleteAsync: {ex.Message}");
+				return Result.Failure("An error occurred while deleting the event.");
+			}
+		}
 
 		public async Task<List<Event>> GetEventsListAsync() => await _eventRepository.GetEventsListAsync();
 
@@ -166,6 +240,8 @@ namespace EventManagement.Service.Implementations
 
 			return await query.Include(x => x.Creator).ToListAsync();
 		}
+
+
 		#endregion
 
 
