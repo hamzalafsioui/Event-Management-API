@@ -50,7 +50,7 @@ namespace EventManagement.Core.Features.Speakers.Commands.Validations
 				{
 					var user = await _userManager.FindByIdAsync(key.ToString());
 					if (user == null) return false;
-					var isAlreadySpeaker = await _speakerService.IsUserExist(key);
+					var isAlreadySpeaker = await _speakerService.IsUserExistAsync(key);
 					return !isAlreadySpeaker;
 				})
 				.WithMessage($"{_stringLocalizer[SharedResourcesKeys.UserNotFoundOrIsAlreadySpeaker]}");
