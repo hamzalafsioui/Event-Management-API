@@ -11,15 +11,20 @@ namespace EventManagement.Core.Features.Events.Commands.Validatiors
 		#region Fields
 		private readonly IEventService _eventService;
 		private readonly ICategoryService _categoryService;
+		private readonly ISpeakerService _speakerService;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
 		#endregion
 		#region Constructors
-		public AddEventValidator(IEventService eventService, ICategoryService categoryService, IStringLocalizer<SharedResources> stringLocalizer)
+		public AddEventValidator(IEventService eventService,
+			ICategoryService categoryService,
+			ISpeakerService speakerService,
+			IStringLocalizer<SharedResources> stringLocalizer)
 		{
 			_eventService = eventService;
 			_categoryService = categoryService;
-			this._stringLocalizer = stringLocalizer;
+			_stringLocalizer = stringLocalizer;
+			_speakerService = speakerService;
 			ApplyValidationsRules();
 			ApplyCustomValidationsRules();
 		}
@@ -72,6 +77,21 @@ namespace EventManagement.Core.Features.Events.Commands.Validatiors
 				}).WithMessage(_stringLocalizer[$"{_stringLocalizer[SharedResourcesKeys.EndTime]} {_stringLocalizer[SharedResourcesKeys.MustBeAfter]} {_stringLocalizer[SharedResourcesKeys.StartTime]}"]);
 
 			// check is exist a conflict StartTime & EndTime with Other Event
+
+			// check is Speakers exist
+			RuleFor(x => x.SpeakerIds)
+				.MustAsync(async (SpeakerIds, cancellationToken) =>
+				{
+					if (SpeakerIds is null)
+						return true;
+					foreach (var speakerId in SpeakerIds)
+					{
+						if (!await _speakerService.IsSpeakerExistAsync(speakerId))
+							return false;
+
+					}
+					return true;
+				}).WithMessage(_stringLocalizer[SharedResourcesKeys.SpeakerNotExist]);
 		}
 		#endregion
 	}
