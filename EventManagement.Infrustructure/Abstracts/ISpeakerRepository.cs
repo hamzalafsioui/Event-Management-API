@@ -10,5 +10,7 @@ namespace EventManagement.Infrustructure.Abstracts
 		/// </summary>
 		/// <returns>A list of <see cref="Speaker"/> entities.</returns>
 		public Task<List<Speaker>> GetSpeakersListAsync();
+
+		public Task<bool> ExistsAsync(int speakerId);
 	}
 }

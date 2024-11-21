@@ -18,6 +18,11 @@ namespace EventManagement.Infrustructure.Repositories
 			_speakers = dbContext.Set<Speaker>();
 		}
 
+		public async Task<bool> ExistsAsync(int speakerId)
+		{
+			return (await _speakers.FirstOrDefaultAsync(x=>x.Id == speakerId)) != null;
+		}
+
 
 		#endregion
 
