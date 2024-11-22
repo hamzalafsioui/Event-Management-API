@@ -33,6 +33,7 @@ namespace EventManagement.Service.Implementations
 															  .Include(e => e.Category)
 															   .Include(e => e.Attendees).ThenInclude(a => a.User)
 															   .Include(e => e.Comments).ThenInclude(c => c.User)
+															   .Include(e => e.SpeakerEvents).ThenInclude(s => s.Speaker.User)
 															  .FirstOrDefaultAsync();
 			return result!;
 		}
@@ -172,6 +173,8 @@ namespace EventManagement.Service.Implementations
 												 x.Creator.UserName!.Contains(search) ||
 												 x.Location.Contains(search));
 			}
+			// include Speakers
+			queryable = queryable.Include(x => x.SpeakerEvents).ThenInclude(x => x.Speaker.User);
 
 			// Map the ordering enum to a sorting expression
 			Expression<Func<Event, object>> orderExpression = orderingEnum switch
@@ -220,6 +223,7 @@ namespace EventManagement.Service.Implementations
 			var result = await _eventRepository.GetTableNoTracking()
 				.Where(x => x.CategoryId.Equals(categoryId))
 				.Include(x => x.Creator)
+				.Include(x => x.SpeakerEvents).ThenInclude(x => x.Speaker.User)
 				.ToListAsync();
 			return result;
 		}
@@ -238,7 +242,10 @@ namespace EventManagement.Service.Implementations
 				query = query.Where(x => x.StartTime <= DateTime.UtcNow);
 			}
 
-			return await query.Include(x => x.Creator).ToListAsync();
+			return await query.Include(x => x.Creator)
+				.Include(x => x.SpeakerEvents)
+				.ThenInclude(x => x.Speaker.User)
+				.ToListAsync();
 		}
 
 
