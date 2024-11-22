@@ -1,4 +1,4 @@
-﻿using EventManagement.Core.Features.Users.Queries.Results;
+﻿using EventManagement.Core.Features.Users.Queries.Responses;
 using EventManagement.Data.Entities.Views;
 
 namespace EventManagement.Core.Mapping.Users

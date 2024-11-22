@@ -1,5 +1,5 @@
 ﻿using EventManagement.Core.Bases;
-using EventManagement.Core.Features.Events.Queries.Response;
+using EventManagement.Core.Features.Events.Queries.Responses;
 using EventManagement.Data.Helper.Enums;
 using MediatR;
 

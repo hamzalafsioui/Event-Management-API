@@ -1,5 +1,5 @@
 ﻿using EventManagement.Core.Bases;
-using EventManagement.Core.Features.Users.Queries.Results;
+using EventManagement.Core.Features.Users.Queries.Responses;
 using MediatR;
 
 namespace EventManagement.Core.Features.Users.Queries.Models

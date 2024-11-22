@@ -1,5 +1,5 @@
 ﻿using EventManagement.Core.Features.Users.Queries.Models;
-using EventManagement.Core.Features.Users.Queries.Results;
+using EventManagement.Core.Features.Users.Queries.Responses;
 using EventManagement.Data.Entities.SPs;
 
 namespace EventManagement.Core.Mapping.Users

@@ -1,4 +1,4 @@
-﻿namespace EventManagement.Core.Features.Events.Queries.Response
+﻿namespace EventManagement.Core.Features.Events.Queries.Responses
 {
 	public class GetUpcomingOrPastEventsListResponse
 	{

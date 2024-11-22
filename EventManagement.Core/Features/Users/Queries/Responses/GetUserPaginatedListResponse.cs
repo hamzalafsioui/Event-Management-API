@@ -1,4 +1,4 @@
-﻿namespace EventManagement.Core.Features.Users.Queries.Results
+﻿namespace EventManagement.Core.Features.Users.Queries.Responses
 {
 	public record GetUserPaginatedListResponse
 	{

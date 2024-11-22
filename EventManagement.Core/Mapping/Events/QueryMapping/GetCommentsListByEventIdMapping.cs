@@ -1,4 +1,4 @@
-﻿using EventManagement.Core.Features.Events.Queries.Response;
+﻿using EventManagement.Core.Features.Events.Queries.Responses;
 using EventManagement.Data.Entities;
 using System;
 using System.Collections.Generic;

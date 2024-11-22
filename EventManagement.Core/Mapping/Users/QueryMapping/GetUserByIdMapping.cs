@@ -1,9 +1,9 @@
-﻿using EventManagement.Core.Features.Users.Queries.Results;
+﻿using EventManagement.Core.Features.Users.Queries.Responses;
 using EventManagement.Data.Entities.Identity;
 
 namespace EventManagement.Core.Mapping.Users
 {
-    public partial class UserProfile
+	public partial class UserProfile
 	{
 		public void GetUserByIdMapping()
 		{

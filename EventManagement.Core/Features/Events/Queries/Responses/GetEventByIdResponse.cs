@@ -1,6 +1,6 @@
 ﻿using EventManagement.Core.Wrappers;
 
-namespace EventManagement.Core.Features.Events.Queries.Response
+namespace EventManagement.Core.Features.Events.Queries.Responses
 {
 	public class GetEventByIdResponse
 	{

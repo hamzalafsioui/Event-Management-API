@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EventManagement.Core.Features.Events.Queries.Response;
+using EventManagement.Core.Features.Events.Queries.Responses;
 using EventManagement.Data.Entities;
 
 namespace EventManagement.Core.Mapping.Events

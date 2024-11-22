@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Events.Queries.Models;
-using EventManagement.Core.Features.Events.Queries.Response;
+using EventManagement.Core.Features.Events.Queries.Responses;
 using EventManagement.Core.Resources;
 using EventManagement.Core.Wrappers;
 using EventManagement.Data.Entities;
