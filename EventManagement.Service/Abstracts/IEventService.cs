@@ -20,7 +20,7 @@ namespace EventManagement.Service.Abstracts
 		/// Adds a new <paramref name="@event"/> to the system asynchronously.
 		/// </summary>
 		/// <param name="@event">The <see cref="Event"/> entity to add.</param>
-		/// <returns><see cref="Result"/> class with values IsSuccess and ErrorMessage.</returns>
+		/// <returns><see cref="Result"/> class with values <see langword="IsSuccess"/> and <see langword="ErrorMessage"/>.</returns>
 		public Task<Result> AddAsync(Event @event, List<int>? speakerIds);
 
 		/// <summary>
@@ -41,14 +41,14 @@ namespace EventManagement.Service.Abstracts
 		/// Updates the specified <paramref name="event"/> asynchronously.
 		/// </summary>
 		/// <param name="event">The updated <see cref="Event"/> entity.</param>
-		/// <returns>The updated <see cref="Event"/> entity.</returns>
+		/// <returns><see cref="Result"/> class with values <see langword="IsSuccess"/> and <see langword="ErrorMessage"/>.</returns>
 		public Task<Result> EditAsync(Event @event, List<int> speakerIds);
 
 		/// <summary>
 		/// Deletes the specified <paramref name="event"/> from the system asynchronously.
 		/// </summary>
 		/// <param name="event">The <see cref="Event"/> entity to delete.</param>
-		/// <returns><see langword="true"/> if the operation succeeded; otherwise, <see langword="false"/>.</returns>
+		/// <returns><see cref="Result"/> class with values <see langword="IsSuccess"/> and <see langword="ErrorMessage"/>.</returns>
 		public Task<Result> DeleteAsync(Event @event);
 
 		/// <summary>
