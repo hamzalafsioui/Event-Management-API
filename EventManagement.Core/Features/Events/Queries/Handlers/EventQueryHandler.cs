@@ -76,7 +76,7 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 
 		public async Task<Response<List<GetEventListResponse>>> Handle(GetEventListQuery request, CancellationToken cancellationToken)
 		{
-			// cal event service to retrieve list
+			// call event service to retrieve list
 			var eventList = await _eventService.GetEventsListAsync();
 			// initial mapping
 			var eventListMapping = _mapper.Map<List<GetEventListResponse>>(eventList);
@@ -94,7 +94,8 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 		{
 			Expression<Func<Event, GetEventPaginatedListResponse>> expression = e => new GetEventPaginatedListResponse(
 													e.EventId, e.Title, e.Description, e.Location, e.StartTime, e.EndTime,
-													e.Category.Name, e.Creator.UserName!, e.Capacity, e.CreatedAt);
+													e.Category.Name, e.Creator.UserName!, e.Capacity, e.CreatedAt,
+													e.SpeakerEvents.Select(x => new SpeakerResponse() { SpeakerName = $"{x.Speaker.User.FirstName} {x.Speaker.User.LastName}", Bio = x.Speaker.Bio }));
 
 			var filterQuery = _eventService.FilterEventsPaginatedQueryable(request.OrderBy, request.Search!);
 			var paginatedList = await filterQuery.Select(expression).ToPaginatedListAsync(request.PageNumber, request.PageSize);
@@ -102,6 +103,7 @@ namespace EventManagement.Core.Features.Events.Queries.Handlers
 			{
 				Count = paginatedList.Data.Count,
 			};
+
 			return paginatedList;
 
 		}
