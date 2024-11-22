@@ -35,7 +35,7 @@
 			public const string GetAttendees = Prefix + "/{eventId}/attendees";
 			public const string UpdateStatus = Prefix + "/{id}/status";
 			public const string GetEventsByCategoryId = Prefix + "/category/{categoryId}";
-			public const string UpcomingOrPast = Prefix + "/upcomingOrPast";
+			public const string UpcomingOrPast = Prefix + "/Upcoming-Or-Past";
 
 			public const string AddComment = Prefix + "/{eventId}/Comment";
 			public const string GetComments = Prefix + "/{eventId}/comments";
