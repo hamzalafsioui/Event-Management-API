@@ -33,6 +33,7 @@ namespace EventManagement.Infrustructure.Abstracts
 			var @events = await _events.AsNoTracking()
 				.Include(x => x.Category)
 				.Include(x => x.Creator)
+				.Include(x => x.SpeakerEvents).ThenInclude(x => x.Speaker.User)
 				.ToListAsync();
 
 			return events;
