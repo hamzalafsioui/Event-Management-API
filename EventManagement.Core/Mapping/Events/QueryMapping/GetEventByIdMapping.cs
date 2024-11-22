@@ -9,9 +9,17 @@ namespace EventManagement.Core.Mapping.Events
 
 		private void GetEventByIdMapping()
 		{
+
 			CreateMap<Event, GetEventByIdResponse>()
+				.ForMember(dest => dest.SpeakersList, opt => opt.MapFrom(src => src.SpeakerEvents))
 				.ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
 				.ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator != null ? src.Creator.UserName : "Unknown"));
+
+
+			CreateMap<SpeakerEvent, SpeakerResponse>()
+				.ForMember(dest => dest.SpeakerName, opt => opt.MapFrom(src => $"{src.Speaker.User.FirstName} {src.Speaker.User.LastName}"))
+				.ForMember(dest => dest.Bio, opt => opt.MapFrom(src => src.Speaker.Bio));
+
 			//	.ForMember(dest => dest.AttendeesList, opt => opt.MapFrom(src => src.Attendees))
 			//.ForMember(dest => dest.CommentsList, opt => opt.MapFrom(src => src.Comments));
 
