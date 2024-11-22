@@ -31,7 +31,11 @@ namespace EventManagement.Core.Middleware
 					Succeded = false,
 					Message = error?.Message!
 				};
-				Log.Error(error,error!.Message, context.Request, "");
+
+				// skiping Fluent Validation Errors because it's not an error in the system (client Error)
+				if (error is not FluentValidation.ValidationException)
+					Log.Error(error, error!.Message, context.Request);
+
 				// in the future will cover all validation errors
 				switch (error)
 				{
@@ -77,7 +81,7 @@ namespace EventManagement.Core.Middleware
 						break;
 					default:
 						// unhandled error
-						responseModel.Message = "Please The Application Admin";
+						responseModel.Message = "Please Contact The Application Admin";
 						responseModel.StatusCode = HttpStatusCode.InternalServerError;
 						response.StatusCode = (int)HttpStatusCode.InternalServerError;
 						break;
