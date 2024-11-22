@@ -24,7 +24,7 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="attendee">The speaker entity to be added.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a result of the added <see cref="Speaker"/>.
+		///<see cref="Result"/> class with values <see langword="IsSuccess"/> and <see langword="ErrorMessage"/>.
 		/// </returns>
 		Task<Result> AddAsync(Speaker speaker);
 
@@ -33,7 +33,7 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="speaker">The speaker entity with updated information.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a Result of the updated <see cref="Speaker"/>.
+		///<see cref="Result"/> class with values <see langword="IsSuccess"/> and <see langword="ErrorMessage"/>.
 		/// </returns>
 		Task<Result> UpdateAsyc(Speaker speaker);
 
@@ -42,7 +42,7 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="speaker">The speaker entity to be deleted.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a Result indicating whether the deletion was successful.
+		/// <see cref="Result"/> class with values <see langword="IsSuccess"/> and <see langword="ErrorMessage"/>.
 		/// </returns>
 		Task<Result> DeleteAsync(Speaker speaker);
 
@@ -55,6 +55,11 @@ namespace EventManagement.Service.Abstracts
 		Task<bool> IsUserExistAsync(int userId);
 
 
+		/// <summary>
+		/// Checks if a <paramref name="speakerId"/> exists in the speakers.
+		/// </summary>
+		/// <param name="speakerId">The <paramref name="speakerId"/> to check.</param>
+		/// <returns>A task that represents the asynchronous operation. The task result contains <see langword="true"/> if the Speaker exists by speakerId; otherwise, <see langword="false"/>.</returns>
 		Task<bool> IsSpeakerExistAsync(int speakerId);
 
 
