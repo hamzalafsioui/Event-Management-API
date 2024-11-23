@@ -6,9 +6,9 @@
 	public interface IEmailService
 	{
 		/// <summary>
-		/// Sends an email asynchronously to the specified <paramref name="toEmail"/> with the provided <paramref name="message"/> and <paramref name="subject"/>.
+		/// Sends an email asynchronously to the specified <paramref name="email"/> with the provided <paramref name="message"/> and <paramref name="subject"/>.
 		/// </summary>
-		/// <param name="toEmail">The recipient's email address.</param>
+		/// <param name="email">The recipient's email address.</param>
 		/// <param name="message">The content of the email message in HTML format.</param>
 		/// <param name="subject">The subject of the email.</param>
 		/// <returns>
