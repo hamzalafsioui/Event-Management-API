@@ -53,7 +53,7 @@ namespace EventManagement.Service.Abstracts
 		/// Checks if a comment exists in the database by its <paramref name="commentId"/> asynchronously.
 		/// </summary>
 		/// <param name="commentId">The unique identifier of the comment.</param>
-		/// <returns><c>true</c> if the comment exists; otherwise, <c>false</c>.</returns>
+		/// <returns><c><see langword="true"/></c> if the <see cref="Comment"/> exists; otherwise, <c><see langword="false"/></c>.</returns>
 		Task<bool> IsCommentExistByIdAsync(int commentId);
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace EventManagement.Service.Abstracts
 		/// Deletes a <paramref name="comment"/> from the database asynchronously.
 		/// </summary>
 		/// <param name="comment">The <see cref="Comment"/> entity to delete.</param>
-		/// <returns><c>true</c> if the delete operation succeeded; otherwise, <c>false</c>.</returns>
+		/// <returns><c><see langword="true"/></c> if the delete operation succeeded; otherwise, <c><see langword="false"/></c>.</returns>
 		Task<bool> DeleteAsync(Comment comment);
 	}
 }
