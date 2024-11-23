@@ -153,6 +153,7 @@ app.UseRequestLocalization(options!.Value);
 #region Custom Middleware
 // Middlewares
 app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<RateLimitingMiddleware>();
 
 #endregion
 
