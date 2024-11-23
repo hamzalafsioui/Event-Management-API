@@ -76,7 +76,7 @@ namespace EventManagement.Service.Abstracts
 		/// Retrieves a list of either upcoming or past events based on the specified <paramref name="comparison"/> criteria asynchronously.
 		/// </summary>
 		/// <param name="comparison">The <see cref="DateTimeComparison"/> criterion for filtering events.</param>
-		/// <returns>A list of <see cref="Event"/> entities that match the comparison criterion.</returns>
+		/// <returns>A list of <see cref="Event"/> entities that match the <paramref name="comparison"/> criterion.</returns>
 		public Task<List<Event>> GetUpcomingOrPastEventsList(DateTimeComparison comparison);
 
 	}
