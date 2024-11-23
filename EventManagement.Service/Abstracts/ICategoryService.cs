@@ -11,7 +11,7 @@ namespace EventManagement.Service.Abstracts
 		/// Checks if a category exists in the database by its <paramref name="categoryId"/> asynchronously.
 		/// </summary>
 		/// <param name="categoryId">The unique identifier of the category.</param>
-		/// <returns><c>true</c> if the category exists; otherwise, <c>false</c>.</returns>
+		/// <returns><c><see langword="true"/></c> if the category exists; otherwise, <c><see langword="true"/></c>.</returns>
 		public Task<bool> IsCategoryIdExist(int categoryId);
 
 		/// <summary>
@@ -24,14 +24,14 @@ namespace EventManagement.Service.Abstracts
 		/// Retrieves a category by its <paramref name="categoryId"/> asynchronously.
 		/// </summary>
 		/// <param name="categoryId">The unique identifier of the category.</param>
-		/// <returns>The <see cref="Category"/> entity if found; otherwise, <c>null</c>.</returns>
+		/// <returns>The <see cref="Category"/> entity if found; otherwise, <c><see langword="null"/></c>.</returns>
 		public Task<Category?> GetCategoryByIdAsync(int categoryId);
 
 		/// <summary>
 		/// Checks if a <paramref name="categoryName"/> exists in the system asynchronously.
 		/// </summary>
 		/// <param name="categoryName">The name of the category to check.</param>
-		/// <returns><c>true</c> if the category name exists; otherwise, <c>false</c>.</returns>
+		/// <returns><c><see langword="true"/></c> if the category name exists; otherwise, <c><see langword="false"/></c>.</returns>
 		public Task<bool> IsCategoryNameExistAsync(string categoryName);
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="categoryName">The name of the category to check.</param>
 		/// <param name="categoryId">The unique identifier of the category to exclude.</param>
-		/// <returns><c>true</c> if the <paramref name="categoryName"/> exists; otherwise, <c>false</c>.</returns>
+		/// <returns><c><see langword="true"/></c> if the <paramref name="categoryName"/> exists; otherwise, <c><see langword="false"/></c>.</returns>
 		public Task<bool> IsCategoryNameExistExcludeSelfAsync(string categoryName, int categoryId);
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace EventManagement.Service.Abstracts
 		/// Deletes a <paramref name="category"/> from the database asynchronously.
 		/// </summary>
 		/// <param name="category">The <see cref="Category"/> entity to delete.</param>
-		/// <returns><c>true</c> if the delete operation succeeded; otherwise, <c>false</c>.</returns>
+		/// <returns><c><see langword="true"/></c> if the delete operation succeeded; otherwise, <c><see langword="false"/></c>.</returns>
 		public Task<bool> DeleteAsync(Category category);
 	}
 }
