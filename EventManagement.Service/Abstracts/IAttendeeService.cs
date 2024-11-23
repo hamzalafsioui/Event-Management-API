@@ -18,7 +18,7 @@ namespace EventManagement.Service.Abstracts
 		IQueryable<Attendee> GetAttendeesByEventIdQueryable(int eventId);
 
 		/// <summary>
-		/// Adds a new attendee to the event.
+		/// Adds a new <paramref name="attendee"/> to the event.
 		/// </summary>
 		/// <param name="attendee">The attendee entity to be added.</param>
 		/// <returns>
@@ -27,17 +27,17 @@ namespace EventManagement.Service.Abstracts
 		Task<Attendee> AddAsync(Attendee attendee);
 
 		/// <summary>
-		/// Retrieves an attendee by user ID and event ID.
+		/// Retrieves an attendee by <paramref name="userId"/> and <paramref name="eventId"/>.
 		/// </summary>
 		/// <param name="userId">The ID of the user.</param>
 		/// <param name="eventId">The ID of the event.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a result of the <see cref="Attendee"/> if found, or null if not found.
+		/// A task representing the asynchronous operation, with a result of the <see cref="Attendee"/> if found, or <see langword="null"/> if not found.
 		/// </returns>
 		Task<Attendee?> GetAttendeeByUserIdEventIdAsync(int userId, int eventId);
 
 		/// <summary>
-		/// Updates an existing attendee's details.
+		/// Updates an existing <paramref name="attendee"/>'s details.
 		/// </summary>
 		/// <param name="attendee">The attendee entity with updated information.</param>
 		/// <returns>
@@ -46,11 +46,11 @@ namespace EventManagement.Service.Abstracts
 		Task<Attendee> UpdateAsyc(Attendee attendee);
 
 		/// <summary>
-		/// Deletes the specified attendee from the event.
+		/// Deletes the specified <paramref name="attendee"/> from the event.
 		/// </summary>
 		/// <param name="attendee">The attendee entity to be deleted.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a boolean indicating whether the deletion was successful.
+		/// A task representing the asynchronous operation, with a <see langword="bool"/> indicating whether the deletion was successful.
 		/// </returns>
 		Task<bool> DeleteAsync(Attendee attendee);
 
@@ -69,7 +69,7 @@ namespace EventManagement.Service.Abstracts
 		/// <param name="eventId">The ID of the event.</param>
 		/// <param name="userId">The ID of the user.</param>
 		/// <returns>
-		/// A task representing the asynchronous operation, with a boolean indicating whether the user has attended the event.
+		/// A task representing the asynchronous operation, with a <see langword="bool"/> indicating whether the user has attended the event.
 		/// </returns>
 		public Task<bool> IsUserAttendedEvent(int eventId, int userId);
 
