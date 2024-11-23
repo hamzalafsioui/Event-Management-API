@@ -74,7 +74,7 @@ namespace EventManagement.Service.Abstracts
 		/// <param name="userId">The ID of the user whose email is being confirmed.</param>
 		/// <param name="code">The email confirmation code sent to the user.</param>
 		/// <returns>
-		/// A string indicating the result of the email confirmation process.
+		/// A <see langword="string"/> indicating the result of the email confirmation process.
 		/// <list type="bullet">
 		/// <item><description><c>"Success"</c>: The email was successfully confirmed.</description></item>
 		/// <item><description><c>"ErrorWhenConfirmEmail"</c>: There was an error while confirming the email.</description></item>
@@ -87,7 +87,7 @@ namespace EventManagement.Service.Abstracts
 		/// </summary>
 		/// <param name="email">The email address of the user requesting a password reset.</param>
 		/// <returns>
-		/// A string indicating the result of the password reset code sending process.
+		/// A <see langword="string"/> indicating the result of the password reset code sending process.
 		/// <list type="bullet">
 		/// <item><description><c>"Success"</c>: The reset code was successfully generated, updated, and sent to the user's email.</description></item>
 		/// <item><description><c>"ErrorInUpdatedUser"</c>: There was an error updating the user's record with the generated code.</description></item>
@@ -103,7 +103,7 @@ namespace EventManagement.Service.Abstracts
 		/// <param name="email">The email address of the user attempting to reset their password.</param>
 		/// <param name="code">The password reset code entered by the user.</param>
 		/// <returns>
-		/// A string indicating the result of the confirmation process.
+		/// A <see langword="string"/> indicating the result of the confirmation process.
 		/// <list type="bullet">
 		/// <item><description><c>"Success"</c>: The code matches the stored code, confirming the password reset process.</description></item>
 		/// <item><description><c>"UserNotFound"</c>: The user with the provided email was not found.</description></item>
@@ -119,7 +119,7 @@ namespace EventManagement.Service.Abstracts
 		/// <param name="email">The email address of the user whose password is to be reset.</param>
 		/// <param name="password">The new password to be set for the user.</param>
 		/// <returns>
-		/// A string indicating the result of the password reset process.
+		/// A <see langword="string"/> indicating the result of the password reset process.
 		/// <list type="bullet">
 		/// <item><description><c>"Success"</c>: The password was successfully reset.</description></item>
 		/// <item><description><c>"UserNotFound"</c>: No user was found with the provided email.</description></item>
@@ -128,6 +128,15 @@ namespace EventManagement.Service.Abstracts
 		/// </returns>
 		public Task<string> ResetPasswordAsync(string email, string password);
 
+		/// <summary>
+		/// Sends a confirmation email to the specified <paramref name="user"/> with a link to confirm their email address.
+		/// </summary>
+		/// <param name="user">The user to whom the confirmation email will be sent.</param>
+		/// <returns>
+		/// The task <see cref="string"/>  indicating the status of the operation:
+		/// - <b>"Success"</b> if the email was sent successfully.
+		/// - <b>"FailedWhenSendEmail"</b> if sending the email failed.
+		/// </returns>
 		public Task<string> SendConfirmEmailAsync(User user);
 
 	}
