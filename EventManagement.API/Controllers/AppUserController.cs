@@ -9,8 +9,8 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace EventManagement.API.Controllers
 {
 	[ApiController]
-	[Authorize(Roles = "Admin")]
-	public class UserController : AppControllerBase
+	//[Authorize(Roles = "Admin")]
+	public class AppUserController : AppControllerBase
 	{
 
 		#region  Functions
@@ -24,6 +24,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Attendee,User")]
 		public async Task<IActionResult> GetUserList()
 		{
 			var response = await Mediator.Send(new GetUserListQuery());
