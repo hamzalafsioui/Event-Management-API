@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Helper;
 using EventManagement.Data.Helper.Authentication;
 using EventManagement.Data.Helper.Email;
 using EventManagement.Infrustructure.Context;
@@ -29,6 +30,11 @@ namespace EventManagement.Infrustructure
 			var SmtpSettings = new SmtpSettings();
 			configuration.GetSection(nameof(SmtpSettings)).Bind(SmtpSettings);
 			services.AddSingleton(SmtpSettings);
+
+			// Rate Limiting:
+			var RateLimiting = new RateLimiting();
+			configuration.GetSection(nameof(RateLimiting)).Bind(RateLimiting);
+			services.AddSingleton(RateLimiting);
 
 
 			// Add Identity Services with the necessary configuration for user management
