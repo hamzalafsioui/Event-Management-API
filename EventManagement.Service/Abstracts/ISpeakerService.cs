@@ -20,7 +20,7 @@ namespace EventManagement.Service.Abstracts
 
 
 		/// <summary>
-		/// Adds a new speaker to the speakers.
+		/// Adds a new <paramref name="speaker"/> to the speakers.
 		/// </summary>
 		/// <param name="attendee">The speaker entity to be added.</param>
 		/// <returns>
@@ -29,7 +29,7 @@ namespace EventManagement.Service.Abstracts
 		Task<Result> AddAsync(Speaker speaker);
 
 		/// <summary>
-		/// Updates an existing speaker's details.
+		/// Updates an existing <paramref name="speaker"/> details.
 		/// </summary>
 		/// <param name="speaker">The speaker entity with updated information.</param>
 		/// <returns>
@@ -38,7 +38,7 @@ namespace EventManagement.Service.Abstracts
 		Task<Result> UpdateAsyc(Speaker speaker);
 
 		/// <summary>
-		/// Deletes the specified speaker from the speakers.
+		/// Deletes the specified <paramref name="speaker"/> from the speakers.
 		/// </summary>
 		/// <param name="speaker">The speaker entity to be deleted.</param>
 		/// <returns>
