@@ -6,16 +6,16 @@ namespace EventManagement.Core.Bases
 	{
 		public HttpStatusCode StatusCode { get; set; }
 		public bool Succeded { get; set; }
-		public string Message { get; set; }
-		public object Meta { get; set; }
-		public List<string> Errors { get; set; }
-		public T Data { get; set; }
+		public string? Message { get; set; }
+		public object? Meta { get; set; }
+		public List<string>? Errors { get; set; }
+		public T? Data { get; set; }
 
 		public Response()
 		{
 
 		}
-		public Response(T data, string message = null)
+		public Response(T data, string message = null!)
 		{
 			Succeded = true; // because Response contains data
 			Message = message;
