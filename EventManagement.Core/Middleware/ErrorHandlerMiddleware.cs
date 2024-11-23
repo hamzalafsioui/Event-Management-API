@@ -115,8 +115,8 @@ namespace EventManagement.Core.Middleware
 
 					// For operation cancellations, such as a canceled task (when an operation is canceled)
 					case OperationCanceledException canceledException:
-						responseModel = CreateErrorResponse(canceledException, HttpStatusCode.RequestTimeout, "The operation was canceled.");
-						response!.StatusCode = (int)HttpStatusCode.RequestTimeout;
+						responseModel = CreateErrorResponse(canceledException, HttpStatusCode.BadRequest, "The operation was canceled.");
+						response!.StatusCode = (int)HttpStatusCode.BadRequest;
 						break;
 
 					// For timeout errors during database or network operations
