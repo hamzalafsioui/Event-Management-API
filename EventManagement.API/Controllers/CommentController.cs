@@ -2,6 +2,7 @@
 using EventManagement.Core.Features.Comments.Commands.Models;
 using EventManagement.Core.Features.Comments.Queries.Models;
 using EventManagement.Data.AppMetaData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -21,11 +22,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]
 		public async Task<IActionResult> GetCommentById([FromRoute] GetCommentByIdQuery getCommentByIdQuery)
 		{
 			var response = await Mediator.Send(getCommentByIdQuery);
 			return NewResult(response);
 		}
+
 		[HttpPut(Router.CommentRouting.Edit)]
 		[SwaggerOperation(
 			Summary = "Edit Comment",
@@ -37,6 +40,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")] // Authorize for Admin, Speaker, Attendee, and User roles
 		public async Task<IActionResult> Edit([FromBody] EditCommentCommand editCommentCommand)
 		{
 			var response = await Mediator.Send(editCommentCommand);
@@ -52,6 +56,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")] // Authorize for Admin, Speaker, Attendee, and User roles
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new DeleteCommentCommand(id));
