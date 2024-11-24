@@ -9,7 +9,6 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace EventManagement.API.Controllers
 {
 	[ApiController]
-	//[Authorize(Roles = "Admin")]
 	public class AppUserController : AppControllerBase
 	{
 
@@ -21,10 +20,10 @@ namespace EventManagement.API.Controllers
 		   Description = "<h3>Details</h3><p>Retrieve a list of all users.</p>"
 	   )]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-		[Authorize(Roles = "Admin,Attendee,User")]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Authorize(Roles = "Admin")]  // Only Admin can view all users
 		public async Task<IActionResult> GetUserList()
 		{
 			var response = await Mediator.Send(new GetUserListQuery());
@@ -40,6 +39,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")]  // Only Admin can view all users
 		public async Task<IActionResult> Paginated([FromQuery] GetUserPaginatedListQuery query)
 		{
 			var response = await Mediator.Send(query);
@@ -53,10 +53,10 @@ namespace EventManagement.API.Controllers
 		Description = "<h3>Details</h3><p>Retrieve user details by their unique identifier.</p>"
 	)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Authorize(Roles = "Admin")]  // Only Admin can retrieve any user details
 		public async Task<IActionResult> GetUserById([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new GetUserByIdQuery(id));
@@ -64,7 +64,6 @@ namespace EventManagement.API.Controllers
 		}
 
 		[HttpPost(Router.UserRouting.Create)]
-		[AllowAnonymous]
 		[SwaggerOperation(
 		Summary = "Create User",
 		OperationId = "CreateUser",
@@ -72,6 +71,7 @@ namespace EventManagement.API.Controllers
 	)]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[AllowAnonymous] // Create User, available to everyone
 		public async Task<IActionResult> Create([FromForm] AddUserCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -85,11 +85,10 @@ namespace EventManagement.API.Controllers
 		Description = "<h3>Details</h3><p>Update the details of an existing user.</p>"
 	)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]  // Any authenticated user can edit their own details
 		public async Task<IActionResult> Edit([FromForm] EditUserCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -106,6 +105,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")]  // Only Admin can delete a user
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new DeleteUserCommand(id));
@@ -121,7 +121,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]  // Any user can change their own password
 		public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -134,9 +134,9 @@ namespace EventManagement.API.Controllers
 		Description = "<h3>Details</h3><p>Retrieve comments made by a specific user.</p>"
 	)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]  // Any user can view their own comments
 		public async Task<IActionResult> GetUserComments([FromRoute] int userId)
 		{
 			var response = await Mediator.Send(new GetUserCommentsQuery(userId));
@@ -150,6 +150,7 @@ namespace EventManagement.API.Controllers
 		Description = "<h3>Details</h3><p>Retrieve a summary of the user's engagement with events.</p>"
 	)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]  // Any user can view their own event summary
 		public async Task<IActionResult> GetUserEventEngagementSummary()
 		{
 			var response = await Mediator.Send(new GetUserEventEngagementSummaryQuery());
@@ -164,7 +165,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]  // Any user can view their own event engagement details
 		public async Task<IActionResult> GetUserEventEngagementDetailsByUserId([FromRoute] int userId)
 		{
 			var response = await Mediator.Send(new GetUserEventEngagementDetailsQuery(userId));
