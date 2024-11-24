@@ -1,4 +1,5 @@
 ﻿using EventManagement.Data.Entities;
+using EventManagement.Infrustructure.Abstracts;
 using EventManagement.Infrustructure.Context;
 using EventManagement.Infrustructure.InfrustructureBase;
 using Microsoft.EntityFrameworkCore;

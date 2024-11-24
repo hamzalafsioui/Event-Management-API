@@ -1,7 +1,7 @@
 ﻿using EventManagement.Data.Entities;
 using EventManagement.Infrustructure.InfrustructureBase;
 
-namespace EventManagement.Infrustructure
+namespace EventManagement.Infrustructure.Abstracts
 {
 	public interface ISpeakerEventRepository : IGenericRepositoryAsync<SpeakerEvent>
 	{
