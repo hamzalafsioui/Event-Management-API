@@ -15,7 +15,7 @@ namespace EventManagement.API.Controllers
 	public class EventController : AppControllerBase
 	{
 		#region  Functions
-		[Authorize(Policy = "GetEvent")]
+
 		[HttpGet(Router.EventRouting.List)]
 		[SwaggerOperation(
 			Summary = "Get a list of events",
@@ -26,11 +26,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]
 		public async Task<IActionResult> GetEventList()
 		{
 			var response = await Mediator.Send(new GetEventListQuery());
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.GetById)]
 		[SwaggerOperation(
 			Summary = "Get event by ID",
@@ -41,11 +43,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]
 		public async Task<IActionResult> GetEventById([FromQuery] GetEventByIdQuery getEventByIdQuery)
 		{
 			var response = await Mediator.Send(getEventByIdQuery);
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.Paginated)]
 		[SwaggerOperation(
 			Summary = "Get paginated events",
@@ -56,13 +60,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]
 		public async Task<IActionResult> Paginated([FromQuery] GetEventPaginatedListQuery query)
 		{
 			var response = await Mediator.Send(query);
 			return Ok(response);
 		}
 
-		[Authorize(Policy = "CreateEvent")]
 		[HttpPost(Router.EventRouting.Create)]
 		[SwaggerOperation(
 			Summary = "Create a new event",
@@ -72,11 +76,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[Authorize(Policy = "CreateEvent")]
 		public async Task<IActionResult> Create([FromBody] AddEventCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
 		[HttpPut(Router.EventRouting.Edit)]
 		[SwaggerOperation(
 			Summary = "Edit an existing event",
@@ -88,11 +94,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Policy = "EditEvent")]
 		public async Task<IActionResult> Edit([FromBody] EditEventCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
 		[HttpDelete(Router.EventRouting.Delete)]
 		[SwaggerOperation(
 			Summary = "Delete an event",
@@ -103,11 +111,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Policy = "DeleteEvent")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new DeleteEventCommand(id));
 			return NewResult(response);
 		}
+
 		[HttpPatch(Router.EventRouting.Cancel)]
 		[SwaggerOperation(
 			Summary = "Cancel an event",
@@ -118,11 +128,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Policy = "CancelEvent")]
 		public async Task<IActionResult> CancelEvent([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new CancelEventCommand(id));
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.GetAttendees)]
 		[SwaggerOperation(
 			Summary = "Get event attendees",
@@ -133,11 +145,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAttendees([FromRoute] int eventId)
 		{
 			var response = await Mediator.Send(new GetEventAttendeesQuery(eventId));
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.GetEventsByCategoryId)]
 		[SwaggerOperation(
 			Summary = "Get events by category",
@@ -148,11 +162,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetEventsByCategoryId(int categoryId)
 		{
 			var response = await Mediator.Send(new GetEventsListByCategoryIdQuery(categoryId));
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.UpcomingOrPast)]
 		[SwaggerOperation(
 			Summary = "Get upcoming or past events",
@@ -163,6 +179,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")]
 		public async Task<IActionResult> GetUpcomingOrPastEvents([FromQuery] DateTimeComparison comparison)
 		{
 			var response = await Mediator.Send(new GetUpcomingOrPastEventsListQuery(comparison));
@@ -179,13 +196,14 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-
+		[Authorize(Roles = "Admin,Speaker,Attendee")]
 		public async Task<IActionResult> AddCommentToEvent([FromRoute] int eventId, [FromBody] AddCommentCommand command)
 		{
 			command.eventId = eventId;
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.GetComments)]
 		[SwaggerOperation(
 			Summary = "Get comments for an event",
@@ -196,13 +214,14 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-
+		[Authorize]
 		public async Task<IActionResult> GetComments([FromRoute] int eventId)
 		{
 
 			var response = await Mediator.Send(new GetCommentsListByEventIdQuery(eventId));
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.EventRouting.GetCommentsCountForEvent)]
 		[SwaggerOperation(
 			Summary = "Get comment count for an event",
@@ -213,7 +232,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-
+		[AllowAnonymous]
 		public async Task<IActionResult> GetCommentsCountForEvent(int eventId)
 		{
 			var response = await Mediator.Send(new GetCommentsCountForEventByIdQuery(eventId));
