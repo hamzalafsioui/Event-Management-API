@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen();
 #region Connect to Sql
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 #endregion
 
@@ -158,8 +158,9 @@ app.UseMiddleware<RateLimitingMiddleware>();
 #endregion
 
 app.UseHttpsRedirection();
-app.UseCors();
-
+#region Apply CORS policy
+app.UseCors(MyAllowSpecificOrigins);  // Apply the CORS policy to allow Swagger UI
+#endregion
 app.UseStaticFiles();
 
 app.UseAuthentication();
