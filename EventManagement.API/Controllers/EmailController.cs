@@ -1,6 +1,7 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Emails.Commands.Models;
 using EventManagement.Data.AppMetaData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -19,6 +20,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		[Authorize(Roles = "Admin")] 
 		public async Task<IActionResult> SendEmail([FromForm] SendEmailCommand command)
 		{
 			var response = await Mediator.Send(command);
