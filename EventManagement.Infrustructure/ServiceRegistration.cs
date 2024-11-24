@@ -80,8 +80,8 @@ namespace EventManagement.Infrustructure
 			// Password settings.
 			options.Password.RequireDigit = true;
 			options.Password.RequireLowercase = true;
-			options.Password.RequireNonAlphanumeric = false;
-			options.Password.RequireUppercase = false;
+			options.Password.RequireNonAlphanumeric = true;
+			options.Password.RequireUppercase = true;
 			options.Password.RequiredLength = 5;
 			options.Password.RequiredUniqueChars = 1;
 
@@ -122,14 +122,31 @@ namespace EventManagement.Infrustructure
 		// Method to configure authorization policies
 		private static void ConfigureAuthorizationPolicies(AuthorizationOptions options)
 		{
+			// Policy for creating an event
 			options.AddPolicy("CreateEvent", policy =>
 			{
-				policy.RequireClaim("Create Event", "True");
+				policy.RequireClaim("Create Event", "true");
 			});
-			options.AddPolicy("GetEvent", policy =>
+
+
+			// Policy for editing an event
+			options.AddPolicy("EditEvent", policy =>
 			{
-				policy.RequireClaim("Get Event", "True");
+				policy.RequireClaim("Edit Event", "true");
 			});
+
+			// Policy for Cancel an action
+			options.AddPolicy("CancelEvent", policy =>
+			{
+				policy.RequireClaim("Cancel Event", "true");
+			});
+
+			// Policy for deleting an event
+			options.AddPolicy("DeleteEvent", policy =>
+			{
+				policy.RequireClaim("Delete Event", "true");
+			});
+
 		}
 
 		// Swagger configuration can be refactored into a method to keep things clean
@@ -150,12 +167,11 @@ namespace EventManagement.Infrustructure
 			c.EnableAnnotations();
 			c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
 			{
-				Name = "Authorization",
-				Type = SecuritySchemeType.Http,
-				BearerFormat = "JWT",
-				In = ParameterLocation.Header,
 				Description = "JWT Authorization header using the Bearer scheme (Example: \"Bearer {token}\")",
-				Scheme = "bearer"
+				Name = "Authorization",
+				In = ParameterLocation.Header,
+				Type = SecuritySchemeType.ApiKey,
+				Scheme = JwtBearerDefaults.AuthenticationScheme
 			});
 
 			c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -171,7 +187,7 @@ namespace EventManagement.Infrustructure
 					},
 					Array.Empty<string>()
 				}
-			});
+		   });
 		}
 	}
 }
