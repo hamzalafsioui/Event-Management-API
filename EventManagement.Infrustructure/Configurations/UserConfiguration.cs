@@ -51,7 +51,7 @@ namespace EventManagement.Infrustructure.Configurations
 				.HasDatabaseName("IX_Users_Email");
 
 
-			builder.ToTable("Users");
+			builder.ToTable("AspNetUsers");
 		}
 	}
 
