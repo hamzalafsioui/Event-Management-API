@@ -1,5 +1,4 @@
 ﻿using EventManagement.Data.Entities;
-using EventManagement.Data.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +13,6 @@ namespace EventManagement.Infrustructure.Configurations
 				.ValueGeneratedOnAdd();
 
 
-			builder.HasData(DataBaseHelper.loadCategories());
 
 			builder.ToTable("Categories");
 		}
