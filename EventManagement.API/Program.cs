@@ -159,7 +159,7 @@ app.UseMiddleware<RateLimitingMiddleware>();
 
 app.UseHttpsRedirection();
 #region Apply CORS policy
-app.UseCors(MyAllowSpecificOrigins);  // Apply the CORS policy to allow Swagger UI
+app.UseCors(MyAllowSpecificOrigins);
 #endregion
 app.UseStaticFiles();
 
