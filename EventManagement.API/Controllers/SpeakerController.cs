@@ -1,7 +1,6 @@
 ﻿using EventManagement.API.Base;
 using EventManagement.Core.Features.Speakers.Commands.Models;
 using EventManagement.Core.Features.Speakers.Queries.Models;
-using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Data.AppMetaData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
