@@ -213,7 +213,7 @@ namespace EventManagement.Service.Implementations
 					// Add Claims
 					if (!removedResult.Succeeded)
 						return "FailedToRemoveOldClaims";
-					var selectedClaims = request.Claims.Where(x => x.Value == true).Select(x => new Claim(type: x.Type, x.Value.ToString()));
+					var selectedClaims = request.Claims.Where(x => x.Value == true).Select(x => new Claim(type: x.Type, x.Value.ToString().ToLower()));
 					var addClaimsResult = await _userManager.AddClaimsAsync(user, selectedClaims);
 					// return result
 					if (!addClaimsResult.Succeeded)
