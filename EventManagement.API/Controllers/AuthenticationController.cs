@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace EventManagement.API.Controllers
 {
 	[ApiController]
-	[Authorize]
+	[Authorize] // Ensure only authenticated users can access most actions
 	public class AuthenticationController : AppControllerBase
 	{
 		[HttpPost(Router.AuthenticationRouting.SignIn)]
@@ -22,7 +22,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-		[AllowAnonymous]
+		[AllowAnonymous] // Allow unauthenticated users to sign in
 		public async Task<IActionResult> Create([FromBody] SignInCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -39,7 +39,8 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)] // Forbidden if refresh token is invalid
+															   // Refresh Token: Requires authentication, but doesn't need specific role-based access
 		public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -56,7 +57,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[ProducesResponseType(StatusCodes.Status403Forbidden)] // Forbidden if the token is invalid or expired
 		public async Task<IActionResult> ValidateToken([FromQuery] AuthorizeUserQuery query)
 		{
 			var response = await Mediator.Send(query);
@@ -72,8 +73,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-		[AllowAnonymous]
+		[AllowAnonymous] // Allow unauthenticated users to request email confirmation
 		public async Task<IActionResult> SendConfirmEmail([FromQuery] SendConfirmEmailCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -91,8 +91,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
-		[AllowAnonymous]
+		[AllowAnonymous] // Allow unauthenticated users to request email confirmation
 		public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
 		{
 			var response = await Mediator.Send(query);
@@ -110,6 +109,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[AllowAnonymous] // Allow unauthenticated users to request password reset
 		public async Task<IActionResult> SendResetPassword([FromQuery] SendResetPasswordCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -126,8 +126,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[AllowAnonymous]
 		public async Task<IActionResult> ConfirmResetPassword([FromQuery] ConfirmResetPasswordQuery query)
 		{
 			var response = await Mediator.Send(query);
@@ -144,7 +143,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		// Reset Password: Requires authentication
 		public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordCommand command)
 		{
 			var response = await Mediator.Send(command);
