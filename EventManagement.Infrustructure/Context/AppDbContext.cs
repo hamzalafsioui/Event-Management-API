@@ -13,10 +13,6 @@ namespace EventManagement.Infrustructure.Context
 	public class AppDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 	{
 
-		public AppDbContext()
-		{
-
-		}
 		public AppDbContext(DbContextOptions<AppDbContext> options)
 			: base(options)
 		{
@@ -86,7 +82,7 @@ namespace EventManagement.Infrustructure.Context
 			modelBuilder.ApplyConfiguration(new AttendeeConfiguration()); //explicitly applying
 			modelBuilder.ApplyConfiguration(new CategoryConfiguration()); //explicitly applying
 			modelBuilder.ApplyConfiguration(new EventConfiguration()); // explicitly applying
-																	   //	modelBuilder.ApplyConfiguration(new UserConfiguration()); // explicitly applying
+			modelBuilder.ApplyConfiguration(new UserConfiguration()); // explicitly applying
 			modelBuilder.ApplyConfiguration(new CommentConfiguration()); // explicitly applying
 			modelBuilder.ApplyConfiguration(new SpeakerConfiguration()); // explicitly applying
 			modelBuilder.ApplyConfiguration(new SpeakerEventConfiguration()); // explicitly applying
