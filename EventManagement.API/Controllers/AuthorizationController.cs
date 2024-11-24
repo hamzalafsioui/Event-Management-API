@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace EventManagement.API.Controllers
 {
 	[ApiController]
-	[Authorize]
+	[Authorize] // globally to all endpoints
 	public class AuthorizationController : AppControllerBase
 	{
 		#region Roles
@@ -23,11 +23,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")] // Only Admin can create roles
 		public async Task<IActionResult> Create([FromForm] AddRoleCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
 		[HttpPut(Router.AuthorizationRouting.EditRole)]
 		[SwaggerOperation(
 			Summary = "Edit an existing Role",
@@ -39,11 +41,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")] // Only Admin can Edit roles
 		public async Task<IActionResult> Edit([FromForm] EditRoleCommand command)
 		{
 			var response = await Mediator.Send(command);
 			return NewResult(response);
 		}
+
 		[HttpDelete(Router.AuthorizationRouting.DeleteRole)]
 		[SwaggerOperation(
 			Summary = "Delete a Role",
@@ -54,6 +58,8 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")] // Only Admin can delete roles
+
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new DeleteRoleCommand(id));
@@ -67,12 +73,13 @@ namespace EventManagement.API.Controllers
 		)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")] // All roles can view the list
 		public async Task<IActionResult> GetRoleList()
 		{
 			var response = await Mediator.Send(new GetRolesListQuery());
 			return NewResult(response);
 		}
+
 		[HttpGet(Router.AuthorizationRouting.GetRoleById)]
 		[SwaggerOperation(
 			Summary = "Get Role by ID",
@@ -82,7 +89,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")] // All roles can view role details
 		public async Task<IActionResult> GetRoleById([FromRoute] int id)
 		{
 			var response = await Mediator.Send(new GetRoleByIdQuery(id));
@@ -98,11 +105,13 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")] // All can manage roles by user ID
 		public async Task<IActionResult> ManageUserRoles([FromRoute] int userId)
 		{
 			var response = await Mediator.Send(new ManageUserRolesQuery(userId));
 			return NewResult(response);
 		}
+
 		[HttpPut(Router.AuthorizationRouting.UpdateUserRoles)]
 		[SwaggerOperation(
 			Summary = "Update User Roles",
@@ -114,6 +123,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")] // Only Admin can update user roles
 		public async Task<IActionResult> UpdateUserRoles([FromBody] UpdateUserRoleCommand command)
 		{
 			var response = await Mediator.Send(command);
@@ -132,6 +142,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin,Speaker,Attendee,User")] // All can manage user claims
 		public async Task<IActionResult> ManageUserClaims([FromRoute] int userId)
 		{
 			var response = await Mediator.Send(new ManageUserClaimsQuery(userId));
@@ -148,6 +159,7 @@ namespace EventManagement.API.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+		[Authorize(Roles = "Admin")] // Only Admin can update user claims
 		public async Task<IActionResult> UpdateUserClaims([FromBody] UpdateUserClaimsCommand command)
 		{
 			var response = await Mediator.Send(command);
