@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Infrustructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241111213216_AddCodeColumn")]
-    partial class AddCodeColumn
+    [Migration("20241124140703_Initial-Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -365,7 +365,8 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -378,7 +379,8 @@ namespace EventManagement.Infrustructure.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -416,10 +418,16 @@ namespace EventManagement.Infrustructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Users_Email")
+                        .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -428,6 +436,10 @@ namespace EventManagement.Infrustructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Users_UserName");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -469,6 +481,92 @@ namespace EventManagement.Infrustructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRefreshTokens");
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.Speaker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Speaker_UserId");
+
+                    b.ToTable("Speakers", (string)null);
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.SpeakerEvent", b =>
+                {
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeakerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventId", "SpeakerId");
+
+                    b.HasIndex("SpeakerId");
+
+                    b.ToTable("SpeakerEvents", (string)null);
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.Views.ViewUserEventEngagementSummary", b =>
+                {
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastCategoryAttended")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastEventAttendedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalCommentsMade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalEventsAttended")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalEventsCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalEventsPhysicallyAttended")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalEventsRelated")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("ViewUserEventEngagementSummary", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -642,6 +740,36 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("EventManagement.Data.Entities.Speaker", b =>
+                {
+                    b.HasOne("EventManagement.Data.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.SpeakerEvent", b =>
+                {
+                    b.HasOne("EventManagement.Data.Entities.Event", "Event")
+                        .WithMany("SpeakerEvents")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EventManagement.Data.Entities.Speaker", "Speaker")
+                        .WithMany("SpeakerEvents")
+                        .HasForeignKey("SpeakerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("Speaker");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("EventManagement.Data.Entities.Identity.Role", null)
@@ -703,6 +831,8 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Navigation("Attendees");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("SpeakerEvents");
                 });
 
             modelBuilder.Entity("EventManagement.Data.Entities.Identity.User", b =>
@@ -714,6 +844,11 @@ namespace EventManagement.Infrustructure.Migrations
                     b.Navigation("CreatedEvents");
 
                     b.Navigation("UserRefreshTokens");
+                });
+
+            modelBuilder.Entity("EventManagement.Data.Entities.Speaker", b =>
+                {
+                    b.Navigation("SpeakerEvents");
                 });
 #pragma warning restore 612, 618
         }
