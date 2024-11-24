@@ -144,6 +144,12 @@ if (app.Environment.IsDevelopment())
 
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+	c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event Management API v1");
+});
+
 #region Localization Middleware
 var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(options!.Value);
