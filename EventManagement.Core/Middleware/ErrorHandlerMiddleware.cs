@@ -95,7 +95,7 @@ namespace EventManagement.Core.Middleware
 
 					// For FluentValidation errors (detailed validation feedback)
 					case FluentValidation.ValidationException validationException:
-						responseModel = CreateErrorResponse(validationException, HttpStatusCode.BadRequest, "Validation failed.");
+						responseModel = CreateErrorResponse(validationException, HttpStatusCode.BadRequest, validationException.Message);
 						responseModel.Errors = validationException.Errors.Select(e => $"{e.PropertyName}: {e.ErrorMessage}").ToList();
 						response!.StatusCode = (int)HttpStatusCode.BadRequest;
 						break;
@@ -142,6 +142,12 @@ namespace EventManagement.Core.Middleware
 						responseModel = CreateErrorResponse(jsonException, HttpStatusCode.BadRequest, "Invalid JSON format.");
 						response!.StatusCode = (int)HttpStatusCode.BadRequest;
 						break;
+
+					case InvalidOperationException invalidOpEx when invalidOpEx.Message.Contains("policy", StringComparison.OrdinalIgnoreCase):
+						responseModel = CreateErrorResponse(invalidOpEx, HttpStatusCode.Forbidden, $"Access denied. Required policy: {invalidOpEx.Message}");
+						response!.StatusCode = (int)HttpStatusCode.Forbidden;
+						break;
+
 
 					default:
 						// unhandled error
