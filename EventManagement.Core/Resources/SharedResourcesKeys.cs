@@ -60,7 +60,7 @@
 		public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles";
 		public const string FailedToAddNewRoles = "FailedToAddNewRoles";
 		public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles";
-		public const string FailedToUpdateUserRole = "FailedToUpdateUserRole"; //
+		public const string FailedToUpdateUserRole = "FailedToUpdateUserRole";
 
 		public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims";
 		public const string FailedToRemoveOldClaims = "FailedToRemoveOldClaims";
@@ -72,13 +72,13 @@
 		public const string FailedWhenSendEmail = "FailedWhenSendEmail";
 
 
-		public const string InvalidCode = "InvalidCode";//
-		public const string FailedToSendEmailConfirmed = "FailedToSendEmailConfirmed";//
+		public const string InvalidCode = "InvalidCode";
+		public const string FailedToSendEmailConfirmed = "FailedToSendEmailConfirmed";
 
 
-		public const string UserNotFound = "UserNotFound";//
-		public const string UserNotFoundOrIsAlreadySpeaker = "UserNotFoundOrIsAlreadySpeaker";//
-		public const string SpeakerNotExist = "SpeakerNotExist";//
+		public const string UserNotFound = "UserNotFound";
+		public const string UserNotFoundOrIsAlreadySpeaker = "UserNotFoundOrIsAlreadySpeaker";
+		public const string SpeakerNotExist = "SpeakerNotExist";
 
 
 

@@ -132,7 +132,7 @@
   <data name="Updated" xml:space="preserve">
     <value>Updated Successfully</value>
   </data>
-  <data name="Operation" xml:space="preserve">
+  <data name="OperationSucceed" xml:space="preserve">
     <value>Operation Successfully</value>
   </data>
   <data name="TooManyRequest" xml:space="preserve">
@@ -281,5 +281,26 @@
   </data>
   <data name="FailedWhenSendEmail" xml:space="preserve">
     <value>Failed When Send To Email</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation Successfully</value>
+  </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>Invalid Code</value>
+  </data>
+  <data name="FailedToSendEmailConfirmed" xml:space="preserve">
+    <value>Failed To Send Email Confirmed</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User Not Found</value>
+  </data>
+  <data name="User Not Found Or Is Already Speaker" xml:space="preserve">
+    <value>User Not Found Or Is Already Speaker</value>
+  </data>
+  <data name="SpeakerNotExist" xml:space="preserve">
+    <value>Speaker Doesn't Exist</value>
+  </data>
+  <data name="FailedToUpdateUserRole" xml:space="preserve">
+    <value>Failed To Update User Role</value>
   </data>
 </root>
