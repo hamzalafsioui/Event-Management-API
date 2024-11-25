@@ -108,6 +108,7 @@ Log.Logger = new LoggerConfiguration()
 	.ReadFrom.Configuration(builder.Configuration).CreateLogger();
 builder.Services.AddSerilog();
 #endregion
+
 var app = builder.Build();
 
 #region Seed
@@ -137,18 +138,19 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI(c =>
-	{
-		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event Management API v1");
-	});
+	app.UseSwaggerUI();
+
+}
+else
+{
+	app.UseSwagger();
+	app.UseSwaggerUI();
+
 
 }
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-	c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event Management API v1");
-});
+app.UseStaticFiles();
+
 
 #region Localization Middleware
 var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
@@ -164,18 +166,19 @@ app.UseMiddleware<RateLimitingMiddleware>();
 #endregion
 
 app.UseHttpsRedirection();
+
 #region Apply CORS policy
 app.UseCors(MyAllowSpecificOrigins);
 #endregion
-app.UseStaticFiles();
+
 
 app.UseAuthentication();
+
 #region Custom Middleware
 app.UseMiddleware<UpdateLastLoginMiddleware>();
 #endregion
+
 app.UseAuthorization();
-
-
 
 
 app.MapControllers();
