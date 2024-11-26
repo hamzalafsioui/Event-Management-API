@@ -17,6 +17,7 @@ This project is designed to help manage events, users, speakers, attendees, and 
 - **JWT & Refresh Token** for secure authentication.  
 - **MediatR**: Use MediatR to implement CQRS (Command Query Responsibility Segregation) for clean and organized code.  
 - **CQRS Pattern** to separate query and command operations.  
+- **MailKit & SMTP** for sending email notifications.  
 - **Repository Pattern** for data access.  
 - **Clean Code & Clean Architecture** for maintainable and scalable design.  
 - **XML Documentation** for service classes.  
