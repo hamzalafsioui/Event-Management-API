@@ -103,19 +103,31 @@ builder.Services.AddTransient<IUrlHelper>(x =>
 builder.Services.AddTransient<AuthFilter>();
 #endregion
 
-#region Serilog
+#region Serilog Initial Configuration
+// Initialize Serilog with Console only first to catch startup errors without DB dependency
 Log.Logger = new LoggerConfiguration()
-	.ReadFrom.Configuration(builder.Configuration).CreateLogger();
+	.WriteTo.Console()
+	.CreateLogger();
 builder.Services.AddSerilog();
 #endregion
 
 var app = builder.Build();
 
-#region Seed
+#region Seed and Migration
 using (var scope = app.Services.CreateScope())
 {
 	try
 	{
+		var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+		
+		// Apply migrations => this will create the database if it doesn't exist
+		await dbContext.Database.MigrateAsync();
+
+		// Reconfigure Serilog to include the Database sink now that the DB exists
+		Log.Logger = new LoggerConfiguration()
+			.ReadFrom.Configuration(builder.Configuration)
+			.CreateLogger();
+
 		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 		var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
 		var categorieService = scope.ServiceProvider.GetRequiredService<ICategoryRepository>();
@@ -127,7 +139,7 @@ using (var scope = app.Services.CreateScope())
 	}
 	catch (Exception ex)
 	{
-		Log.Error(ex, "An error occurred during database seeding");
+		Log.Error(ex, "An error occurred during database migration or seeding");
 	}
 
 }
