@@ -14,6 +14,12 @@ services:
       retries: 10
       start_period: 30s
 
+  redis:
+    image: redis:7.0-alpine
+    container_name: event-management-redis
+    ports:
+      - "6379:6379"
+
   api:
     build:
       context: .
@@ -27,8 +33,11 @@ services:
       - ConnectionStrings__DefaultConnection=Server=db;Database=EventDB;User Id=sa;Password=Password123!;TrustServerCertificate=True;
       - Serilog__WriteTo__1__Args__ConnectionString=Server=db;Database=EventDB;User Id=sa;Password=Password123!;TrustServerCertificate=True;
       - Serilog__WriteTo__1__Args__AutoCreateSqlDatabase=true
+      - RedisCacheUrl=redis:6379
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
 
 # Removed custom networks to use default bridge for easier resolution
