@@ -1,4 +1,4 @@
-﻿using EventManagement.Service.Abstracts;
+using EventManagement.Service.Abstracts;
 using EventManagement.Service.AuthService.Implementations;
 using EventManagement.Service.AuthService.Interfaces;
 using EventManagement.Service.Implementations;
@@ -21,6 +21,7 @@ namespace EventManagement.Service
 			services.AddTransient<ICurrentUserService, CurrentUserService>();
 			services.AddTransient<IFileService, FileService>();
 			services.AddTransient<ISpeakerService, SpeakerService>();
+			services.AddTransient<ICacheService, CacheService>();
 			return services;
 		}
 	}
