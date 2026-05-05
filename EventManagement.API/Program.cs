@@ -54,6 +54,14 @@ builder.Services.AddInfrustructureDependencies()
 
 #endregion
 
+#region Redis Caching
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+	options.Configuration = builder.Configuration.GetValue<string>("RedisCacheUrl") ?? "localhost:6379";
+	options.InstanceName = "EventManagement_";
+});
+#endregion
+
 #region Localization
 builder.Services.AddControllersWithViews();
 builder.Services.AddLocalization(opt =>
