@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EventManagement.Core.Bases;
 using EventManagement.Core.Features.Users.Commands.Models;
 using EventManagement.Core.Resources;
