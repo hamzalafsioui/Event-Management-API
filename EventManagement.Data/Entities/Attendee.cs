@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Abstracts;
+using EventManagement.Data.Abstracts;
 using EventManagement.Data.Entities.Identity;
 using System.Text.Json.Serialization;
 
@@ -28,6 +28,7 @@ namespace EventManagement.Data.Entities
 		Interested,
 		Cancelled,
 		Maybe,
-		Pending
+		Pending,
+		Waitlisted
 	}
 }
