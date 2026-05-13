@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Entities.Identity;
+using EventManagement.Data.Entities.Identity;
 using EventManagement.Data.Entities.SPs;
 using EventManagement.Data.Entities.Views;
 using EventManagement.Data.Helper.Enums;
