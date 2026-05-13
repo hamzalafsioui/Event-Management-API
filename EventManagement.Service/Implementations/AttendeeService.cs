@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Entities;
 using EventManagement.Infrustructure.Repositories;
 using EventManagement.Service.Abstracts;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +54,20 @@ namespace EventManagement.Service.Implementations
 			var result = await _attendeeRepository.GetTableNoTracking()
 													.AnyAsync(x => x.EventId.Equals(eventId) && x.UserId.Equals(userId) && x.HasAttended);
 			return result;
+		}
+
+		public async Task<int> GetGoingAttendeesCountAsync(int eventId)
+		{
+			return await _attendeeRepository.GetTableNoTracking()
+				.CountAsync(a => a.EventId == eventId && a.Status == RSVPStatus.Going);
+		}
+
+		public async Task<List<Attendee>> GetAllWaitlistedAttendeesAsync(int eventId)
+		{
+			return await _attendeeRepository.GetTableNoTracking()
+				.Where(a => a.EventId == eventId && a.Status == RSVPStatus.Waitlisted)
+				.OrderBy(a => a.RSVPDate)
+				.ToListAsync();
 		}
 		#endregion
 

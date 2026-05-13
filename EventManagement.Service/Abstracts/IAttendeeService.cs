@@ -1,4 +1,4 @@
-﻿using EventManagement.Data.Entities;
+using EventManagement.Data.Entities;
 
 namespace EventManagement.Service.Abstracts
 {
@@ -73,5 +73,18 @@ namespace EventManagement.Service.Abstracts
 		/// </returns>
 		public Task<bool> IsUserAttendedEvent(int eventId, int userId);
 
+		/// <summary>
+		/// Gets the count of attendees with Going status for a specific event.
+		/// </summary>
+		/// <param name="eventId">The ID of the event.</param>
+		/// <returns>A task representing the asynchronous operation, with the count of going attendees.</returns>
+		Task<int> GetGoingAttendeesCountAsync(int eventId);
+
+		/// <summary>
+		/// Gets all waitlisted attendees for a specific event, ordered by RSVP date.
+		/// </summary>
+		/// <param name="eventId">The ID of the event.</param>
+		/// <returns>A task representing the asynchronous operation, with the list of waitlisted <see cref="Attendee"/>s.</returns>
+		Task<List<Attendee>> GetAllWaitlistedAttendeesAsync(int eventId);
 	}
 }
