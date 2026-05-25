@@ -9,6 +9,7 @@ COPY ["EventManagement.Core/EventManagement.Core.csproj", "EventManagement.Core/
 COPY ["EventManagement.Data/EventManagement.Data.csproj", "EventManagement.Data/"]
 COPY ["EventManagement.Infrustructure/EventManagement.Infrustructure.csproj", "EventManagement.Infrustructure/"]
 COPY ["EventManagement.Service/EventManagement.Service.csproj", "EventManagement.Service/"]
+COPY ["EventManagement.Tests/EventManagement.Tests.csproj", "EventManagement.Tests/"]
 
 RUN dotnet restore "Event Management API.sln"
 
