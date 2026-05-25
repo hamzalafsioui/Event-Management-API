@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Globalization;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +32,7 @@ builder.Services.AddControllers();
 //	});
 #endregion
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Swagger configuration moved to ServiceRegistration
 
 
 
@@ -185,7 +184,7 @@ app.UseMiddleware<RateLimitingMiddleware>();
 
 #endregion
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Disabled for Docker to allow HTTP access to Swagger UI
 
 #region Apply CORS policy
 app.UseCors(MyAllowSpecificOrigins);
