@@ -1,4 +1,3 @@
----
 # Event Management API  
 
 Welcome to the **Event Management API**!  
@@ -9,7 +8,10 @@ This project is designed to help manage events, users, speakers, attendees, and 
 ## 🛠️ Technologies Used  
 
 - **.NET 8** with **Entity Framework Core 8** for configuration and database management.  
-- **SQL Server** as the database provider.  
+- **SQL Server** as the primary relational database.  
+- **Redis** for distributed caching to optimize performance and reduce database load.
+- **Docker & Docker Compose** for seamless containerized deployment.
+- **xUnit, Moq, and FluentAssertions** for a robust unit testing architecture.
 - **Microsoft Identity** for user authentication and management.  
 - **FluentValidation** for validating inputs.  
 - **AutoMapper** for object mapping.  
@@ -36,8 +38,9 @@ This project is designed to help manage events, users, speakers, attendees, and 
    - Manage speaker profiles and their association with events.  
    - Add, update, or delete speaker details.  
 
-4. **Attendee Management**:  
+4. **Attendee & Waitlist Management**:  
    - Users can RSVP for events.  
+   - **Waitlist functionality** automatically handles event capacities and triggers email notifications when spots become available.
    - Tracks attendance and engagement.  
 
 5. **Comments**:  
@@ -66,8 +69,18 @@ This project is designed to help manage events, users, speakers, attendees, and 
 
 ## 📝 How to Run  
 
+### Using Docker (Recommended)
+1. Clone this repository to your local machine.
+2. Ensure Docker Desktop is running.
+3. Run the application stack (API, SQL Server, Redis) using Docker Compose:
+   ```bash
+   docker-compose up --build -d
+   ```
+4. The API will be available at your configured port (e.g., `http://localhost:5026`), and the database will automatically initialize.
+
+### Manual Setup
 1. Clone this repository to your local machine.  
-2. Configure the connection string in `appsettings.json` for SQL Server.  
+2. Configure the connection string in `appsettings.json` for SQL Server, and ensure you have a Redis instance running to supply the `RedisCacheUrl`.  
 3. Run the following commands to apply migrations and seed data:  
    ```bash  
    dotnet ef database update  
@@ -76,6 +89,14 @@ This project is designed to help manage events, users, speakers, attendees, and 
    ```bash  
    dotnet run  
    ```  
+
+## 🧪 Testing
+The project includes a robust testing foundation using xUnit, Moq, and FluentAssertions.
+To run the automated test suite, navigate to the solution directory and execute:
+```bash
+dotnet test
+```
+This will run comprehensive unit tests evaluating MediatR command/query handlers, service layers, and validators.  
 
 ## 🌟 API Highlights  
 
@@ -113,4 +134,4 @@ Feel free to submit issues or pull requests to improve this project. Contributio
 
 This project is licensed under the MIT License.  
 
----  
+---
